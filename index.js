@@ -40,7 +40,7 @@ function handleMessage(message) {
 
 //Command Handler
 app.post("/setmstart", function(req, res) {
-  console.log(req.text);
+  console.log(req);
   var mStartTime = new Date(req.text);  //format: 2011-10-10T14:48:00
 
   while(Date.now() <= mStartTime.getTime()){
