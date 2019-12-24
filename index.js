@@ -44,6 +44,7 @@ bot.on('error', (err) => console.log(err));
 
 //Command Handler
 app.post("/setmstart", function(req, res) {
+  res.send();
   bot.postMessageToChannel('testing-slack-bots', 'Maintenance start time set');
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
   console.log(mStartTime);
@@ -52,7 +53,7 @@ app.post("/setmstart", function(req, res) {
     switch (Date.now()) {
       case (mStartTime.getTime() - 600000):
         console.log("10 minutes before");
-        bot.postMessageToChannel('testing-slack-bots', '라이브 서버 점검 10분 전');
+        bot.postMessageToChannel('testing-slack-bots', '10 minutes before Live Server Maintenance');
         break;
       case (mStartTime.getTime() - 1800000):
         bot.postMessageToChannel('testing-slack-bots', '라이브 서버 점검 30분 전');
@@ -64,8 +65,6 @@ app.post("/setmstart", function(req, res) {
         break;
     }
   }
-
-  res.send();
 });
 
 app.listen(process.env.PORT, function() {
