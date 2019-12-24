@@ -45,7 +45,7 @@ bot.on('error', (err) => console.log(err));
 //Command Handler
 app.post("/setmstart", function(req, res) {
   res.send();
-  bot.postMessageToChannel('testing-slack-bots', 'Maintenance start time set');
+  bot.postMessageToChannel('testing-slack-bots', "Maintenance start time set");
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
   console.log(mStartTime);
 
