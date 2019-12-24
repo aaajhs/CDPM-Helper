@@ -66,7 +66,6 @@ app.post("/setmstart", function(req, res) {
       case (0):
         bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 시작");
         console.log(mStartTime.getTime() - Date.now());
-        sleep(300000);
         break;
       default:
         break;
