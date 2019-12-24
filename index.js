@@ -49,23 +49,22 @@ function sleep (delay) {
 
 //Command Handler
 app.post("/setmstart", function(req, res) {
-  bot.postMessageToChannel('testing-slack-bots', "점검시간 설정 완료");
-  // res.send();
+  res.send("Maintenance start time set.");
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
   console.log(mStartTime.getTime() - Date.now());
 
   while(Date.now() <= mStartTime.getTime()){
     switch (mStartTime.getTime() - Date.now()) {
       case (600000):
-        console.log(mStartTime.getTime() - Date.now());
+        //console.log(mStartTime.getTime() - Date.now());
         bot.postMessageToChannel('testing-slack-bots', "10 minutes before Live Server Maintenance");
         break;
       case (1800000):
-        console.log("30 minutes before");
+        //console.log("30 minutes before");
         bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 30분 전");
         break;
       case (0):
-        res.send("라이브 서버 점검 시작");
+        bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 시작");
         console.log(mStartTime.getTime() - Date.now());
         sleep(300000);
         break;
