@@ -2,8 +2,12 @@ const SlackBot = require('slackbots');
 const axios = require('axios');
 const express = require('express');
 const scheduler = require('node-schedule');
+const bodyParser = require("body-parser");
 
 const app = express();
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 const bot = new SlackBot({
   token: 'xoxb-734466708384-874779367121-t9Z1pLq148prjBEDGpnVpS72',
@@ -27,7 +31,7 @@ bot.on('error', (err) => console.log(err));
 //   if(data.type !== 'message') {
 //     return;
 //   }
-// 
+//
 //   handleMessage(data.text);
 // });
 
