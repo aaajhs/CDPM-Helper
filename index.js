@@ -44,7 +44,7 @@ bot.on('error', (err) => console.log(err));
 
 //Command Handler
 app.post("/setmstart", function(req, res) {
-  console.log(req.body);
+  console.log(req.body.text);
   // var mStartTime = new Date(req.body);  //format: 2011-10-10T14:48:00
   //
   // while(Date.now() <= mStartTime.getTime()){
