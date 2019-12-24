@@ -40,24 +40,24 @@ function handleMessage(message) {
 
 //Command Handler
 app.post("/setmstart", function(req, res) {
-  console.log(req);
-  var mStartTime = new Date(req.body);  //format: 2011-10-10T14:48:00
-
-  while(Date.now() <= mStartTime.getTime()){
-    switch (Date.now()) {
-      case (mStartTime.getTime() - 600000):
-        bot.postMessageToChannel('testing-slack-bots', '라이브 서버 점검 10분 전');
-        break;
-      case (mStartTime.getTime() - 1800000):
-        bot.postMessageToChannel('testing-slack-bots', '라이브 서버 점검 30분 전');
-        break;
-      case mStartTime.getTime():
-        bot.postMessageToChannel('testing-slack-bots', '라이브 서버 점검 시작');
-        break;
-      default:
-        break;
-    }
-  }
+  console.log(req.body);
+  // var mStartTime = new Date(req.body);  //format: 2011-10-10T14:48:00
+  //
+  // while(Date.now() <= mStartTime.getTime()){
+  //   switch (Date.now()) {
+  //     case (mStartTime.getTime() - 600000):
+  //       bot.postMessageToChannel('testing-slack-bots', '라이브 서버 점검 10분 전');
+  //       break;
+  //     case (mStartTime.getTime() - 1800000):
+  //       bot.postMessageToChannel('testing-slack-bots', '라이브 서버 점검 30분 전');
+  //       break;
+  //     case mStartTime.getTime():
+  //       bot.postMessageToChannel('testing-slack-bots', '라이브 서버 점검 시작');
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
 });
 
 app.listen(process.env.PORT, function() {
