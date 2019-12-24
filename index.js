@@ -53,6 +53,9 @@ app.post("/setmstart", function(req, res) {
   res.send();
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
   console.log(mStartTime.getTime() - Date.now());
+  const params = {
+    icon_emoji: ':alarm_clock:'
+  }
 
   while(Date.now() <= mStartTime.getTime()){
     switch (mStartTime.getTime() - Date.now()) {
