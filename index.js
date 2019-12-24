@@ -49,10 +49,10 @@ app.post("/setmstart", function(req, res) {
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
   console.log(mStartTime.getTime() - Date.now());
 
-  if(Date.now() <= mStartTime.getTime()){
+  while(Date.now() <= mStartTime.getTime()){
     switch (Date.now()) {
       case (mStartTime.getTime() - 600000):
-        console.log("10 minutes before");
+        console.log(mStartTime.getTime() - Date.now());
         bot.postMessageToChannel('testing-slack-bots', "10 minutes before Live Server Maintenance");
         break;
       case (mStartTime.getTime() - 1800000):
