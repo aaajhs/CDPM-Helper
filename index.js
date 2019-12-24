@@ -20,7 +20,7 @@ bot.on('start', function(){
     icon_emoji: ':alarm_clock:'
   }
 
-  bot.postMessageToChannel('general', '안녕하세요, 저는 Summer입니다.', params);
+  bot.postMessageToChannel('testing-slack-bots', '안녕하세요, 저는 Summer입니다.', params);
 });
 
 //Error Handler
