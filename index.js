@@ -61,7 +61,7 @@ app.post("/setmstart", function(req, res) {
         break;
       case (mStartTime.getTime()):
         console.log(mStartTime.getTime() - Date.now());
-        setTimeout(function(){bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 시작");}, 1000);
+        setTimeout(function(){bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 시작");}, 5000);
         break;
       default:
         break;
