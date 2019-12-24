@@ -23,20 +23,20 @@ bot.on('start', function(){
 bot.on('error', (err) => console.log(err));
 
 //Message Handler
-bot.on('message', (data) => {
-  if(data.type !== 'message') {
-    return;
-  }
-
-  handleMessage(data.text);
-});
+// bot.on('message', (data) => {
+//   if(data.type !== 'message') {
+//     return;
+//   }
+// 
+//   handleMessage(data.text);
+// });
 
 //Respond to message
-function handleMessage(message) {
-  if(message.includes('점검')){
-
-  }
-}
+// function handleMessage(message) {
+//   if(message.includes('점검')){
+//
+//   }
+// }
 
 //Command Handler
 app.post("/setmstart", function(req, res) {
