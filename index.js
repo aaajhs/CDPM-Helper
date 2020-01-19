@@ -20,7 +20,7 @@ bot.on('start', function(){
     icon_emoji: ':alarm_clock:'
   }
 
-  bot.postMessageToChannel('testing-slack-bots', '안녕하세요, 저는 Summer입니다.', params);
+  bot.postMessageToChannel('testing-slack-bots', '안녕하세요', params);
 });
 
 //Error Handler
@@ -51,10 +51,10 @@ function sleep (delay) {
 app.post("/setmstart", function(req, res) {
   res.send("Maintenance start time set.");
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
-  console.log(mStartTime.getTime() - Date.now());
+  var timeDifference = mStartTime.getTime() - Date.now();
 
   while(Date.now() <= mStartTime.getTime()){
-    switch (mStartTime.getTime() - Date.now()) {
+    switch (timeDifference) {
       case (600000):
         //console.log(mStartTime.getTime() - Date.now());
         bot.postMessageToChannel('testing-slack-bots', "10 minutes before Live Server Maintenance");
