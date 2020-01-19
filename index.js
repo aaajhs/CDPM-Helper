@@ -117,6 +117,7 @@ function alertMaintenance (mStart){
 //Command Handler
 app.post("/setmstart", function(req, res) {
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
+  alertMaintenance(mStartTime);
 
   res.send(200);
 });
