@@ -32,7 +32,7 @@ bot.on('start', function(){
   app.post('https://slack.com/api/chat.postMessage', function(req, res){
     console.log(req.body.title);
     console.log(req.body.content);
-  };
+  });
 };
 
 //Error Handler
