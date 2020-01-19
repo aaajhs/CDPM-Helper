@@ -50,7 +50,7 @@ function alertMaintenance (mStart){
   }
 
   while(mStart.getTime() - Date.now() > 30000){
-    else if(mStart.getTime() - Date.now() == 60000){
+    if(mStart.getTime() - Date.now() == 60000){
       slack.chat.postMessage({
         token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
         channel: 'testing-slack-bots',
@@ -59,7 +59,7 @@ function alertMaintenance (mStart){
   }
 
   while(mStart.getTime() - Date.now() < 30000){
-    else if(mStart.getTime() - Date.now() == 0){
+    if(mStart.getTime() - Date.now() == 0){
       slack.chat.postMessage({
         token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
         channel: 'testing-slack-bots',
