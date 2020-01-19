@@ -38,7 +38,6 @@ function alertMaintenance (mStart){
       default:
         break;
     }
-    break;
   }
 
   // if(mStart.getTime() - Date.now() == 120000){
