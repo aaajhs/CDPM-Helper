@@ -35,8 +35,8 @@ function alertMaintenance (mStart){
           text: '서버 점검 시작'});
           console.log(mStart.getTime() - Date.now());
         break;
-      default:
-        break;
+      // default:
+      //   break;
     }
   }
 
@@ -66,8 +66,6 @@ app.post("/setmstart", function(req, res) {
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
   console.log(mStartTime);
   res.send(200);
-  alertMaintenance(mStartTime);
-  alertMaintenance(mStartTime);
   alertMaintenance(mStartTime);
 });
 
