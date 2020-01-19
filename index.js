@@ -32,6 +32,10 @@ bot.on('message', (data) => {
     return;
   }
 
+  if(!data.text.includes('@URQNXAT3K')){
+    return;
+  }
+
   console.log(data);
   //handleMessage(data.text);
 });
