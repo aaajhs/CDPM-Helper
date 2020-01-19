@@ -84,7 +84,7 @@ app.use(bodyParser.urlencoded({
 
 function alertMaintenance (mStart){
   var timeDifference = mStartTime.getTime() - Date.now();
-
+  console.log("Successfully entered alertMaintenance");
   while(Date.now() <= mStartTime.getTime()){
     switch (timeDifference) {
       case (60000):
@@ -118,9 +118,8 @@ function alertMaintenance (mStart){
 app.post("/setmstart", function(req, res) {
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
 
-    res.send(200);
+  res.send(200);
   alertMaintenance(mStartTime);
-
 });
 
 
