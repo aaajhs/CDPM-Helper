@@ -21,6 +21,24 @@ bot.on('start', function(){
   }
 
   bot.postMessageToChannel('testing-slack-bots', '안녕하세요', params);
+
+  axios({
+    method: 'post',
+    url: 'https://slack.com/api/chat.postMessage',
+    data: {
+      "ok": true,
+      "channel": "CMN9SLPPZ",
+      "ts": "1579442254.000600",
+      "message": {
+        "type": "message",
+        "subtype": "bot_message",
+        "text": "hai",
+        "ts": "1579442254.000600",
+        "username": "SUMMER",
+        "bot_id": "BS111QUKX"
+      }
+    }
+  });
 });
 
 //Error Handler
