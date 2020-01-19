@@ -34,7 +34,7 @@ function alertMaintenance (mStart){
           channel: 'testing-slack-bots',
           text: '서버 점검 시작'});
           console.log(mStart.getTime() - Date.now());
-          break;
+        break;
       default:
         break;
     }
