@@ -25,13 +25,22 @@ bot.on('start', function(){
 
   bot.postMessageToChannel('testing-slack-bots', '안녕하세요', params);
 
-  request(path_to_call, function(error, response, body){
-    if(!error && response.statusCode == 200){
-      console.log('Success');
-    } else{
-      console.log(error);
-    }
+
+  axios.get(path_to_call)
+  .then((response) => {
+    return response;
+  })
+  .catch((error) => {
+    console.log(error);
   });
+
+  // request(path_to_call, function(error, response, body){
+  //   if(!error && response.statusCode == 200){
+  //     console.log('Success');
+  //   } else{
+  //     console.log(error);
+  //   }
+  // });
 });
 
 //Error Handler
