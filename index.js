@@ -26,20 +26,19 @@ bot.on('start', function(){
 //Error Handler
 bot.on('error', (err) => console.log(err));
 
-//Message Handler
-bot.on('message', (data) => {
-  if(data.type !== 'message') {
-    return;
-  }
-
-  if(!data.text.includes('@URQNXAT3K')){
-    return;
-  }
-
-  console.log(data);
-  res.send("This is it");
-  //handleMessage(data.text);
-});
+//bot Message Handler
+// bot.on('message', (data) => {
+//   if(data.type !== 'message') {
+//     return;
+//   }
+//
+//   if(!data.text.includes('@URQNXAT3K')){
+//     return;
+//   }
+//
+//   console.log(data);
+//   //handleMessage(data.text);
+// });
 
 //Respond to message
 // function handleMessage(message) {
@@ -55,29 +54,30 @@ function sleep (delay) {
 
 //Command Handler
 app.post("/setmstart", function(req, res) {
-  res.send("Maintenance start time set.");
+  res.send(200);
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
   var timeDifference = mStartTime.getTime() - Date.now();
 
-  while(Date.now() <= mStartTime.getTime()){
-    switch (timeDifference) {
-      case (600000):
-        //console.log(mStartTime.getTime() - Date.now());
-        bot.postMessageToChannel('testing-slack-bots', "10 minutes before Live Server Maintenance");
-        break;
-      case (1800000):
-        //console.log("30 minutes before");
-        bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 30분 전");
-        break;
-      case (0):
-        bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 시작");
-        console.log(mStartTime.getTime() - Date.now());
-        break;
-      default:
-        break;
-    }
-  }
+  // while(Date.now() <= mStartTime.getTime()){
+  //   switch (timeDifference) {
+  //     case (600000):
+  //       //console.log(mStartTime.getTime() - Date.now());
+  //       bot.postMessageToChannel('testing-slack-bots', "10 minutes before Live Server Maintenance");
+  //       break;
+  //     case (1800000):
+  //       //console.log("30 minutes before");
+  //       bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 30분 전");
+  //       break;
+  //     case (0):
+  //       bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 시작");
+  //       console.log(mStartTime.getTime() - Date.now());
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
 });
+
 
 app.listen(process.env.PORT, function() {
   console.log("Server is running");
