@@ -27,13 +27,14 @@ bot.on('start', function(){
 bot.on('error', (err) => console.log(err));
 
 //Message Handler
-// bot.on('message', (data) => {
-//   if(data.type !== 'message') {
-//     return;
-//   }
-//
-//   handleMessage(data.text);
-// });
+bot.on('message', (data) => {
+  if(data.type !== 'message') {
+    return;
+  }
+
+  console.log(data);
+  //handleMessage(data.text);
+});
 
 //Respond to message
 // function handleMessage(message) {
