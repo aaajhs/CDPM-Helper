@@ -14,7 +14,7 @@ function alertMaintenance (mStart){
   var timeDifference = mStart.getTime() - Date.now();
   console.log("timeDifference is: " + timeDifference);
   while(Date.now() <= mStart.getTime()){
-    console.log(mStart.getTime() - Date.now());
+    //console.log(mStart.getTime() - Date.now());
     switch (Date.now() <= mStart.getTime()) {
       case (60000):
         //console.log(mStartTime.getTime() - Date.now());
