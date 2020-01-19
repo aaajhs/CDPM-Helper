@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 function alertMaintenance (mStart){
-  //while(Date.now() <= mStart.getTime()){
+  while(Date.now() <= mStart.getTime()){
     //console.log(mStart.getTime() - Date.now());
     switch (mStart.getTime() - Date.now()) {
       case (120000):
@@ -38,7 +38,7 @@ function alertMaintenance (mStart){
       default:
         break;
     }
-  //}
+  }
 
   // if(mStart.getTime() - Date.now() == 120000){
   //   slack.chat.postMessage({
@@ -66,9 +66,7 @@ app.post("/setmstart", function(req, res) {
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
   console.log(mStartTime);
   res.send(200);
-  while(Date.now() <= mStartTime.getTime()){
-    alertMaintenance(mStartTime);
-  }
+  alertMaintenance(mStartTime);
 });
 
 
