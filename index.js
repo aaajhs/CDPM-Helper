@@ -33,7 +33,7 @@ bot.on('start', function(){
     console.log(req.body.title);
     console.log(req.body.content);
   });
-};
+});
 
 //Error Handler
 bot.on('error', (err) => console.log(err));
