@@ -92,14 +92,23 @@ app.post("/setmstart", function(req, res) {
     switch (timeDifference) {
       case (600000):
         //console.log(mStartTime.getTime() - Date.now());
-        //bot.postMessageToChannel('testing-slack-bots', "10 minutes before Live Server Maintenance");
+        slack.chat.postMessage({
+          token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+          channel: 'testing-slack-bots',
+          text: '서버 점검 10분 전'});
         break;
       case (1800000):
         //console.log("30 minutes before");
-        bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 30분 전");
+        slack.chat.postMessage({
+          token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+          channel: 'testing-slack-bots',
+          text: '서버 점검 30분 전'});
         break;
       case (0):
-        bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 시작");
+      slack.chat.postMessage({
+        token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+        channel: 'testing-slack-bots',
+        text: '서버 점검 시작'});
         console.log(mStartTime.getTime() - Date.now());
         break;
       default:
