@@ -10,81 +10,9 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// const bot = new SlackBot({
-//   token: 'xoxb-734466708384-874779367121-t9Z1pLq148prjBEDGpnVpS72',
-//   name: 'summer'
-// });
-//
-// var path_to_call = 'https://slack.com/api/chat.postMessage?token=xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e&channel=general&text=%EC%84%9C%EB%B2%84%20%EC%A0%90%EA%B2%80%20%EC%8B%9C%EC%9E%91%2030%EB%B6%84%20%EC%A0%84&pretty=1';
-// var entries = {
-//   token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
-//   channel: 'general',
-//   text: 'Final Test'
-// };
-//
-// //Start Handler
-// bot.on('start', function(){
-//   const params = {
-//     icon_emoji: ':alarm_clock:'
-//   }
-//
-//   bot.postMessageToChannel('testing-slack-bots', '안녕하세요', params);
-//
-//
-//   // axios.get(path_to_call)
-//   // .then((response) => {
-//   //   return response;
-//   // })
-//   // .catch((error) => {
-//   //   console.log(error);
-//   // });
-//
-//   // axios.post('https://slack.com/api/chat.postMessage', entries)
-//   // .then(function(response){
-//   //   console.log(response);
-//   // })
-//   // .catch(function(error){
-//   //   console.log(error);
-//   // });
-//
-//   slack.chat.postMessage({
-//     token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
-//     channel: 'general',
-//     text: 'Final Test'});
-// });
-//
-// //Error Handler
-// bot.on('error', (err) => console.log(err));
-
-//bot Message Handler
-// bot.on('message', (data) => {
-//   if(data.type !== 'message') {
-//     return;
-//   }
-//
-//   if(!data.text.includes('@URQNXAT3K')){
-//     return;
-//   }
-//
-//   console.log(data);
-//   //handleMessage(data.text);
-// });
-
-//Respond to message
-// function handleMessage(message) {
-//   if(message.includes('점검')){
-//
-//   }
-// }
-
-// function sleep (delay) {
-//    var start = new Date().getTime();
-//    while (new Date().getTime() < start + delay);
-// }
-
 function alertMaintenance (mStart){
   var timeDifference = mStart.getTime() - Date.now();
-  console.log("Successfully entered alertMaintenance");
+  console.log("timeDifference is: " + timeDifference);
   while(Date.now() <= mStart.getTime()){
     switch (timeDifference) {
       case (60000):
