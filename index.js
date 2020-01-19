@@ -34,9 +34,9 @@ bot.on('start', function(){
   // });
 
   axios.post('https://slack.com/api/chat.postMessage', {
-    token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
-    channel: 'general',
-    text: 'Final Test'
+    'token': 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+    'channel': 'general',
+    'text': 'Final Test'
   })
   .then(function(response){
     console.log(response);
