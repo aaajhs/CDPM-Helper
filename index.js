@@ -15,7 +15,7 @@ function alertMaintenance (mStart){
   console.log("timeDifference is: " + timeDifference);
   while(Date.now() <= mStart.getTime()){
     //console.log(mStart.getTime() - Date.now());
-    switch (Date.now() <= mStart.getTime()) {
+    switch (mStart.getTime() - Date.now()) {
       case (60000):
         //console.log(mStartTime.getTime() - Date.now());
         slack.chat.postMessage({
