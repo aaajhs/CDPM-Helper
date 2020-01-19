@@ -3,6 +3,7 @@ const axios = require('axios');
 const express = require('express');
 const scheduler = require('node-schedule');
 const bodyParser = require("body-parser");
+const slack = require("slack");
 
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -38,13 +39,18 @@ bot.on('start', function(){
   //   console.log(error);
   // });
 
-  axios.post('https://slack.com/api/chat.postMessage', entries)
-  .then(function(response){
-    console.log(response);
-  })
-  .catch(function(error){
-    console.log(error);
-  });
+  // axios.post('https://slack.com/api/chat.postMessage', entries)
+  // .then(function(response){
+  //   console.log(response);
+  // })
+  // .catch(function(error){
+  //   console.log(error);
+  // });
+
+  slack.chat.postMessage({
+    token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+    channel: 'general',
+    text: 'Final Test'});
 });
 
 //Error Handler
