@@ -37,6 +37,7 @@ bot.on('message', (data) => {
   }
 
   console.log(data);
+  res.send("This is it");
   //handleMessage(data.text);
 });
 
