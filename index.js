@@ -83,9 +83,9 @@ app.use(bodyParser.urlencoded({
 // }
 
 function alertMaintenance (mStart){
-  var timeDifference = mStartTime.getTime() - Date.now();
+  var timeDifference = mStart.getTime() - Date.now();
   console.log("Successfully entered alertMaintenance");
-  while(Date.now() <= mStartTime.getTime()){
+  while(Date.now() <= mStart.getTime()){
     switch (timeDifference) {
       case (60000):
         //console.log(mStartTime.getTime() - Date.now());
@@ -106,7 +106,7 @@ function alertMaintenance (mStart){
         token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
         channel: 'testing-slack-bots',
         text: '서버 점검 시작'});
-        console.log(mStartTime.getTime() - Date.now());
+        console.log(mStart.getTime() - Date.now());
         break;
       default:
         break;
