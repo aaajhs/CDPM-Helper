@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 function alertMaintenance (mStart){
-  while(Date.now() <= mStart.getTime()){
+  //while(Date.now() <= mStart.getTime()){
     //console.log(mStart.getTime() - Date.now());
     switch (mStart.getTime() - Date.now()) {
       case (120000):
@@ -38,7 +38,7 @@ function alertMaintenance (mStart){
       default:
         break;
     }
-  }
+  //}
 
   // if(mStart.getTime() - Date.now() == 120000){
   //   slack.chat.postMessage({
