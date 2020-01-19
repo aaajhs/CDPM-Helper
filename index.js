@@ -3,7 +3,6 @@ const axios = require('axios');
 const express = require('express');
 const scheduler = require('node-schedule');
 const bodyParser = require("body-parser");
-const request = require('request');
 
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -26,21 +25,25 @@ bot.on('start', function(){
   bot.postMessageToChannel('testing-slack-bots', '안녕하세요', params);
 
 
-  axios.get(path_to_call)
-  .then((response) => {
-    return response;
+  // axios.get(path_to_call)
+  // .then((response) => {
+  //   return response;
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  // });
+
+  axios.post('https://slack.com/api/chat.postMessage', {
+    token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+    channel: 'general',
+    text: 'Final Test'
   })
-  .catch((error) => {
+  .then(function(response){
+    console.log(response);
+  })
+  .catch(function(error){
     console.log(error);
   });
-
-  // request(path_to_call, function(error, response, body){
-  //   if(!error && response.statusCode == 200){
-  //     console.log('Success');
-  //   } else{
-  //     console.log(error);
-  //   }
-  // });
 });
 
 //Error Handler
@@ -78,24 +81,24 @@ app.post("/setmstart", function(req, res) {
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
   var timeDifference = mStartTime.getTime() - Date.now();
 
-  // while(Date.now() <= mStartTime.getTime()){
-  //   switch (timeDifference) {
-  //     case (600000):
-  //       //console.log(mStartTime.getTime() - Date.now());
-  //       bot.postMessageToChannel('testing-slack-bots', "10 minutes before Live Server Maintenance");
-  //       break;
-  //     case (1800000):
-  //       //console.log("30 minutes before");
-  //       bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 30분 전");
-  //       break;
-  //     case (0):
-  //       bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 시작");
-  //       console.log(mStartTime.getTime() - Date.now());
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }
+  while(Date.now() <= mStartTime.getTime()){
+    switch (timeDifference) {
+      case (600000):
+        //console.log(mStartTime.getTime() - Date.now());
+        //bot.postMessageToChannel('testing-slack-bots', "10 minutes before Live Server Maintenance");
+        break;
+      case (1800000):
+        //console.log("30 minutes before");
+        bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 30분 전");
+        break;
+      case (0):
+        bot.postMessageToChannel('testing-slack-bots', "라이브 서버 점검 시작");
+        console.log(mStartTime.getTime() - Date.now());
+        break;
+      default:
+        break;
+    }
+  }
 });
 
 
