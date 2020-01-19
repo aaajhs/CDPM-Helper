@@ -40,26 +40,44 @@ function alertMaintenance (mStart){
   //   }
   // }
 
-  while(Date.now() <= mStart.getTime()){
-    if(mStart.getTime() - Date.now() == 120000){
-      slack.chat.postMessage({
-        token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
-        channel: 'testing-slack-bots',
-        text: '서버 점검 2분 전'});
-    }
-    else if(mStart.getTime() - Date.now() == 60000){
-      slack.chat.postMessage({
-        token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
-        channel: 'testing-slack-bots',
-        text: '서버 점검 1분 전'});
-    }
-    else if(mStart.getTime() - Date.now() == 0){
-      slack.chat.postMessage({
-        token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
-        channel: 'testing-slack-bots',
-        text: '서버 점검 시작'});
-    }
-  }
+  // while(Date.now() <= mStart.getTime()){
+  //   if(mStart.getTime() - Date.now() == 120000){
+  //     slack.chat.postMessage({
+  //       token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+  //       channel: 'testing-slack-bots',
+  //       text: '서버 점검 2분 전'});
+  //   }
+  //   else if(mStart.getTime() - Date.now() == 60000){
+  //     slack.chat.postMessage({
+  //       token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+  //       channel: 'testing-slack-bots',
+  //       text: '서버 점검 1분 전'});
+  //   }
+  //   else if(mStart.getTime() - Date.now() == 0){
+  //     slack.chat.postMessage({
+  //       token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+  //       channel: 'testing-slack-bots',
+  //       text: '서버 점검 시작'});
+  //   }
+  // }
+
+  while(Date.now() - mStart.getTime() > 120000){}
+  slack.chat.postMessage({
+    token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+    channel: 'testing-slack-bots',
+    text: '서버 점검 2분 전'});
+
+  while(Date.now() - mStart.getTime() > 60000){}
+  slack.chat.postMessage({
+    token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+    channel: 'testing-slack-bots',
+    text: '서버 점검 1분 전'});
+
+  while(Date.now() - mStart.getTime() > 0){}
+  slack.chat.postMessage({
+    token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+    channel: 'testing-slack-bots',
+    text: '서버 점검 시작'});
 }
 
 //Command Handler
