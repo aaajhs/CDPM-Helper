@@ -3,6 +3,7 @@ const axios = require('axios');
 const express = require('express');
 const scheduler = require('node-schedule');
 const bodyParser = require("body-parser");
+const request = require('request');
 
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -14,12 +15,7 @@ const bot = new SlackBot({
   name: 'summer'
 });
 
-var config = {
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e'
-  }
-};
+var path_to_call = 'https://slack.com/api/chat.postMessage?token=xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e&channel=general&text=%EC%84%9C%EB%B2%84%20%EC%A0%90%EA%B2%80%20%EC%8B%9C%EC%9E%91%2030%EB%B6%84%20%EC%A0%84&pretty=1';
 
 //Start Handler
 bot.on('start', function(){
@@ -29,9 +25,12 @@ bot.on('start', function(){
 
   bot.postMessageToChannel('testing-slack-bots', '안녕하세요', params);
 
-  app.post('https://slack.com/api/chat.postMessage', function(req, res){
-    console.log(req.body.title);
-    console.log(req.body.content);
+  request(path_to_call, function(error, response, body){
+    if(!error && response.statusCode == 200){
+      console.log('Success');
+    } else{
+      console.log(error);
+    }
   });
 });
 
