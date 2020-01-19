@@ -35,8 +35,8 @@ function alertMaintenance (mStart){
           text: '서버 점검 시작'});
           console.log(mStart.getTime() - Date.now());
         break;
-      // default:
-      //   break;
+      default:
+        break;
     }
   }
 
