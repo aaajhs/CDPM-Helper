@@ -15,6 +15,11 @@ const bot = new SlackBot({
 });
 
 var path_to_call = 'https://slack.com/api/chat.postMessage?token=xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e&channel=general&text=%EC%84%9C%EB%B2%84%20%EC%A0%90%EA%B2%80%20%EC%8B%9C%EC%9E%91%2030%EB%B6%84%20%EC%A0%84&pretty=1';
+var entries = {
+  token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
+  channel: 'general',
+  text: 'Final Test'
+};
 
 //Start Handler
 bot.on('start', function(){
@@ -33,11 +38,7 @@ bot.on('start', function(){
   //   console.log(error);
   // });
 
-  axios.post('https://slack.com/api/chat.postMessage', {
-    'token': 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
-    'channel': 'general',
-    'text': 'Final Test'
-  })
+  axios.post('https://slack.com/api/chat.postMessage', entries)
   .then(function(response){
     console.log(response);
   })
