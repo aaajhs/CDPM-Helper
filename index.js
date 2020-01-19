@@ -14,6 +14,13 @@ const bot = new SlackBot({
   name: 'summer'
 });
 
+var config = {
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e'
+  }
+};
+
 //Start Handler
 bot.on('start', function(){
   const params = {
@@ -22,10 +29,7 @@ bot.on('start', function(){
 
   bot.postMessageToChannel('testing-slack-bots', '안녕하세요', params);
 
-  axios({
-    method: 'post',
-    url: 'https://slack.com/api/chat.postMessage',
-    data: {
+  axios.post('https://slack.com/api/chat.postMessage', {
       "ok": true,
       "channel": "CMN9SLPPZ",
       "ts": "1579442254.000600",
@@ -37,8 +41,7 @@ bot.on('start', function(){
         "username": "SUMMER",
         "bot_id": "BS111QUKX"
       }
-    }
-  });
+    }, config);
 });
 
 //Error Handler
