@@ -10,11 +10,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// XX시각에 함수를 호출하기
-function callFunctionAt(time) {
-  // TODO`
-}
-
 function sendMessageTo(channel, text) {
   slack.chat.postMessage({
     token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
@@ -24,37 +19,26 @@ function sendMessageTo(channel, text) {
 }
 
 function alertMaintenance (mStart){
-  callFunctionAt()
+  const delayUntilTwoMinuteBefore = mStart.getTime() - (2 * 60 * 1000) - Date.now();
+  const delayUntilOneMinuteBefore = mStart.getTime() - (1 * 60 * 1000) - Date.now();
+  const delayUntilMaintenance = mStart.getTime() - Date.now();
 
-  setTimeout(() => {
-    console.log('this function called after 2 sec');
-  }, 2000);
+  setTimeout(function () {
+    sendMessageTo('testing-slack-bots', '서버 점검 2분 전');
+  }, delayUntilTwoMinuteBefore);
 
-  while(Date.now() <= mStart.getTime()){
-    switch (mStart.getTime() - Date.now()) {
-      case (120000):
-        slack.chat.postMessage({
-          token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
-          channel: 'testing-slack-bots',
-          text: '서버 점검 2분 전'});
-        break;
-      case (60000):
-        slack.chat.postMessage({
-          token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
-          channel: 'testing-slack-bots',
-          text: '서버 점검 1분 전'});
-        break;
-      case (0):
-        slack.chat.postMessage({
-          token: 'xoxp-734466708384-734473058917-873557841859-3dd4345d6fb7271677b9cda17cd3541e',
-          channel: 'testing-slack-bots',
-          text: '서버 점검 시작'});
-          console.log(mStart.getTime() - Date.now());
-        break;
-      default:
-        break;
-    }
-  }
+  setTimeout(function () {
+    sendMessageTo('testing-slack-bots', '서버 점검 1분 전');
+  } , delayUntilOneMinuteBefore);
+
+  setTimeout(function () {
+    sendMessageTo('testing-slack-bots', '서버 점검 시작');
+  }, delayUntilMaintenance);
+
+  // setTimeout(() => {
+  //   console.log('this function called after 2 sec');
+  // }, 2000);
+
 }
 
 //Command Handler
