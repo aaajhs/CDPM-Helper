@@ -7,7 +7,7 @@ var http = require("http");
 setInterval(function(){
   http.get("http://frozen-wave-50664.herokuapp.com");
   console.log("Stay alive! " + Date.now());
-}, 1200000);
+}, 1000);
 // End heroku alive
 
 const app = express();
