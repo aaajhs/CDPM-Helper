@@ -27,7 +27,7 @@ function alertMaintenance (targetTime, startEnd){
     if(startEnd.localeCompare("start")){
       console.log(startEnd);
       console.log(startEnd.localeCompare("start"));
-      sendMessageTo('general', '서버 점검 2분 전');
+      sendMessageTo('general', 'teststring');
     }
     else if(startEnd.localeCompare("end")){
       sendMessageTo('general', '서버 점검 종료 2분 전');
