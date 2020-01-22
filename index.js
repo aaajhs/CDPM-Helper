@@ -25,6 +25,8 @@ function alertMaintenance (targetTime, startEnd){
 
   setTimeout(function () {
     if(startEnd.localeCompare("start")){
+      console.log(startEnd);
+      console.log(startEnd.localeCompare("start"));
       sendMessageTo('general', '서버 점검 2분 전');
     }
     else if(startEnd.localeCompare("end")){
@@ -46,7 +48,7 @@ function alertMaintenance (targetTime, startEnd){
       sendMessageTo('general', '서버 점검 시작');
     }
     else if(startEnd.localeCompare("end")){
-      sendMessageTo('general', '서버 점검 종');
+      sendMessageTo('general', '서버 점검 종료');
     }
 
   }, mTime);
