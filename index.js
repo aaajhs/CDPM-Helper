@@ -24,28 +24,28 @@ function alertMaintenance (targetTime, startEnd){
   const mTime = targetTime.getTime() - Date.now();
 
   setTimeout(function (startEnd) {
-    if(startEnd == "start"){
+    if(startEnd.localeCompare("start")){
       sendMessageTo('general', '서버 점검 2분 전');
     }
-    else if(startEnd == "end"){
+    else if(startEnd.localeCompare("end")){
       sendMessageTo('general', '서버 점검 종료 2분 전');
     }
   }, mTimeMinusTwo);
 
   setTimeout(function (startEnd) {
-    if(startEnd == "start"){
+    if(startEnd.localeCompare("start")){
       sendMessageTo('general', '서버 점검 1분 전');
     }
-    else if(startEnd == "end"){
+    else if(startEnd.localeCompare("end")){
       sendMessageTo('general', '서버 점검 종료 1분 전')
     }
   } , mTimeMinusOne);
 
   setTimeout(function (startEnd) {
-    if(startEnd == "start"){
+    if(startEnd.localeCompare("start")){
       sendMessageTo('general', '서버 점검 시작');
     }
-    else if(startEnd == "end"){
+    else if(startEnd.localeCompare("end")){
       sendMessageTo('general', '서버 점검 종');
     }
 
