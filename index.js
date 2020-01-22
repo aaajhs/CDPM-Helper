@@ -18,22 +18,38 @@ function sendMessageTo(channel, text) {
   });
 }
 
-function alertMaintenance (targetTime){
-  const mStartMinusTwo = targetTime.getTime() - (2 * 60 * 1000) - Date.now();
-  const mStartMinusOne = targetTime.getTime() - (1 * 60 * 1000) - Date.now();
-  const mStart = targetTime.getTime() - Date.now();
+function alertMaintenance (targetTime, startEnd){
+  const mTimeMinusTwo = targetTime.getTime() - (2 * 60 * 1000) - Date.now();
+  const mTimeMinusOne = targetTime.getTime() - (1 * 60 * 1000) - Date.now();
+  const mTime = targetTime.getTime() - Date.now();
 
-  setTimeout(function () {
-    sendMessageTo('general', '서버 점검 2분 전');
-  }, mStartMinusTwo);
+  setTimeout(function (startEnd) {
+    if(startEnd == "start"){
+      sendMessageTo('general', '서버 점검 2분 전');
+    }
+    else if(startEnd == "end"){
+      sendMessageTo('general', '서버 점검 종료 2분 전');
+    }
+  }, mTimeMinusTwo);
 
-  setTimeout(function () {
-    sendMessageTo('general', '서버 점검 1분 전');
-  } , mStartMinusOne);
+  setTimeout(function (startEnd) {
+    if(startEnd == "start"){
+      sendMessageTo('general', '서버 점검 1분 전');
+    }
+    else if(startEnd == "end"){
+      sendMessageTo('general', '서버 점검 종료 1분 전')
+    }
+  } , mTimeMinusOne);
 
-  setTimeout(function () {
-    sendMessageTo('general', '서버 점검 시작');
-  }, mStart);
+  setTimeout(function (startEnd) {
+    if(startEnd == "start"){
+      sendMessageTo('general', '서버 점검 시작');
+    }
+    else if(startEnd == "end"){
+      sendMessageTo('general', '서버 점검 종');
+    }
+
+  }, mTime);
 
   // setTimeout(() => {
   //   console.log('this function called after 2 sec');
@@ -43,16 +59,16 @@ function alertMaintenance (targetTime){
 //Command Handler
 app.post("/setmstart", function(req, res) {
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
-  console.log(mStartTime);
+  var mTimeType = "start";
   res.send("OK, maintenance start time has been set.");
-  alertMaintenance(mStartTime);
+  alertMaintenance(mStartTime, mTimeType);
 });
 
 app.post("/setmend", (req, res) => {
   var mEndTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
-  console.log(mEndTime);
+  var mTimeType = "end";
   res.send("OK, maintenance end time has been set.");
-  alertMaintenance(mEndTime);
+  alertMaintenance(mEndTime, mTimeType);
 });
 
 app.listen(process.env.PORT, function() {
