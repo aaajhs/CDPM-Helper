@@ -1,7 +1,4 @@
-const SlackBot = require('slackbots');
-const axios = require('axios');
 const express = require('express');
-const scheduler = require('node-schedule');
 const bodyParser = require("body-parser");
 const slack = require("slack");
 
@@ -25,7 +22,7 @@ function alertMaintenance (targetTime, startEnd){
 
   setTimeout(function () {
     if(startEnd.localeCompare("start") == 0){
-      sendMessageTo('general', 'teststring');
+      sendMessageTo('general', '서버 점검 시작 2분 전');
     }
     else if(startEnd.localeCompare("end") == 0){
       sendMessageTo('general', '서버 점검 종료 2분 전');
@@ -34,7 +31,7 @@ function alertMaintenance (targetTime, startEnd){
 
   setTimeout(function () {
     if(startEnd.localeCompare("start") == 0){
-      sendMessageTo('general', '서버 점검 1분 전');
+      sendMessageTo('general', '서버 점검 시작 1분 전');
     }
     else if(startEnd.localeCompare("end") == 0){
       sendMessageTo('general', '서버 점검 종료 1분 전')
