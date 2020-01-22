@@ -2,6 +2,14 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const slack = require("slack");
 
+// Keep heroku alive
+var http = require("http");
+setInterval(function(){
+  http.get("https://frozen-wave-50664.herokuapp.com/");
+  console.log("Stay alive!");
+}, 600000);
+// End heroku alive
+
 const app = express();
 app.use(bodyParser.urlencoded({
   extended: true
