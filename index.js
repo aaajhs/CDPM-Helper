@@ -23,7 +23,7 @@ function alertMaintenance (targetTime, startEnd){
   const mTimeMinusOne = targetTime.getTime() - (1 * 60 * 1000) - Date.now();
   const mTime = targetTime.getTime() - Date.now();
 
-  setTimeout(function (startEnd) {
+  setTimeout(function () {
     if(startEnd.localeCompare("start")){
       sendMessageTo('general', '서버 점검 2분 전');
     }
@@ -32,7 +32,7 @@ function alertMaintenance (targetTime, startEnd){
     }
   }, mTimeMinusTwo);
 
-  setTimeout(function (startEnd) {
+  setTimeout(function () {
     if(startEnd.localeCompare("start")){
       sendMessageTo('general', '서버 점검 1분 전');
     }
@@ -41,7 +41,7 @@ function alertMaintenance (targetTime, startEnd){
     }
   } , mTimeMinusOne);
 
-  setTimeout(function (startEnd) {
+  setTimeout(function () {
     if(startEnd.localeCompare("start")){
       sendMessageTo('general', '서버 점검 시작');
     }
