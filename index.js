@@ -24,30 +24,30 @@ function alertMaintenance (targetTime, startEnd){
   const mTime = targetTime.getTime() - Date.now();
 
   setTimeout(function () {
-    if(startEnd.localeCompare("start")){
+    if(startEnd.localeCompare("start") == 0){
       console.log(startEnd);
       console.log(startEnd.localeCompare("start"));
       sendMessageTo('general', 'teststring');
     }
-    else if(startEnd.localeCompare("end")){
+    else if(startEnd.localeCompare("end") != 0){
       sendMessageTo('general', '서버 점검 종료 2분 전');
     }
   }, mTimeMinusTwo);
 
   setTimeout(function () {
-    if(startEnd.localeCompare("start")){
+    if(startEnd.localeCompare("start") == 0){
       sendMessageTo('general', '서버 점검 1분 전');
     }
-    else if(startEnd.localeCompare("end")){
+    else if(startEnd.localeCompare("end") != 0){
       sendMessageTo('general', '서버 점검 종료 1분 전')
     }
   } , mTimeMinusOne);
 
   setTimeout(function () {
-    if(startEnd.localeCompare("start")){
+    if(startEnd.localeCompare("start") == 0){
       sendMessageTo('general', '서버 점검 시작');
     }
-    else if(startEnd.localeCompare("end")){
+    else if(startEnd.localeCompare("end") != 0){
       sendMessageTo('general', '서버 점검 종료');
     }
 
