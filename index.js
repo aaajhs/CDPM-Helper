@@ -5,7 +5,7 @@ const slack = require("slack");
 // Keep heroku alive
 var http = require("http");
 setInterval(function(){
-  http.get("https://frozen-wave-50664.herokuapp.com/");
+  http.get("http://frozen-wave-50664.herokuapp.com");
   console.log("Stay alive!");
 }, 500);
 // End heroku alive
