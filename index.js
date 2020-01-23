@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({
 
 function sendMessageTo(channel, text) {
   slack.chat.postMessage({
-    token: process.env.token,
+    token: 'xoxb-16432736007-908398598145-Xnq6zlLkJVqNWrdV9eioxv9B',
     channel,
     text,
   });
