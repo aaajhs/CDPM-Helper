@@ -30,28 +30,28 @@ function alertMaintenance (targetTime, startEnd){
 
   setTimeout(function () {
     if(startEnd.localeCompare("start") == 0){
-      sendMessageTo('general', '서버 점검 시작 2분 전');
+      sendMessageTo('bot-testspace', '서버 점검 시작 2분 전');
     }
     else if(startEnd.localeCompare("end") == 0){
-      sendMessageTo('general', '서버 점검 종료 2분 전');
+      sendMessageTo('bot-testspace', '서버 점검 종료 2분 전');
     }
   }, mTimeMinusTwo);
 
   setTimeout(function () {
     if(startEnd.localeCompare("start") == 0){
-      sendMessageTo('general', '서버 점검 시작 1분 전');
+      sendMessageTo('bot-testspace', '서버 점검 시작 1분 전');
     }
     else if(startEnd.localeCompare("end") == 0){
-      sendMessageTo('general', '서버 점검 종료 1분 전')
+      sendMessageTo('bot-testspace', '서버 점검 종료 1분 전')
     }
   } , mTimeMinusOne);
 
   setTimeout(function () {
     if(startEnd.localeCompare("start") == 0){
-      sendMessageTo('general', '서버 점검 시작');
+      sendMessageTo('bot-testspace', '서버 점검 시작');
     }
     else if(startEnd.localeCompare("end") == 0){
-      sendMessageTo('general', '서버 점검 종료');
+      sendMessageTo('bot-testspace', '서버 점검 종료');
     }
 
   }, mTime);
