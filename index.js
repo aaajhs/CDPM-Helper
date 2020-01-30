@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var targetChannel = 'games_on_aws_2019';
+var targetChannel = 'bot-testspace';
 
 function sendMessageTo(channel, text) {
   slack.chat.postMessage({
