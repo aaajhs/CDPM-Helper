@@ -24,52 +24,34 @@ function sendMessageTo(channel, text) {
 }
 
 function alertMaintenance (targetTime, startEnd){
-  // const mTimeMinusTwenty = targetTime.getTime() - (20 * 60 * 1000) - Date.now();
+  const mTimeMinusTwenty = targetTime.getTime() - (20 * 60 * 1000) - Date.now();
   const mTimeMinusFive = targetTime.getTime() - (5 * 60 * 1000) - Date.now();
   const mTime = targetTime.getTime() - Date.now();
 
-  // setTimeout(function () {
-  //   if(startEnd.localeCompare("start") == 0){
-  //     sendMessageTo('console_production', '서버 점검 시작 20분 전')
-  //     .catch((error) => {
-  //       console.log("Promise error", error);
-  //     });
-  //   }
-  //   else if(startEnd.localeCompare("end") == 0){
-  //     sendMessageTo('console_production', '서버 점검 종료 20분 전')
-  //     .catch((error) => {
-  //       console.log("Promise error", error);
-  //     });
-  //   }
-  // }, mTimeMinusTwenty);
+  setTimeout(function () {
+    if(startEnd.localeCompare("start") == 0){
+      sendMessageTo('console_production', '서버 점검 시작 20분 전');
+    }
+    else if(startEnd.localeCompare("end") == 0){
+      sendMessageTo('console_production', '서버 점검 종료 20분 전');
+    }
+  }, mTimeMinusTwenty);
 
   setTimeout(function () {
     if(startEnd.localeCompare("start") == 0){
-      sendMessageTo('console_production', '서버 점검 시작 5분 전')
-      .catch((error) => {
-        console.log("Promise error", error);
-      });
+      sendMessageTo('console_production', '서버 점검 시작 5분 전');
     }
     else if(startEnd.localeCompare("end") == 0){
       sendMessageTo('console_production', '서버 점검 종료 5분 전')
-      .catch((error) => {
-        console.log("Promise error", error);
-      });
     }
   } , mTimeMinusFive);
 
   setTimeout(function () {
     if(startEnd.localeCompare("start") == 0){
-      sendMessageTo('console_production', '서버 점검 시작')
-      .catch((error) => {
-        console.log("Promise error", error);
-      });
+      sendMessageTo('console_production', '서버 점검 시작');
     }
     else if(startEnd.localeCompare("end") == 0){
-      sendMessageTo('console_production', '서버 점검 종료')
-      .catch((error) => {
-        console.log("Promise error", error);
-      });
+      sendMessageTo('console_production', '서버 점검 종료');
     }
 
   }, mTime);
