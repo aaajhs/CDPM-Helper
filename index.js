@@ -25,37 +25,37 @@ function sendMessageTo(channel, text) {
   }).catch(err => console.log(err))
 }
 
-function alertMaintenance (targetTime, startEnd){
+function alertMaintenance (targetTime, eventType){
   const mTimeMinusTwenty = targetTime.getTime() - (20 * 60 * 1000) - Date.now();
   const mTimeMinusFive = targetTime.getTime() - (5 * 60 * 1000) - Date.now();
   const mTime = targetTime.getTime() - Date.now();
 
+  var keyString = "";
+
+  switch (eventType){
+    case "mStart":
+      keyString = "서버 점검 시작";
+      break;
+    case "mEnd":
+      keyString = "서버 점검 종료";
+      break;
+    case "ptsStart":
+      keyString = "PTS 시작";
+      break;
+    default:
+      console.log("Invalid eventType");
+  }
+
   setTimeout(function () {
-    if(startEnd.localeCompare("start") == 0){
-      sendMessageTo(targetChannel, '서버 점검 시작 20분 전');
-    }
-    else if(startEnd.localeCompare("end") == 0){
-      sendMessageTo(targetChannel, '서버 점검 종료 20분 전');
-    }
+    sendMessageTo(targetChannel, keyString + " 20분 전");
   }, mTimeMinusTwenty);
 
   setTimeout(function () {
-    if(startEnd.localeCompare("start") == 0){
-      sendMessageTo(targetChannel, '서버 점검 시작 5분 전');
-    }
-    else if(startEnd.localeCompare("end") == 0){
-      sendMessageTo(targetChannel, '서버 점검 종료 5분 전')
-    }
+    sendMessageTo(targetChannel, keyString + " 5분 전");
   } , mTimeMinusFive);
 
   setTimeout(function () {
-    if(startEnd.localeCompare("start") == 0){
-      sendMessageTo(targetChannel, '서버 점검 시작');
-    }
-    else if(startEnd.localeCompare("end") == 0){
-      sendMessageTo(targetChannel, '서버 점검 종료');
-    }
-
+    sendMessageTo(targetChannel, keyString);
   }, mTime);
 
   // setTimeout(() => {
@@ -66,16 +66,20 @@ function alertMaintenance (targetTime, startEnd){
 //Command Handler
 app.post("/setmstart", function(req, res) {
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
-  var mTimeType = "start";
   res.send("OK, maintenance start time has been set.");
-  alertMaintenance(mStartTime, mTimeType);
+  alertMaintenance(mStartTime, "mStart");
 });
 
 app.post("/setmend", (req, res) => {
   var mEndTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
-  var mTimeType = "end";
   res.send("OK, maintenance end time has been set.");
-  alertMaintenance(mEndTime, mTimeType);
+  alertMaintenance(mEndTime, "mEnd");
+});
+
+app.post("/setPTS", (req, res) => {
+  var ptsTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
+  res.send("OK, PTS start time has been set.");
+  alertMaintenance(ptsTime, "ptsStart");
 });
 
 app.listen(process.env.PORT, function() {

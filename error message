@@ -1,0 +1,19 @@
+2020-01-30T08:40:01.631811+00:00 app[web.1]: (node:4) UnhandledPromiseRejectionWarning: Error: not_in_channel
+2020-01-30T08:40:01.631828+00:00 app[web.1]:     at Object.exec (/app/node_modules/slack/src/_exec.js:11:15)
+2020-01-30T08:40:01.631831+00:00 app[web.1]:     at sendMessageTo (/app/index.js:19:14)
+2020-01-30T08:40:01.631833+00:00 app[web.1]:     at Timeout._onTimeout (/app/index.js:36:7)
+2020-01-30T08:40:01.631835+00:00 app[web.1]:     at listOnTimeout (internal/timers.js:531:17)
+2020-01-30T08:40:01.631837+00:00 app[web.1]:     at processTimers (internal/timers.js:475:7)
+2020-01-30T08:40:01.631908+00:00 app[web.1]: (node:4) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
+2020-01-30T08:40:01.632024+00:00 app[web.1]: (node:4) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+Disconnected from log stream. There may be events happening that you do not see here! Attempting to reconnect...
+2020-01-30T08:31:26.604446+00:00 app[web.1]: Stay alive! 1580373086604
+2020-01-30T08:31:26.616942+00:00 heroku[router]: at=info method=GET path="/" host=frozen-wave-50664.herokuapp.com request_id=377b9188-3cee-45cd-b7dc-506aad4309c7 fwd="3.83.106.84" dyno=web.1 connect=2ms service=1ms status=404 bytes=383 protocol=http
+2020-01-30T08:40:01.631811+00:00 app[web.1]: (node:4) UnhandledPromiseRejectionWarning: Error: not_in_channel
+2020-01-30T08:40:01.631828+00:00 app[web.1]:     at Object.exec (/app/node_modules/slack/src/_exec.js:11:15)
+2020-01-30T08:40:01.631831+00:00 app[web.1]:     at sendMessageTo (/app/index.js:19:14)
+2020-01-30T08:40:01.631833+00:00 app[web.1]:     at Timeout._onTimeout (/app/index.js:36:7)
+2020-01-30T08:40:01.631835+00:00 app[web.1]:     at listOnTimeout (internal/timers.js:531:17)
+2020-01-30T08:40:01.631837+00:00 app[web.1]:     at processTimers (internal/timers.js:475:7)
+2020-01-30T08:40:01.631908+00:00 app[web.1]: (node:4) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
+2020-01-30T08:40:01.632024+00:00 app[web.1]: (node:4) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
