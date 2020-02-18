@@ -76,7 +76,7 @@ app.post("/setmend", (req, res) => {
   alertMaintenance(mEndTime, "mEnd");
 });
 
-app.post("/setPTS", (req, res) => {
+app.post("/setpts", (req, res) => {
   var ptsTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
   res.send("OK, PTS start time has been set.");
   alertMaintenance(ptsTime, "ptsStart");
