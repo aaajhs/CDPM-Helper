@@ -2,20 +2,20 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const slack = require("slack");
 
-// Keep heroku alive
+// START BLOCK: Keep heroku alive
 var http = require("http");
 setInterval(function(){
   http.get("http://frozen-wave-50664.herokuapp.com");
   console.log("Stay alive! " + Date.now());
 }, 1200000);
-// End heroku alive
+// END BLOCK: heroku alive
 
 const app = express();
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var targetChannel = 'bot-testspace';
+var targetChannel = 'console_production';
 
 function sendMessageTo(channel, text) {
   slack.chat.postMessage({
@@ -25,7 +25,7 @@ function sendMessageTo(channel, text) {
   }).catch(err => console.log(err))
 }
 
-function alertMaintenance (targetTime, eventType){
+function alertEvent (targetTime, eventType){
   const mTimeMinusTwenty = targetTime.getTime() - (20 * 60 * 1000) - Date.now();
   const mTimeMinusFive = targetTime.getTime() - (5 * 60 * 1000) - Date.now();
   const mTime = targetTime.getTime() - Date.now();
@@ -63,24 +63,25 @@ function alertMaintenance (targetTime, eventType){
   // }, 2000);
 }
 
-//Command Handler
+// START BLOCK: Command Handler
 app.post("/setmstart", function(req, res) {
   var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
   res.send("OK, maintenance start time has been set.");
-  alertMaintenance(mStartTime, "mStart");
+  alertEvent(mStartTime, "mStart");
 });
 
 app.post("/setmend", (req, res) => {
   var mEndTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
   res.send("OK, maintenance end time has been set.");
-  alertMaintenance(mEndTime, "mEnd");
+  alertEvent(mEndTime, "mEnd");
 });
 
 app.post("/setpts", (req, res) => {
   var ptsTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
   res.send("OK, PTS start time has been set.");
-  alertMaintenance(ptsTime, "ptsStart");
+  alertEvent(ptsTime, "ptsStart");
 });
+// END BLOCK: Command Handler
 
 app.listen(process.env.PORT, function() {
   console.log("Server is running");
