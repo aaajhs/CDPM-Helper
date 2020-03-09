@@ -4,7 +4,7 @@ const slack = require("slack");
 
 // START BLOCK: Keep heroku alive
 var http = require("http");
-setInterval(function(){
+setInterval(function() {
   http.get("http://frozen-wave-50664.herokuapp.com");
   console.log("Stay alive! " + Date.now());
 }, 1200000);
@@ -25,14 +25,16 @@ function sendMessageTo(channel, text) {
   }).catch(err => console.log(err))
 }
 
-function alertEvent (targetTime, eventType){
-  const mTimeMinusTwenty = targetTime.getTime() - (20 * 60 * 1000) - Date.now();
-  const mTimeMinusFive = targetTime.getTime() - (5 * 60 * 1000) - Date.now();
+function alertEvent(targetTime, eventType) {
+  const mTimeMinusSixty = targetTime.getTime() - (60 * 60 * 1000) - Date.now();
+  const mTimeMinusThirty = targetTime.getTime() - (30 * 60 * 1000) - Date.now();
+  const mTimeMinusTen = targetTime.getTime() - (10 * 60 * 1000) - Date.now();
   const mTime = targetTime.getTime() - Date.now();
+  const mTimeAll = [mTimeMinusSixty, mTimeMinusThirty, mTimeMinusTen, mTime];
 
   var keyString = "";
 
-  switch (eventType){
+  switch (eventType) {
     case "mStart":
       keyString = "서버 점검 시작";
       break;
@@ -46,26 +48,40 @@ function alertEvent (targetTime, eventType){
       console.log("Invalid eventType");
   }
 
-  setTimeout(function () {
-    sendMessageTo(targetChannel, keyString + " 20분 전");
-  }, mTimeMinusTwenty);
+  // setTimeout(function() {
+  //   sendMessageTo(targetChannel, keyString + " 20분 전");
+  //   console.log("Posted Message: " + keyString + " 20분 전")
+  // }, mTimeMinusTwenty);
+  //
+  // setTimeout(function() {
+  //   sendMessageTo(targetChannel, keyString + " 5분 전");
+  //   console.log("Posted Message: " + keyString + " 5분 전")
+  // }, mTimeMinusFive);
+  //
+  // setTimeout(function() {
+  //   sendMessageTo(targetChannel, keyString);
+  //   console.log("Posted Message: " + keyString)
+  // }, mTime);
 
-  setTimeout(function () {
-    sendMessageTo(targetChannel, keyString + " 5분 전");
-  } , mTimeMinusFive);
-
-  setTimeout(function () {
-    sendMessageTo(targetChannel, keyString);
-  }, mTime);
+  sendMessage(targetChannel, keyString, mTimeAll);
 
   // setTimeout(() => {
   //   console.log('this function called after 2 sec');
   // }, 2000);
 }
 
+function sendMessage(channel, key, timeSet) {
+  timeSet.forEach(function(item, index, array) {
+    setTimeout(function() {
+      sendMessageTo(channel, key + " " + (item / 60 * 1000) + "분 전");
+      console.log("Posted Message: " + key + " " + (item / 60 * 1000) + "분 전");
+    }, item);
+  });
+};
+
 // START BLOCK: Command Handler
 app.post("/setmstart", function(req, res) {
-  var mStartTime = new Date(req.body.text);  //format: 2011-10-10T14:48:00
+  var mStartTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
   res.send("OK, maintenance start time has been set.");
   alertEvent(mStartTime, "mStart");
 });
