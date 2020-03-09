@@ -29,7 +29,7 @@ function alertEvent(targetTime, eventType) {
   var mTimeMinusThirty = targetTime.getTime() - (30 * 60 * 1000) - Date.now();
   var mTimeMinusTen = targetTime.getTime() - (10 * 60 * 1000) - Date.now();
   var mTime = targetTime.getTime() - Date.now();
-  var mTimeAll = [mTimeMinusSixty, mTimeMinusThirty, mTimeMinusTen, mTime];
+  var mTimeAll = [mTimeMinusThirty, mTimeMinusTen, mTime];
   var timeBefore = [" 30분 전", " 10분 전", ""];
 
   var keyString = ""; //alert message initialization
@@ -63,8 +63,8 @@ function alertEvent(targetTime, eventType) {
 
   mTimeAll.forEach(function(item, index){
     setTimeout(function(){
-      console.log(item);
       sendMessageTo(targetChannel, keyString + timeBefore[index]);
+      console.log("Posted Message: " + keyString + timeBefore[index]);
     }, item);
   });
 
