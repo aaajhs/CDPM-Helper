@@ -62,22 +62,29 @@ function alertEvent(targetTime, eventType) {
   //   console.log("Posted Message: " + keyString)
   // }, mTime);
 
-  sendMessage(targetChannel, keyString, mTimeAll);
+  mTimeAll.forEach(function(item){
+    setTimeout(function(){
+      console.log(item);
+      sendMessageTo(targetChannel, keyString + " " + item + " 분전");
+    }, item);
+  });
+
+  //sendMessage(targetChannel, keyString, mTimeAll);
 
   // setTimeout(() => {
   //   console.log('this function called after 2 sec');
   // }, 2000);
 }
 
-function sendMessage(channel, key, timeSet) {
-  timeSet.forEach(function(item, index, array) {
-    setTimeout(function() {
-      console.log(item);
-      sendMessageTo(channel, key + " " + (item / 60 * 1000) + "분 전");
-      console.log("Posted Message: " + key + " " + (item / 60 * 1000) + "분 전");
-    }, item);
-  });
-};
+// function sendMessage(channel, key, timeSet) {
+//   timeSet.forEach(function(item, index, array) {
+//     setTimeout(function() {
+//       console.log(item);
+//       sendMessageTo(channel, key + " " + (item / 60 * 1000) + "분 전");
+//       console.log("Posted Message: " + key + " " + (item / 60 * 1000) + "분 전");
+//     }, item);
+//   });
+// };
 
 // START BLOCK: Command Handler
 app.post("/setmstart", function(req, res) {
