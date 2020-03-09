@@ -30,9 +30,9 @@ function alertEvent(targetTime, eventType) {
   var mTimeMinusTen = targetTime.getTime() - (10 * 60 * 1000) - Date.now();
   var mTime = targetTime.getTime() - Date.now();
   var mTimeAll = [mTimeMinusThirty, mTimeMinusTen, mTime];
-  var timeBefore = [" 30분 전", " 10분 전", " :large_blue_circle:"];
+  var timeBefore = [" 30분 전", " 10분 전", ""];
 
-  var keyString = "*Reminder:* "; //alert message initialization
+  var keyString = "*_Reminder:_* ";
   switch (eventType) {
     case "mStart":
       keyString += "서버 점검 시작";
