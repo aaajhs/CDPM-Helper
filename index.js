@@ -32,7 +32,7 @@ function alertEvent(targetTime, eventType) {
   var mTime = targetTime.getTime() - Date.now();
   var mTimeAll = [mTimeMinusSixty, mTimeMinusThirty, mTimeMinusTen, mTime];
 
-  console.log(mTimeMinusTen);
+  console.log(Math.abs(mTimeMinusSixty - targetTime.getTime() - Date.now())/(60 * 1000));
 
   var keyString = ""; //alert message initialization
   switch (eventType) {
@@ -51,7 +51,6 @@ function alertEvent(targetTime, eventType) {
 
   setTimeout(function() {
     sendMessageTo(targetChannel, keyString + " 20분 전");
-    console.log(mTimeMinusThirty)
   }, mTimeMinusThirty);
 
   setTimeout(function() {
