@@ -26,11 +26,11 @@ function sendMessageTo(channel, text) {
 }
 
 function alertEvent(targetTime, eventType) {
-  const mTimeMinusSixty = targetTime.getTime() - (60 * 60 * 1000) - Date.now();
-  const mTimeMinusThirty = targetTime.getTime() - (30 * 60 * 1000) - Date.now();
-  const mTimeMinusTen = targetTime.getTime() - (10 * 60 * 1000) - Date.now();
-  const mTime = targetTime.getTime() - Date.now();
-  const mTimeAll = [mTimeMinusSixty, mTimeMinusThirty, mTimeMinusTen, mTime];
+  var mTimeMinusSixty = targetTime.getTime() - (60 * 60 * 1000) - Date.now();
+  var mTimeMinusThirty = targetTime.getTime() - (30 * 60 * 1000) - Date.now();
+  var mTimeMinusTen = targetTime.getTime() - (10 * 60 * 1000) - Date.now();
+  var mTime = targetTime.getTime() - Date.now();
+  var mTimeAll = [mTimeMinusSixty, mTimeMinusThirty, mTimeMinusTen, mTime];
 
   var keyString = ""; //alert message initialization
   switch (eventType) {
