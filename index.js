@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var targetChannel = 'test-channel-jhs';
+var targetChannel = 'bot-testspace';
 
 function sendMessageTo(channel, text) {
   slack.chat.postMessage({
@@ -32,8 +32,7 @@ function alertEvent(targetTime, eventType) {
   const mTime = targetTime.getTime() - Date.now();
   const mTimeAll = [mTimeMinusSixty, mTimeMinusThirty, mTimeMinusTen, mTime];
 
-  var keyString = "";
-
+  var keyString = ""; //alert message initialization
   switch (eventType) {
     case "mStart":
       keyString = "서버 점검 시작";
@@ -73,6 +72,7 @@ function alertEvent(targetTime, eventType) {
 function sendMessage(channel, key, timeSet) {
   timeSet.forEach(function(item, index, array) {
     setTimeout(function() {
+      console.log(item);
       sendMessageTo(channel, key + " " + (item / 60 * 1000) + "분 전");
       console.log("Posted Message: " + key + " " + (item / 60 * 1000) + "분 전");
     }, item);
