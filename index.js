@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var targetChannel = 'console_production';
+var targetChannel = 'test-channel-jhs';
 
 function sendMessageTo(channel, text) {
   slack.chat.postMessage({
