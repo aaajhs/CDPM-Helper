@@ -32,7 +32,7 @@ function alertEvent(targetTime, eventType) {
   var mTime = targetTime.getTime() - Date.now();
   var mTimeAll = [mTimeMinusSixty, mTimeMinusThirty, mTimeMinusTen, mTime];
 
-  console.log(Math.abs(mTimeMinusSixty - targetTime.getTime() - Date.now())/(60 * 1000));
+  console.log(Math.abs(mTimeMinusSixty - targetTime.getTime() - Date.now()));
 
   var keyString = ""; //alert message initialization
   switch (eventType) {
