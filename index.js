@@ -32,6 +32,8 @@ function alertEvent(targetTime, eventType) {
   var mTime = targetTime.getTime() - Date.now();
   var mTimeAll = [mTimeMinusSixty, mTimeMinusThirty, mTimeMinusTen, mTime];
 
+  console.log(mTimeMinusTen);
+
   var keyString = ""; //alert message initialization
   switch (eventType) {
     case "mStart":
