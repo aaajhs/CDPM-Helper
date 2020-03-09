@@ -49,27 +49,27 @@ function alertEvent(targetTime, eventType) {
       console.log("Invalid eventType");
   }
 
-  // setTimeout(function() {
-  //   sendMessageTo(targetChannel, keyString + " 20분 전");
-  //   console.log("Posted Message: " + keyString + " 20분 전")
-  // }, mTimeMinusTwenty);
-  //
-  // setTimeout(function() {
-  //   sendMessageTo(targetChannel, keyString + " 5분 전");
-  //   console.log("Posted Message: " + keyString + " 5분 전")
-  // }, mTimeMinusFive);
-  //
-  // setTimeout(function() {
-  //   sendMessageTo(targetChannel, keyString);
-  //   console.log("Posted Message: " + keyString)
-  // }, mTime);
+  setTimeout(function() {
+    sendMessageTo(targetChannel, keyString + " 20분 전");
+    console.log(mTimeMinusThirty)
+  }, mTimeMinusThirty);
 
-  mTimeAll.forEach(function(item){
-    setTimeout(function(){
-      console.log(item);
-      sendMessageTo(targetChannel, keyString + " " + item + " 분전");
-    }, item);
-  });
+  setTimeout(function() {
+    sendMessageTo(targetChannel, keyString + " 5분 전");
+    console.log("Posted Message: " + keyString + " 5분 전")
+  }, mTimeMinusTen);
+
+  setTimeout(function() {
+    sendMessageTo(targetChannel, keyString);
+    console.log("Posted Message: " + keyString)
+  }, mTime);
+
+  // mTimeAll.forEach(function(item){
+  //   setTimeout(function(){
+  //     console.log(item);
+  //     sendMessageTo(targetChannel, keyString + " " + item + " 분전");
+  //   }, item);
+  // });
 
   //sendMessage(targetChannel, keyString, mTimeAll);
 
