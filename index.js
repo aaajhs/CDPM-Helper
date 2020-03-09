@@ -30,18 +30,18 @@ function alertEvent(targetTime, eventType) {
   var mTimeMinusTen = targetTime.getTime() - (10 * 60 * 1000) - Date.now();
   var mTime = targetTime.getTime() - Date.now();
   var mTimeAll = [mTimeMinusThirty, mTimeMinusTen, mTime];
-  var timeBefore = [" 30분 전", " 10분 전", ""];
+  var timeBefore = [" 30분 전", " 10분 전", " :alert:"];
 
-  var keyString = ""; //alert message initialization
+  var keyString = "_Reminder:_ "; //alert message initialization
   switch (eventType) {
     case "mStart":
-      keyString = "서버 점검 시작";
+      keyString += "서버 점검 시작";
       break;
     case "mEnd":
-      keyString = "서버 점검 종료";
+      keyString += "서버 점검 종료";
       break;
     case "ptsStart":
-      keyString = "PTS 시작";
+      keyString += "PTS 시작";
       break;
     default:
       console.log("Invalid eventType");
