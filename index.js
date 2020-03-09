@@ -26,13 +26,11 @@ function sendMessageTo(channel, text) {
 }
 
 function alertEvent(targetTime, eventType) {
-  var mTimeMinusSixty = targetTime.getTime() - (60 * 60 * 1000) - Date.now();
   var mTimeMinusThirty = targetTime.getTime() - (30 * 60 * 1000) - Date.now();
   var mTimeMinusTen = targetTime.getTime() - (10 * 60 * 1000) - Date.now();
   var mTime = targetTime.getTime() - Date.now();
   var mTimeAll = [mTimeMinusSixty, mTimeMinusThirty, mTimeMinusTen, mTime];
-
-  console.log(Math.abs(mTimeMinusSixty - targetTime.getTime() - Date.now()));
+  var timeBefore = [" 30분 전", " 10분 전", ""];
 
   var keyString = ""; //alert message initialization
   switch (eventType) {
@@ -49,43 +47,31 @@ function alertEvent(targetTime, eventType) {
       console.log("Invalid eventType");
   }
 
-  setTimeout(function() {
-    sendMessageTo(targetChannel, keyString + " 20분 전");
-  }, mTimeMinusThirty);
+  // setTimeout(function() {
+  //   sendMessageTo(targetChannel, keyString + " 20분 전");
+  // }, mTimeMinusThirty);
+  //
+  // setTimeout(function() {
+  //   sendMessageTo(targetChannel, keyString + " 5분 전");
+  //   console.log("Posted Message: " + keyString + " 5분 전")
+  // }, mTimeMinusTen);
+  //
+  // setTimeout(function() {
+  //   sendMessageTo(targetChannel, keyString);
+  //   console.log("Posted Message: " + keyString)
+  // }, mTime);
 
-  setTimeout(function() {
-    sendMessageTo(targetChannel, keyString + " 5분 전");
-    console.log("Posted Message: " + keyString + " 5분 전")
-  }, mTimeMinusTen);
-
-  setTimeout(function() {
-    sendMessageTo(targetChannel, keyString);
-    console.log("Posted Message: " + keyString)
-  }, mTime);
-
-  // mTimeAll.forEach(function(item){
-  //   setTimeout(function(){
-  //     console.log(item);
-  //     sendMessageTo(targetChannel, keyString + " " + item + " 분전");
-  //   }, item);
-  // });
-
-  //sendMessage(targetChannel, keyString, mTimeAll);
+  mTimeAll.forEach(function(item, index){
+    setTimeout(function(){
+      console.log(item);
+      sendMessageTo(targetChannel, keyString + timeBefore[index]);
+    }, item);
+  });
 
   // setTimeout(() => {
   //   console.log('this function called after 2 sec');
   // }, 2000);
 }
-
-// function sendMessage(channel, key, timeSet) {
-//   timeSet.forEach(function(item, index, array) {
-//     setTimeout(function() {
-//       console.log(item);
-//       sendMessageTo(channel, key + " " + (item / 60 * 1000) + "분 전");
-//       console.log("Posted Message: " + key + " " + (item / 60 * 1000) + "분 전");
-//     }, item);
-//   });
-// };
 
 // START BLOCK: Command Handler
 app.post("/setmstart", function(req, res) {
