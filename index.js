@@ -109,8 +109,8 @@ function mReminder(channel, isStartTime, time, updateDate){ //time is in 2020-03
   if(isStartTime == true){ //this is a reminder for maintenance start
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
-    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 @devops_emergency", tTime);
-    sendTimedMessage(targetChannel, ":construction: *" + updateDate + " 점검 스레드* :construction: @cd_production @console_qa", tTime+1); //+1 to prevent thread being created before reminder
+    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 @devops_emergency @spacebarley", tTime);
+    sendTimedMessage(targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드` @cd_production @console_qa", tTime+1); //+1 to prevent thread being created before reminder
   }
   else if(isStartTime == false){ //this is a reminder for maintenance end
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
@@ -188,7 +188,7 @@ app.post("/consoleupdate", (req, res) => {
       break;
     //case 'p': for pts
     default:
-      console.log("Invalid updateType" + req.body.text);
+      console.log("Invalid updateType");
   }
 });
 // END BLOCK: Command Handler
