@@ -52,8 +52,8 @@ function alertEvent(targetTime, eventType) {
     setTimeout(function(){
       var msg = keyString + timeBefore[index];
 
-      if(msg == "서버 점검 시작"){
-        msg += " @aaajhs";
+      if(msg.localeCompare("서버 점검 시작")){
+        msg = msg + " @aaajhs";
       }
       else if(msg.localeCompare("서버 점검 종료")){
         msg += ". PTS 종료";
