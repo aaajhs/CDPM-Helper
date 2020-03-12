@@ -95,14 +95,13 @@ function sendTimedMessage(channel, text, time) {
 
 // function for maintenance reminder routine
 function mRoutine(targetChannel, startTime, endTime, updateDate){ // startTime, endTime is in 2020-03-12T12:00:00 format
-  mReminder(targetChannel, true, startTime);
-  sendTimedMessage(targetChannel, updateDate + "점검 스레드 @cd_production @console_qa", startTime);
-  mReminder(targetChannel, false, endTime);
+  mReminder(targetChannel, true, startTime, updateDate);
+  mReminder(targetChannel, false, endTime, updateDate);
 }
 // end
 
 // function for maintenance reminders
-function mReminder(channel, isStartTime, time){ //time is in 2020-03-21T12:44:44 format
+function mReminder(channel, isStartTime, time, updateDate){ //time is in 2020-03-21T12:44:44 format
   var tThirty = time.getTime() - (30 * 60 * 1000) - Date.now();
   var tTen = time.getTime() - (10 * 60 * 1000) - Date.now();
   var tTime = time.getTime() - Date.now();
@@ -111,6 +110,7 @@ function mReminder(channel, isStartTime, time){ //time is in 2020-03-21T12:44:44
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 @devops_emergency", tTime);
+    sendTimedMessage(targetChannel, updateDate + "점검 스레드 @cd_production @console_qa", startTime);
   }
   else if(isStartTime == false){ //this is a reminder for maintenance end
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
