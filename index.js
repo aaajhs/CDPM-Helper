@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var targetChannel = 'console_production';
+var targetChannel = 'bot-testspace';
 
 function sendMessageTo(channel, text) {
   slack.chat.postMessage({
@@ -47,24 +47,17 @@ function alertEvent(targetTime, eventType) {
       console.log("Invalid eventType");
   }
 
-  // setTimeout(function() {
-  //   sendMessageTo(targetChannel, keyString + " 20분 전");
-  // }, mTimeMinusThirty);
-  //
-  // setTimeout(function() {
-  //   sendMessageTo(targetChannel, keyString + " 5분 전");
-  //   console.log("Posted Message: " + keyString + " 5분 전")
-  // }, mTimeMinusTen);
-  //
-  // setTimeout(function() {
-  //   sendMessageTo(targetChannel, keyString);
-  //   console.log("Posted Message: " + keyString)
-  // }, mTime);
-
   mTimeAll.forEach(function(item, index){
     setTimeout(function(){
-      sendMessageTo(targetChannel, keyString + timeBefore[index]);
-      console.log("Posted Message: " + keyString + timeBefore[index]);
+      var msg = keyString + timeBefore[index];
+      if(eventType.localeCompare("mStart") && timeBefore[index].localeCompare("")){
+        msg += "";
+      }
+      else if(eventType.localeCompare("mEnd") && timeBefore[index].localeCompare("")){
+        msg += "";
+      }
+      sendMessageTo(targetChannel, msg);
+      console.log("Posted Message: " + msg);
     }, item);
   });
 
@@ -77,18 +70,21 @@ function alertEvent(targetTime, eventType) {
 app.post("/setmstart", function(req, res) {
   var mStartTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
   res.send("OK, maintenance start time has been set.");
+  console.log(req.body.text);
   alertEvent(mStartTime, "mStart");
 });
 
 app.post("/setmend", (req, res) => {
   var mEndTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
   res.send("OK, maintenance end time has been set.");
+  console.log(req.body.text);
   alertEvent(mEndTime, "mEnd");
 });
 
 app.post("/setpts", (req, res) => {
   var ptsTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
   res.send("OK, PTS start time has been set.");
+  console.log(req.body.text);
   alertEvent(ptsTime, "ptsStart");
 });
 // END BLOCK: Command Handler
