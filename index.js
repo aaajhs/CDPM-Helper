@@ -51,14 +51,8 @@ function alertEvent(targetTime, eventType) {
   mTimeAll.forEach(function(item, index){
     setTimeout(function(){
       var msg = keyString + timeBefore[index];
-      if(eventType.localeCompare("mStart") && timeBefore[index].localeCompare("")){
-        msg += " begin";
-      }
-      else if(eventType.localeCompare("mEnd") && timeBefore[index].localeCompare("")){
-        msg += "";
-      }
-      sendMessageTo(targetChannel, msg);
       console.log("Posted Message: " + msg);
+      sendMessageTo(targetChannel, msg);
     }, item);
   });
 
