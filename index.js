@@ -52,8 +52,11 @@ function alertEvent(targetTime, eventType) {
     setTimeout(function(){
       var msg = keyString + timeBefore[index];
       console.log(timeBefore[index].localeCompare(""));
-      if(timeBefore[index].localeCompare("") == 1){
+      if(timeBefore[index].localeCompare("") == 0 && keyString.localeCompare("서버 점검 시작") == 0){
         msg += "@devops_emergency";
+      }
+      else if(timeBefore[index].localeCompare("") == 0 && keyString.localeCompare("서버 점검 종료") == 0){
+        msg += ". PTS 종료.";
       }
       // if(msg.localeCompare("서버 점검 시작")){
       //   msg = msg + " @aaajhs";
