@@ -51,13 +51,13 @@ function alertEvent(targetTime, eventType) {
   mTimeAll.forEach(function(item, index){
     setTimeout(function(){
       var msg = keyString + timeBefore[index];
-
-      if(msg.localeCompare("서버 점검 시작")){
-        msg = msg + " @aaajhs";
-      }
-      else if(msg.localeCompare("서버 점검 종료")){
-        msg += ". PTS 종료";
-      }
+      console.log(msg.localCompare("서버 점검 시작"));
+      // if(msg.localeCompare("서버 점검 시작")){
+      //   msg = msg + " @aaajhs";
+      // }
+      // else if(msg.localeCompare("서버 점검 종료")){
+      //   msg += ". PTS 종료";
+      // }
 
       sendMessageTo(targetChannel, msg);
       console.log("Posted Message: " + msg);
