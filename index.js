@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var targetChannel = 'bot-testspace';
+var targetChannel = 'console_production';
 
 // function sendMessageTo(channel, text) {
 //   slack.chat.postMessage({
@@ -182,8 +182,8 @@ app.post("/consoleupdate", (req, res) => {
       sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
       break;
     case 'n':
-      sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
-      sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+      sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+      sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
       sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
       break;
     //case 'p': for pts
