@@ -166,7 +166,7 @@ app.post("/consoleupdate", (req, res) => {
   var updateType = parameters(req.body.text)[0];
   var startTime = new Date(parameters(req.body.text)[1]);
   var endTime = new Date(parameters(req.body.text)[2]);
-  var date = parameters(req.body.text)[3];
+  var updateDate = parameters(req.body.text)[3];
 
   switch (updateType) {
     case 'c':
