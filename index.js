@@ -161,7 +161,7 @@ app.post("/setpts", (req, res) => {
 });
 
 
-app.post("/consoleUpdate", (req, res) => {
+app.post("/consoleupdate", (req, res) => {
   //parameter Handler
   var updateType = parameters(req.body.text)[0];
   var startTime = parameters(req.body.text)[1];
