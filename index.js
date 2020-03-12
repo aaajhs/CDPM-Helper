@@ -51,6 +51,7 @@ function alertEvent(targetTime, eventType) {
   mTimeAll.forEach(function(item, index){
     setTimeout(function(){
       var msg = keyString + timeBefore[index];
+      console.log(timeBefore[index].localeCompare(""));
       if(timeBefore[index].localeCompare("") == 1){
         msg += "@devops_emergency";
       }
