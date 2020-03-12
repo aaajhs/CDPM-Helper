@@ -94,9 +94,9 @@ function sendTimedMessage(channel, text, time) {
 // end
 
 // function for maintenance reminder routine
-function mRoutine(targetChannel, startTime, endTime){ // startTime, endTime is in 2020-03-12T12:00:00 format
+function mRoutine(targetChannel, startTime, endTime, updateDate){ // startTime, endTime is in 2020-03-12T12:00:00 format
   mReminder(targetChannel, true, startTime);
-  sendTimedMessage(targetChannel, "점검 스레드 @cd_production @console_qa", 0);
+  sendTimedMessage(targetChannel, updateDate + "점검 스레드 @cd_production @console_qa", 0);
   mReminder(targetChannel, false, endTime);
 }
 // end
@@ -108,14 +108,14 @@ function mReminder(channel, isStartTime, time){ //time is in 2020-03-21T12:44:44
   var tTime = time.getTime() - Date.now();
 
   if(isStartTime == true){ //this is a reminder for maintenance start
-    sendTimedMessage(channel, "서버 점검 시작 30분 전", tThirty);
-    sendTimedMessage(channel, "서버 점검 시작 10분 전", tTen);
-    sendTimedMessage(channel, "서버 점검 시작 @devops_emergency", tTime);
+    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 시작 30분 전", tThirty);
+    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 시작 10분 전", tTen);
+    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 시작 @devops_emergency", tTime);
   }
   else if(isStartTime == false){ //this is a reminder for maintenance end
-    sendTimedMessage(channel, "서버 점검 종료 30분 전", tThirty);
-    sendTimedMessage(channel, "서버 점검 종료 10분 전", tTen);
-    sendTimedMessage(channel, "서버 점검 종료", tTime);
+    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 종료 30분 전", tThirty);
+    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 종료 10분 전", tTen);
+    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 종료", tTime);
   }
 }
 // end
@@ -168,14 +168,16 @@ app.post("/consoleupdate", (req, res) => {
   var endTime = new Date(parameters(req.body.text)[2]);
   var updateDate = parameters(req.body.text)[3];
 
+  res.send("OK, Update has been registered.");
+
   switch (updateType) {
     case 'c':
-      mRoutine(targetChannel, startTime, endTime);
+      mRoutine(targetChannel, startTime, endTime, updateDate);
       sendTimedMessage(targetChannel, updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
       sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close", endTime.getTime() - Date.now());
       break;
     case 'h':
-      mRoutine(targetChannel, startTime, endTime);
+      mRoutine(targetChannel, startTime, endTime, updateDate);
       sendTimedMessage(targetChannel, updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
       break;
     case 'n':
