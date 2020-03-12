@@ -51,9 +51,9 @@ function alertEvent(targetTime, eventType) {
   mTimeAll.forEach(function(item, index){
     setTimeout(function(){
       var msg = keyString + timeBefore[index];
-      console.log(timeBefore[index].localeCompare(""));
-      if(timeBefore[index].localeCompare("") == 0 && keyString.localeCompare("서버 점검 시작") == 0){
-        msg += "@devops_emergency";
+      console.log(keyString.localeCompare("서버 점검 시작"));
+      if(timeBefore[index].localeCompare("") == 0){
+        msg += " @devops_emergency";
       }
       else if(timeBefore[index].localeCompare("") == 0 && keyString.localeCompare("서버 점검 종료") == 0){
         msg += ". PTS 종료.";
