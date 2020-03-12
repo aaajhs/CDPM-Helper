@@ -96,7 +96,7 @@ function sendTimedMessage(channel, text, time) {
 // function for maintenance reminder routine
 function mRoutine(targetChannel, startTime, endTime, updateDate){ // startTime, endTime is in 2020-03-12T12:00:00 format
   mReminder(targetChannel, true, startTime);
-  sendTimedMessage(targetChannel, updateDate + "점검 스레드 @cd_production @console_qa", 0);
+  sendTimedMessage(targetChannel, updateDate + "점검 스레드 @cd_production @console_qa", startTime);
   mReminder(targetChannel, false, endTime);
 }
 // end
