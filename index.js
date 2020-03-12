@@ -51,8 +51,16 @@ function alertEvent(targetTime, eventType) {
   mTimeAll.forEach(function(item, index){
     setTimeout(function(){
       var msg = keyString + timeBefore[index];
-      console.log("Posted Message: " + msg);
+
+      if(msg.localeCompare("서버 점검 시작")){
+        msg += " @aaajhs";
+      }
+      else if(msg.localeCompare("서버 점검 종료")){
+        msg += ". PTS 종료";
+      }
+
       sendMessageTo(targetChannel, msg);
+      console.log("Posted Message: " + msg);
     }, item);
   });
 
