@@ -108,14 +108,14 @@ function mReminder(channel, isStartTime, time){ //time is in 2020-03-21T12:44:44
   var tTime = time.getTime() - Date.now();
 
   if(isStartTime == true){ //this is a reminder for maintenance start
-    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 시작 30분 전", tThirty);
-    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 시작 10분 전", tTen);
-    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 시작 @devops_emergency", tTime);
+    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
+    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
+    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 @devops_emergency", tTime);
   }
   else if(isStartTime == false){ //this is a reminder for maintenance end
-    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 종료 30분 전", tThirty);
-    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 종료 10분 전", tTen);
-    sendTimedMessage(channel, "*_Reminder:_*: 서버 점검 종료", tTime);
+    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
+    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 10분 전", tTen);
+    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료", tTime);
   }
 }
 // end
