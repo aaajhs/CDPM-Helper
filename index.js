@@ -52,7 +52,7 @@ function alertEvent(targetTime, eventType) {
     setTimeout(function(){
       var msg = keyString + timeBefore[index];
 
-      if(msg.localeCompare("서버 점검 시작")){
+      if(msg == "서버 점검 시작"){
         msg += " @aaajhs";
       }
       else if(msg.localeCompare("서버 점검 종료")){
