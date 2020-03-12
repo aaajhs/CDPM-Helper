@@ -22,6 +22,7 @@ function sendMessageTo(channel, text) {
     token: process.env.token,
     channel,
     text,
+    link_names = 1
   }).catch(err => console.log(err))
 }
 
@@ -51,7 +52,7 @@ function alertEvent(targetTime, eventType) {
     setTimeout(function(){
       var msg = keyString + timeBefore[index];
       if(eventType.localeCompare("mStart") && timeBefore[index].localeCompare("")){
-        msg += " <@aaajhs>";
+        msg += " begin";
       }
       else if(eventType.localeCompare("mEnd") && timeBefore[index].localeCompare("")){
         msg += "";
