@@ -110,7 +110,7 @@ function mReminder(channel, isStartTime, time, updateDate){ //time is in 2020-03
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 @devops_emergency", tTime);
-    sendTimedMessage(targetChannel, ":construction: *" + updateDate + " 점검 스레드* :construction: @cd_production @console_qa", tTime+1);
+    sendTimedMessage(targetChannel, ":construction: *" + updateDate + " 점검 스레드* :construction: @cd_production @console_qa", tTime+1); //+1 to prevent thread being created before reminder
   }
   else if(isStartTime == false){ //this is a reminder for maintenance end
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
@@ -162,7 +162,8 @@ app.post("/setpts", (req, res) => {
 
 
 app.post("/consoleupdate", (req, res) => {
-  //parameter Handler
+  console.log(req.body.text);
+
   var updateType = parameters(req.body.text)[0];
   var startTime = new Date(parameters(req.body.text)[1]);
   var endTime = new Date(parameters(req.body.text)[2]);
@@ -181,13 +182,13 @@ app.post("/consoleupdate", (req, res) => {
       sendTimedMessage(targetChannel, updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
       break;
     case 'n':
-      sendTimedMessage(targetChannel, "라이브 서버 오픈 30분 전", endTime.getTime() - Date.now());
-      sendTimedMessage(targetChannel, "라이브 서버 오픈 10분 전", endTime.getTime() - Date.now());
-      sendTimedMessage(targetChannel, updateDate + "라이브 서버 오픈", endTime.getTime() - Date.now());
+      sendTimedMessage(targetChannel, "패치 배포 시작 30분 전", endTime.getTime() - Date.now());
+      sendTimedMessage(targetChannel, "패치 배포 시작 10분 전", endTime.getTime() - Date.now());
+      sendTimedMessage(targetChannel, updateDate + "패치 배포 시작", endTime.getTime() - Date.now());
       break;
     //case 'p': for pts
     default:
-      console.log("Invalid updateType");
+      console.log("Invalid updateType" + req.body.text);
   }
 });
 // END BLOCK: Command Handler
