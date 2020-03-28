@@ -95,7 +95,7 @@ function sendTimedMessage(channel, text, time) {
 
 // function for maintenance reminder routine
 function mRoutine(targetChannel, startTime, endTime, updateDate){ // startTime, endTime is in 2020-03-12T12:00:00 format
-  //mReminder(targetChannel, true, startTime, updateDate);
+  mReminder(targetChannel, true, startTime, updateDate);
   mReminder(targetChannel, false, endTime, updateDate);
 }
 // end
