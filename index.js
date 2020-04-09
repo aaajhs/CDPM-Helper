@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var targetChannel = 'console_production';
+var targetChannel = 'test-channel-jhs';
 
 // function sendMessageTo(channel, text) {
 //   slack.chat.postMessage({
@@ -161,6 +161,7 @@ app.post("/setpts", (req, res) => {
 });
 
 app.post("/mtlog", (req, res) => {
+  targetChannel = 'bot-testspace';
   var today = new Date();
   var weekNum = today.getDate() / 7;
   console.log(weekNum);
