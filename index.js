@@ -161,6 +161,8 @@ app.post("/setpts", (req, res) => {
 });
 
 app.post("/mtlog", (req, res) => {
+  console.log(req);
+
   targetChannel = 'bot-testspace';
   var today = new Date();
   var weekNum = Math.floor(today.getDate() / 7);
