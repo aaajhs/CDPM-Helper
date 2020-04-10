@@ -173,8 +173,15 @@ app.post("/mtlog", (req, res) => {
     weekNum = 0;
   }
 
-  console.log(table[(weekNum + compensate) % 4]);
+  var returnText = (table[(weekNum + compensate) % 4]);
   res.send();
+
+  slack.chat.postMessage({
+    token: process.env.token,
+    "GT2CEAFF1",
+    returnText,
+    link_names: 1
+  }).catch(err => console.log(err))
 });
 
 app.post("/consoleupdate", (req, res) => {
