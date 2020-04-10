@@ -139,26 +139,6 @@ function parameters(input){
 }
 
 // START BLOCK: Command Handler
-app.post("/setmstart", function(req, res) {
-  var mStartTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
-  res.send("OK, maintenance start time has been set.");
-  console.log(req.body.text);
-  alertEvent(mStartTime, "mStart");
-});
-
-app.post("/setmend", (req, res) => {
-  var mEndTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
-  res.send("OK, maintenance end time has been set.");
-  console.log(req.body.text);
-  alertEvent(mEndTime, "mEnd");
-});
-
-app.post("/setpts", (req, res) => {
-  var ptsTime = new Date(req.body.text); //format: 2011-10-10T14:48:00
-  res.send("OK, PTS start time has been set.");
-  console.log(req.body.text);
-  alertEvent(ptsTime, "ptsStart");
-});
 
 app.post("/mtlog", (req, res) => {
   var today = new Date();
