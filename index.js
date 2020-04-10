@@ -171,7 +171,7 @@ app.post("/mtlog", (req, res) => {
     weekNum = 0;
   }
 
-  console.log((weekNum + compensate) % 4);
+  console.log(table[(weekNum + compensate) % 4]);
   res.send();
 });
 
