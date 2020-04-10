@@ -173,14 +173,14 @@ app.post("/mtlog", (req, res) => {
     weekNum = 0;
   }
 
-  var returnText = (table[(weekNum + compensate) % 4]);
-  var returnTargetChannel = req.body.channel_id;
+  //var returnText = (table[(weekNum + compensate) % 4]);
+  //var returnTargetChannel = req.body.channel_id;
   res.send();
 
   slack.chat.postMessage({
     token: process.env.token,
-    returnTargetChannel,
-    returnText,
+    channel: req.body.channel_id,
+    text: (table[(weekNum + compensate) % 4]),
     link_names: 1
   }).catch(err => console.log(err))
 });
