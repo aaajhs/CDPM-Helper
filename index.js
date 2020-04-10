@@ -74,7 +74,7 @@ var targetChannel = 'test-channel-jhs';
 //   // }, 2000);
 // }
 
-
+var compensate = 0; //compensation for mtlog
 
 
 
@@ -164,7 +164,14 @@ app.post("/mtlog", (req, res) => {
   targetChannel = 'bot-testspace';
   var today = new Date();
   var weekNum = Math.floor(today.getDate() / 7);
-  console.log(weekNum);
+  var table = ["hyojung", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
+
+  if(weekNum == 5){
+    compensate++;
+    weekNum = 0;
+  }
+
+  console.log((weekNum + compensate) % 4);
   res.send();
 });
 
