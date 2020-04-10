@@ -178,7 +178,7 @@ app.post("/mtlog", (req, res) => {
 
   slack.chat.postMessage({
     token: process.env.token,
-    "GT2CEAFF1",
+    req.body.channel_id,
     returnText,
     link_names: 1
   }).catch(err => console.log(err))
