@@ -166,7 +166,7 @@ app.post("/mtlog", (req, res) => {
   targetChannel = 'bot-testspace';
   var today = new Date();
   var weekNum = Math.floor(today.getDate() / 7);
-  var table = ["hyojung", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
+  var table = [":sarangcry:", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
 
   if(weekNum == 5){
     compensate++;
