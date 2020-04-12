@@ -142,27 +142,27 @@ app.post("/mtlog", (req, res) => {
   var weekNum = Math.floor(today.getDate() / 7);
   var table = [":sarangcry:", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
 
-
   var mtlogRef = db.collection('event').doc('mtlog');
   let getMTLog = mtlogRef.get()
     .then(doc => {
       if (!doc.exists) {
         console.log('No such document!');
       } else {
-        console.log('Document data:', doc.data().compensate);
+        compensate = doc.data().compensate;
       }
     })
     .catch(err => {
       console.log('Error getting document', err);
     });
 
-  if (weekNum == 5) {
+  if (weekNum == 4) {
+    let incrementCompensate = mtlogRef.set({
+      'mtlog': compensate + 1
+    });
     compensate++;
     weekNum = 0;
   }
 
-  //var returnText = (table[(weekNum + compensate) % 4]);
-  //var returnTargetChannel = req.body.channel_id;
   res.send();
 
   slack.chat.postMessage({
