@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const slack = require("slack");
-const admin = require('firebase-admin'); //Firebase
+const admin = require('firebase-admin');
 
 // START BLOCK: Keep heroku alive
 var http = require("http");
@@ -9,9 +9,10 @@ setInterval(function() {
   http.get("http://frozen-wave-50664.herokuapp.com");
   console.log("Stay alive! " + Date.now());
 }, 1200000);
-// END BLOCK: heroku alive
+// END BLOCK: Keep heroku alive
 
-admin.initializeApp({ //initialize Firebase
+// START BLOCK: Initialize Firebase
+admin.initializeApp({
   credential: admin.credential.cert({
     "type": process.env.type,
     "project_id": process.env.project_id,
@@ -26,22 +27,21 @@ admin.initializeApp({ //initialize Firebase
   }),
   databaseURL: 'https://cdpu-helper.firebaseio.com'
 });
-
 let db = admin.firestore();
+// END BLOCK: Initialize Firebase
 
-var updateRef = db.collection('event').doc('update');
-
-//END initialize Firebase
-
+// START BLOCK: Initialize Express
 const app = express();
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+// END BLOCK: Initialize Express
 
 var targetChannel = 'bot-testspace';
 var compensate = 0; //compensation for mtlog
 
-// code to run when server is restarted
+// START BLOCK: Code to run when server is restarted
+var updateRef = db.collection('event').doc('update');
 let getDoc = updateRef.get()
   .then(doc => {
     if (!doc.exists) {
@@ -53,6 +53,7 @@ let getDoc = updateRef.get()
   .catch(err => {
     console.log('Error getting document', err);
   });
+// END BLOCK: Code to run when server is restarted
 
 // function for sending message with a delay
 function sendTimedMessage(channel, text, time) {
@@ -140,6 +141,20 @@ app.post("/mtlog", (req, res) => {
   var today = new Date();
   var weekNum = Math.floor(today.getDate() / 7);
   var table = [":sarangcry:", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
+
+
+  var mtlogRef = db.collection('event').doc('mtlog');
+  let getMTLog = mtlogRef.get()
+    .then(doc => {
+      if (!doc.exists) {
+        console.log('No such document!');
+      } else {
+        console.log('Document data:', doc.data().compensate);
+      }
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
 
   if (weekNum == 5) {
     compensate++;
