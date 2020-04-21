@@ -48,6 +48,7 @@ let getDoc = updateRef.get()
       console.log('No such document!');
     } else {
       console.log('Document data:', doc.data());
+      //Need to implement: what to do if the data in db is older than the timestamp now
     }
   })
   .catch(err => {
