@@ -169,7 +169,7 @@ app.post("/mtlog", (req, res) => {
   slack.chat.postMessage({
     token: process.env.token,
     channel: req.body.channel_id,
-    text: (table[(weekNum + compensate) % 4]) + " _called by: " + req.body.user_name,
+    text: (table[(weekNum + compensate) % 4]) + " _(called by: " + req.body.user_name + ")_",
     link_names: 1
   }).catch(err => console.log(err))
 });
