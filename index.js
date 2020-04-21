@@ -165,6 +165,7 @@ app.post("/mtlog", (req, res) => {
   }
 
   res.send();
+  console.log("Compensate: " + compensate);
 
   slack.chat.postMessage({
     token: process.env.token,
