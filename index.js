@@ -142,6 +142,8 @@ app.post("/mtlog", (req, res) => {
   var weekNum = Math.floor(today.getDate() / 7);
   var table = [":sarangcry:", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
 
+  console.log(req.body);
+
   var mtlogRef = db.collection('event').doc('mtlog');
   let getMTLog = mtlogRef.get()
     .then(doc => {
@@ -168,7 +170,7 @@ app.post("/mtlog", (req, res) => {
   slack.chat.postMessage({
     token: process.env.token,
     channel: req.body.channel_id,
-    text: (table[(weekNum + compensate) % 4]),
+    text: (table[(weekNum + compensate) % 4])/* + " _called by: " + req.body.*/,
     link_names: 1
   }).catch(err => console.log(err))
 });
