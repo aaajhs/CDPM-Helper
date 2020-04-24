@@ -186,18 +186,19 @@ app.post("/mtlog", (req, res) => {
       console.log('Error getting document', err);
     });
 
-    console.log(Math.abs(today - lastCalled));
+  console.log("Compensate considion: " + (weekNum == 4 && (Math.abs(today - lastCalled) > (24 * 60 * 60 * 60))));
 
-  if (weekNum == 4) {
-    let incrementCompensate = mtlogRef.set({
-      'compensate': compensate + 1
-    });
+  if (weekNum == 4 && (Math.abs(today - lastCalled) > (24 * 60 * 60 * 60))) {
     compensate++;
+    let incrementCompensate = mtlogRef.set({
+      'compensate': compensate,
+      'lastCalled': today
+    });
     weekNum = 0;
   }
 
   res.send();
-  console.log("Compensate: " + compensate);
+  console.log("Compensate: " + compensate + ", lastCalled: " + lastCalled.toDate());
 
   slack.chat.postMessage({
     token: process.env.token,
