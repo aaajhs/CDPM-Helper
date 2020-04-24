@@ -169,7 +169,7 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
 
 app.post("/mtlog", (req, res) => {
   var today = new Date();
-  var weekNum = Math.floor(today.getDate() / 7);
+  var weekNum = Math.floor((today.getDate() - 1) / 7);
   var table = [":sarangcry:", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
 
   var mtlogRef = db.collection('event').doc('mtlog');
@@ -181,15 +181,9 @@ app.post("/mtlog", (req, res) => {
         compensate = doc.data().compensate;
         lastCalled = doc.data().lastCalled.toDate();
 
-        console.log("Compensate condition: " + (weekNum == 4 && (Math.abs(today - lastCalled) > (24 * 60 * 60 * 60))));
-
-        if (weekNum == 4 && (Math.abs(today - lastCalled) > (24 * 60 * 60 * 60))) {
+        if (weekNum == 4 && Math.floor((lastCalled.getDate() - 1) / 7) != 4) { //if this is the first time this code is being called in a fifth week
           compensate++;
-          let incrementCompensate = mtlogRef.set({
-            'lastCalled': today,
-            'compensate': compensate
-          });
-          //weekNum = 0;
+          weekNum = 0;
         }
 
         let updateLastCalled = mtlogRef.set({
