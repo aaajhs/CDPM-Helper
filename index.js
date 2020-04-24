@@ -180,32 +180,35 @@ app.post("/mtlog", (req, res) => {
       } else {
         compensate = doc.data().compensate;
         lastCalled = doc.data().lastCalled.toDate();
+
+        console.log("Compensate condition: " + (weekNum == 4 && (Math.abs(today - lastCalled) > (24 * 60 * 60 * 60))));
+
+        if (weekNum == 4 && (Math.abs(today - lastCalled) > (24 * 60 * 60 * 60))) {
+          compensate++;
+          let incrementCompensate = mtlogRef.set({
+            'compensate': compensate,
+            'lastCalled': today
+          });
+          //weekNum = 0;
+        }
+
+        res.send();
+        console.log("Compensate: " + compensate + ", lastCalled: " + lastCalled);
+
+        slack.chat.postMessage({
+          token: process.env.token,
+          channel: req.body.channel_id,
+          text: (table[(weekNum + compensate) % 4]),
+          link_names: 1
+        }).catch(err => console.log(err))
+
       }
     })
     .catch(err => {
       console.log('Error getting document', err);
     });
 
-  console.log("Compensate considion: " + (weekNum == 4 && (Math.abs(today - lastCalled) > (24 * 60 * 60 * 60))));
 
-  if (weekNum == 4 && (Math.abs(today - lastCalled) > (24 * 60 * 60 * 60))) {
-    compensate++;
-    let incrementCompensate = mtlogRef.set({
-      'compensate': compensate,
-      'lastCalled': today
-    });
-    weekNum = 0;
-  }
-
-  res.send();
-  console.log("Compensate: " + compensate + ", lastCalled: " + lastCalled);
-
-  slack.chat.postMessage({
-    token: process.env.token,
-    channel: req.body.channel_id,
-    text: (table[(weekNum + compensate) % 4]),
-    link_names: 1
-  }).catch(err => console.log(err))
 });
 
 app.post("/consoleupdate", (req, res) => {
