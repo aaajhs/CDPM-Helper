@@ -199,7 +199,7 @@ app.post("/mtlog", (req, res) => {
 });
 
 app.post("/consoleupdate", (req, res) => {
-  console.log(req.body.text);
+  console.log("Received input: " + req.body.text);
 
   var updateType = parameters(req.body.text)[0];
   var startTime = new Date(parameters(req.body.text)[1]);
