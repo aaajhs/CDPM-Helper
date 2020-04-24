@@ -94,6 +94,7 @@ function mRoutine(targetChannel, startTime, endTime, updateDate) { // startTime,
 
 // function for maintenance reminders
 function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-03-21T12:44:44 format
+  console.log("Time:" + time);
   var tThirty = time.getTime() - (30 * 60 * 1000) - Date.now();
   var tTen = time.getTime() - (10 * 60 * 1000) - Date.now();
   var tTime = time.getTime() - Date.now();
