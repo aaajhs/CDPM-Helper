@@ -60,18 +60,7 @@ let getDoc = updateRef.get()
   });
 
 // Retrieve mtlog compensate value
-var mtlogRef = db.collection('event').doc('mtlog');
-let getMTLog = mtlogRef.get()
-  .then(doc => {
-    if (!doc.exists) {
-      console.log('No such document!');
-    } else {
-      compensate = doc.data().compensate;
-    }
-  })
-  .catch(err => {
-    console.log('Error getting document', err);
-  });
+
 // END BLOCK: Code to run when server is restarted
 
 // function for sending message with a delay
@@ -171,9 +160,8 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
       default:
         console.log("Invalid updateType");
     }
-  }
-  else{
-      console.log("It is already past the endTime, no reminders will be executed.");
+  } else {
+    console.log("It is already past the endTime, no reminders will be executed.");
   }
 }
 
@@ -184,9 +172,25 @@ app.post("/mtlog", (req, res) => {
   var weekNum = Math.floor(today.getDate() / 7);
   var table = [":sarangcry:", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
 
+  var mtlogRef = db.collection('event').doc('mtlog');
+  let getMTLog = mtlogRef.get()
+    .then(doc => {
+      if (!doc.exists) {
+        console.log('No such document!');
+      } else {
+        compensate = doc.data().compensate;
+        lastCalled = doc.data().lastCalled.toDate();
+      }
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
+
+    console.log(Math.abs(today - lastCalled));
+
   if (weekNum == 4) {
     let incrementCompensate = mtlogRef.set({
-      'mtlog': compensate + 1
+      'compensate': compensate + 1
     });
     compensate++;
     weekNum = 0;
