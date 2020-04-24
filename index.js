@@ -131,16 +131,16 @@ function parameters(input) {
 function alertUpdate(updateType, startTime, endTime, updateDate) {
   if (startTime > Date.now() && endTime > Date.now()) { //if it's before maintenance has started
     switch (updateType) {
-      case 'full':
+      case 'f':
         mRoutine(targetChannel, startTime, endTime, updateDate);
         sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
         sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
         break;
-      case 'nopts':
+      case 'l':
         mRoutine(targetChannel, startTime, endTime, updateDate);
         sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
         break;
-      case 'nomtn':
+      case 'm':
         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
         sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
@@ -151,16 +151,16 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
     }
   } else if (startTime < Date.now() && endTime > Date.now()) { //if it's after maintenance has started, but before ended
     switch (updateType) {
-      case 'full':
+      case 'f':
         mReminder(targetChannel, false, endTime, updateDate);
         sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
         sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
         break;
-      case 'nopts':
+      case 'l':
         mReminder(targetChannel, false, endTime, updateDate);
         sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
         break;
-      case 'nomtn':
+      case 'm':
         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
         sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
