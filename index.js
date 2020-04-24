@@ -51,7 +51,7 @@ let getDoc = updateRef.get()
       console.log("endTime: " + doc.data().endTime.toDate());
       console.log("Date now: " + new Date());
 
-      alertUpdate(doc.data().updateType, doc.data().startTime, doc.data().endTime, doc.data().updateDate);
+      alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
     }
   })
   .catch(err => {
