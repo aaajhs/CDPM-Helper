@@ -7,7 +7,7 @@ const admin = require('firebase-admin');
 var http = require("http");
 setInterval(function() {
   http.get("http://frozen-wave-50664.herokuapp.com");
-  console.log("Stay alive! " + Date.now());
+  console.log("Stay alive! " + new Date());
 }, 1200000);
 // END BLOCK: Keep heroku alive
 
@@ -40,35 +40,38 @@ app.use(bodyParser.urlencoded({
 var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // START BLOCK: Code to run when server is restarted
-  // Retrieve last saved update info
+// Retrieve last saved update info
 var updateRef = db.collection('event').doc('update');
 let getDoc = updateRef.get()
   .then(doc => {
     if (!doc.exists) {
       console.log('No such document!');
     } else {
-      console.log('Document data:', doc.data());
-      //Need to implement: what to do if the data in db is older than the timestamp now
-      /*if (Date.now() < doc.data().endTime && Date.now() < doc.data().startTime)*/
+      //console.log('Document data:', doc.data()); Displays entire DB document
+      console.log("startTime(DB): " + doc.data().startTime.toDate());
+      console.log("endTime(DB): " + doc.data().endTime.toDate());
+      console.log("Time(Current): " + new Date());
+
+      alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
     }
   })
   .catch(err => {
     console.log('Error getting document', err);
   });
 
-  // Retrieve mtlog compensate value
-  var mtlogRef = db.collection('event').doc('mtlog');
-  let getMTLog = mtlogRef.get()
-    .then(doc => {
-      if (!doc.exists) {
-        console.log('No such document!');
-      } else {
-        compensate = doc.data().compensate;
-      }
-    })
-    .catch(err => {
-      console.log('Error getting document', err);
-    });
+// Retrieve mtlog compensate value
+var mtlogRef = db.collection('event').doc('mtlog');
+let getMTLog = mtlogRef.get()
+  .then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      compensate = doc.data().compensate;
+    }
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+  });
 // END BLOCK: Code to run when server is restarted
 
 // function for sending message with a delay
@@ -130,24 +133,51 @@ function parameters(input) {
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
-  switch (updateType) {
-    case 'c':
-      mRoutine(targetChannel, startTime, endTime, updateDate);
-      sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
-      sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
-      break;
-    case 'h':
-      mRoutine(targetChannel, startTime, endTime, updateDate);
-      sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
-      break;
-    case 'n':
-      sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
-      sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
-      sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
-      break;
-      //case 'p': for pts
-    default:
-      console.log("Invalid updateType");
+  if (startTime > new Date() && endTime > new Date()) { //if it's before maintenance has started
+    console.log("Reminders will be executed for startTime and endTime.");
+    switch (updateType) {
+      case 'f':
+        mRoutine(targetChannel, startTime, endTime, updateDate);
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
+        sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
+        break;
+      case 'l':
+        mRoutine(targetChannel, startTime, endTime, updateDate);
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
+        break;
+      case 'm':
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
+        break;
+        //case 'p': for pts
+      default:
+        console.log("Invalid updateType");
+    }
+  } else if (startTime < new Date() && endTime > new Date()) { //if it's after maintenance has started, but before ended
+    console.log("It is already past the startTime, executing reminders for endTime only.");
+    switch (updateType) {
+      case 'f':
+        mReminder(targetChannel, false, endTime, updateDate);
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
+        sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
+        break;
+      case 'l':
+        mReminder(targetChannel, false, endTime, updateDate);
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
+        break;
+      case 'm':
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
+        break;
+        //case 'p': for pts
+      default:
+        console.log("Invalid updateType");
+    }
+  }
+  else{
+      console.log("It is already past the endTime, no reminders will be executed.");
   }
 }
 
@@ -178,7 +208,7 @@ app.post("/mtlog", (req, res) => {
 });
 
 app.post("/consoleupdate", (req, res) => {
-  console.log(req.body.text);
+  console.log("Received input: " + req.body.text);
 
   var updateType = parameters(req.body.text)[0];
   var startTime = new Date(parameters(req.body.text)[1]);
