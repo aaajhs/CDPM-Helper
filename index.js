@@ -48,6 +48,7 @@ let getDoc = updateRef.get()
       console.log('No such document!');
     } else {
       console.log('Document data:', doc.data());
+      console.log("endTime: " + doc.data().endTime);
       console.log("Date now: " + Date.now());
 
       alertUpdate(doc.data().updateType, doc.data().startTime, doc.data().endTime, doc.data().updateDate);
