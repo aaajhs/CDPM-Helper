@@ -103,12 +103,12 @@ function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-0
   if (isStartTime == true) { //this is a reminder for maintenance start
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
-    sendTimedMessage(channel, "*_Notice:_* 서버 점검 시작 @devops_emergency @spacebarley", tTime);
+    sendTimedMessage(channel, "*_Notice:_* 서버 점검 시작 @devops_emergency", tTime);
     sendTimedMessage(targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime + 1); //+1 to prevent thread being created before reminder
   } else if (isStartTime == false) { //this is a reminder for maintenance end
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 10분 전", tTen);
-    sendTimedMessage(channel, "*_Notice:_* 서버 점검 종료", tTime);
+    sendTimedMessage(channel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", tTime);
   }
 }
 // end
@@ -138,17 +138,15 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
     switch (updateType) {
       case 'f':
         mRoutine(targetChannel, startTime, endTime, updateDate);
-        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
         sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
         break;
       case 'l':
         mRoutine(targetChannel, startTime, endTime, updateDate);
-        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
         break;
       case 'm':
         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
-        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
         break;
         //case 'p': for pts
       default:
@@ -159,17 +157,15 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
     switch (updateType) {
       case 'f':
         mReminder(targetChannel, false, endTime, updateDate);
-        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
         sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
         break;
       case 'l':
         mReminder(targetChannel, false, endTime, updateDate);
-        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
         break;
       case 'm':
         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
-        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
         break;
         //case 'p': for pts
       default:
