@@ -48,8 +48,8 @@ let getDoc = updateRef.get()
       console.log('No such document!');
     } else {
       console.log('Document data:', doc.data());
-      console.log("endTime: " + doc.data().endTime);
-      console.log("Date now: " + Date.now());
+      console.log("endTime: " + new Date(doc.data().endTime));
+      console.log("Date now: " + new Date());
 
       alertUpdate(doc.data().updateType, doc.data().startTime, doc.data().endTime, doc.data().updateDate);
     }
@@ -135,7 +135,7 @@ function parameters(input) {
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
-  if (startTime > Date.now() && endTime > Date.now()) { //if it's before maintenance has started
+  if (startTime > new Date() && endTime > new Date()) { //if it's before maintenance has started
     switch (updateType) {
       case 'f':
         mRoutine(targetChannel, startTime, endTime, updateDate);
@@ -155,7 +155,7 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
       default:
         console.log("Invalid updateType");
     }
-  } else if (startTime < Date.now() && endTime > Date.now()) { //if it's after maintenance has started, but before ended
+  } else if (startTime < new Date() && endTime > new Date()) { //if it's after maintenance has started, but before ended
     console.log("Else if case is true"); // DELETE AFTER TESTING
     switch (updateType) {
       case 'f':
