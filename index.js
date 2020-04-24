@@ -7,7 +7,7 @@ const admin = require('firebase-admin');
 var http = require("http");
 setInterval(function() {
   http.get("http://frozen-wave-50664.herokuapp.com");
-  console.log("Stay alive! " + Date.now());
+  console.log("Stay alive! " + new Date());
 }, 1200000);
 // END BLOCK: Keep heroku alive
 
@@ -47,9 +47,10 @@ let getDoc = updateRef.get()
     if (!doc.exists) {
       console.log('No such document!');
     } else {
-      console.log('Document data:', doc.data());
-      console.log("endTime: " + doc.data().endTime.toDate());
-      console.log("Date now: " + new Date());
+      //console.log('Document data:', doc.data()); Displays entire DB document
+      console.log("startTime(DB): " + doc.data().startTime.toDate());
+      console.log("endTime(DB): " + doc.data().endTime.toDate());
+      console.log("Time(Current): " + new Date());
 
       alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
     }
@@ -95,12 +96,9 @@ function mRoutine(targetChannel, startTime, endTime, updateDate) { // startTime,
 
 // function for maintenance reminders
 function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-03-21T12:44:44 format
-  console.log("Time:" + time);
   var tThirty = time.getTime() - (30 * 60 * 1000) - Date.now();
   var tTen = time.getTime() - (10 * 60 * 1000) - Date.now();
   var tTime = time.getTime() - Date.now();
-
-  console.log("mReminder is called properly");
 
   if (isStartTime == true) { //this is a reminder for maintenance start
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
@@ -136,6 +134,7 @@ function parameters(input) {
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
   if (startTime > new Date() && endTime > new Date()) { //if it's before maintenance has started
+    console.log("Reminders will be executed for startTime and endTime.");
     switch (updateType) {
       case 'f':
         mRoutine(targetChannel, startTime, endTime, updateDate);
@@ -156,7 +155,7 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
         console.log("Invalid updateType");
     }
   } else if (startTime < new Date() && endTime > new Date()) { //if it's after maintenance has started, but before ended
-    console.log("Else if case is true"); // DELETE AFTER TESTING
+    console.log("It is already past the startTime, executing reminders for endTime only.");
     switch (updateType) {
       case 'f':
         mReminder(targetChannel, false, endTime, updateDate);
@@ -176,6 +175,9 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
       default:
         console.log("Invalid updateType");
     }
+  }
+  else{
+      console.log("It is already past the endTime, no reminders will be executed.");
   }
 }
 
