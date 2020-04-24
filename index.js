@@ -30,6 +30,21 @@ admin.initializeApp({
 let db = admin.firestore();
 // END BLOCK: Initialize Firebase
 
+// START BLOCK: Retrieve compensate value
+var mtlogRef = db.collection('event').doc('mtlog');
+let getMTLog = mtlogRef.get()
+  .then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      compensate = doc.data().compensate;
+    }
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+  });
+// END BLOCK: Retrieve compensate value
+
 // START BLOCK: Initialize Express
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -142,19 +157,6 @@ app.post("/mtlog", (req, res) => {
   var today = new Date();
   var weekNum = Math.floor(today.getDate() / 7);
   var table = [":sarangcry:", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
-
-  var mtlogRef = db.collection('event').doc('mtlog');
-  let getMTLog = mtlogRef.get()
-    .then(doc => {
-      if (!doc.exists) {
-        console.log('No such document!');
-      } else {
-        compensate = doc.data().compensate;
-      }
-    })
-    .catch(err => {
-      console.log('Error getting document', err);
-    });
 
   if (weekNum == 4) {
     let incrementCompensate = mtlogRef.set({
