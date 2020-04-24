@@ -96,6 +96,8 @@ function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-0
   var tTen = time.getTime() - (10 * 60 * 1000) - Date.now();
   var tTime = time.getTime() - Date.now();
 
+  console.log("mReminder is called properly");
+
   if (isStartTime == true) { //this is a reminder for maintenance start
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
@@ -150,6 +152,7 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
         console.log("Invalid updateType");
     }
   } else if (startTime < Date.now() && endTime > Date.now()) { //if it's after maintenance has started, but before ended
+    console.log("Else if case is true"); // DELETE AFTER TESTING
     switch (updateType) {
       case 'f':
         mReminder(targetChannel, false, endTime, updateDate);
