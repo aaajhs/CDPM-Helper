@@ -186,14 +186,17 @@ app.post("/mtlog", (req, res) => {
         if (weekNum == 4 && (Math.abs(today - lastCalled) > (24 * 60 * 60 * 60))) {
           compensate++;
           let incrementCompensate = mtlogRef.set({
-            'compensate': compensate,
-            'lastCalled': today
+            'compensate': compensate
           });
           //weekNum = 0;
         }
 
-        res.send();
+        let updateLastCalled = mtlogRef.set({
+          'lastCalled': today
+        });
         console.log("Compensate: " + compensate + ", lastCalled: " + lastCalled);
+        
+        res.send();
 
         slack.chat.postMessage({
           token: process.env.token,
