@@ -30,21 +30,6 @@ admin.initializeApp({
 let db = admin.firestore();
 // END BLOCK: Initialize Firebase
 
-// START BLOCK: Retrieve compensate value
-var mtlogRef = db.collection('event').doc('mtlog');
-let getMTLog = mtlogRef.get()
-  .then(doc => {
-    if (!doc.exists) {
-      console.log('No such document!');
-    } else {
-      compensate = doc.data().compensate;
-    }
-  })
-  .catch(err => {
-    console.log('Error getting document', err);
-  });
-// END BLOCK: Retrieve compensate value
-
 // START BLOCK: Initialize Express
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -52,10 +37,10 @@ app.use(bodyParser.urlencoded({
 }));
 // END BLOCK: Initialize Express
 
-var targetChannel = 'bot-testspace';
-var compensate = 0; //compensation for mtlog
+var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // START BLOCK: Code to run when server is restarted
+  // Retrieve last saved update info
 var updateRef = db.collection('event').doc('update');
 let getDoc = updateRef.get()
   .then(doc => {
@@ -64,11 +49,26 @@ let getDoc = updateRef.get()
     } else {
       console.log('Document data:', doc.data());
       //Need to implement: what to do if the data in db is older than the timestamp now
+      /*if (Date.now() < doc.data().endTime && Date.now() < doc.data().startTime)*/
     }
   })
   .catch(err => {
     console.log('Error getting document', err);
   });
+
+  // Retrieve mtlog compensate value
+  var mtlogRef = db.collection('event').doc('mtlog');
+  let getMTLog = mtlogRef.get()
+    .then(doc => {
+      if (!doc.exists) {
+        console.log('No such document!');
+      } else {
+        compensate = doc.data().compensate;
+      }
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
 // END BLOCK: Code to run when server is restarted
 
 // function for sending message with a delay
