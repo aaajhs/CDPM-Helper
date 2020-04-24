@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({
 var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // START BLOCK: Code to run when server is restarted
-  // Retrieve last saved update info
+// Retrieve last saved update info
 var updateRef = db.collection('event').doc('update');
 let getDoc = updateRef.get()
   .then(doc => {
@@ -48,27 +48,26 @@ let getDoc = updateRef.get()
       console.log('No such document!');
     } else {
       console.log('Document data:', doc.data());
-      //Need to implement: what to do if the data in db is older than the timestamp now
-      /*if (Date.now() < doc.data().endTime && Date.now() < doc.data().startTime)*/
+      alertUpdate(doc.data().updateType, doc.data().startTime, doc.data().endTime, doc.data().updateDate);
     }
   })
   .catch(err => {
     console.log('Error getting document', err);
   });
 
-  // Retrieve mtlog compensate value
-  var mtlogRef = db.collection('event').doc('mtlog');
-  let getMTLog = mtlogRef.get()
-    .then(doc => {
-      if (!doc.exists) {
-        console.log('No such document!');
-      } else {
-        compensate = doc.data().compensate;
-      }
-    })
-    .catch(err => {
-      console.log('Error getting document', err);
-    });
+// Retrieve mtlog compensate value
+var mtlogRef = db.collection('event').doc('mtlog');
+let getMTLog = mtlogRef.get()
+  .then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      compensate = doc.data().compensate;
+    }
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+  });
 // END BLOCK: Code to run when server is restarted
 
 // function for sending message with a delay
@@ -130,24 +129,46 @@ function parameters(input) {
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
-  switch (updateType) {
-    case 'c':
-      mRoutine(targetChannel, startTime, endTime, updateDate);
-      sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
-      sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
-      break;
-    case 'h':
-      mRoutine(targetChannel, startTime, endTime, updateDate);
-      sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
-      break;
-    case 'n':
-      sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
-      sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
-      sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
-      break;
-      //case 'p': for pts
-    default:
-      console.log("Invalid updateType");
+  if (startTime > Date.now() && endTime > Date.now()) { //if it's before maintenance has started
+    switch (updateType) {
+      case 'full':
+        mRoutine(targetChannel, startTime, endTime, updateDate);
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
+        sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
+        break;
+      case 'nopts':
+        mRoutine(targetChannel, startTime, endTime, updateDate);
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
+        break;
+      case 'nomtn':
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
+        break;
+        //case 'p': for pts
+      default:
+        console.log("Invalid updateType");
+    }
+  } else if (startTime < Date.now() && endTime > Date.now()) { //if it's after maintenance has started, but before ended
+    switch (updateType) {
+      case 'full':
+        mReminder(targetChannel, false, endTime, updateDate);
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
+        sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
+        break;
+      case 'nopts':
+        mReminder(targetChannel, false, endTime, updateDate);
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
+        break;
+      case 'nomtn':
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
+        break;
+        //case 'p': for pts
+      default:
+        console.log("Invalid updateType");
+    }
   }
 }
 
