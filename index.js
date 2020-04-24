@@ -198,7 +198,7 @@ app.post("/mtlog", (req, res) => {
   }
 
   res.send();
-  console.log("Compensate: " + compensate + ", lastCalled: " + lastCalled.toDate());
+  console.log("Compensate: " + compensate + ", lastCalled: " + lastCalled);
 
   slack.chat.postMessage({
     token: process.env.token,
