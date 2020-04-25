@@ -1,17 +1,18 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const slack = require("slack");
-const admin = require('firebase-admin'); //Firebase
+const admin = require('firebase-admin');
 
 // START BLOCK: Keep heroku alive
 var http = require("http");
 setInterval(function() {
   http.get("http://frozen-wave-50664.herokuapp.com");
-  console.log("Stay alive! " + Date.now());
+  console.log("Stay alive! " + new Date());
 }, 1200000);
-// END BLOCK: heroku alive
+// END BLOCK: Keep heroku alive
 
-admin.initializeApp({ //initialize Firebase
+// START BLOCK: Initialize Firebase
+admin.initializeApp({
   credential: admin.credential.cert({
     "type": process.env.type,
     "project_id": process.env.project_id,
@@ -26,33 +27,41 @@ admin.initializeApp({ //initialize Firebase
   }),
   databaseURL: 'https://cdpu-helper.firebaseio.com'
 });
-
 let db = admin.firestore();
+// END BLOCK: Initialize Firebase
 
-var updateRef = db.collection('event').doc('update');
-
-//END initialize Firebase
-
+// START BLOCK: Initialize Express
 const app = express();
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+// END BLOCK: Initialize Express
 
-var targetChannel = 'bot-testspace';
-var compensate = 0; //compensation for mtlog
+var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-// code to run when server is restarted
+// START BLOCK: Code to run when server is restarted
+// Retrieve last saved update info
+var updateRef = db.collection('event').doc('update');
 let getDoc = updateRef.get()
   .then(doc => {
     if (!doc.exists) {
       console.log('No such document!');
     } else {
-      console.log('Document data:', doc.data());
+      //console.log('Document data:', doc.data()); Displays entire DB document
+      console.log("startTime(DB): " + doc.data().startTime.toDate());
+      console.log("endTime(DB): " + doc.data().endTime.toDate());
+      console.log("Time(Current): " + new Date());
+
+      alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
     }
   })
   .catch(err => {
     console.log('Error getting document', err);
   });
+
+// Retrieve mtlog compensate value
+
+// END BLOCK: Code to run when server is restarted
 
 // function for sending message with a delay
 function sendTimedMessage(channel, text, time) {
@@ -83,12 +92,12 @@ function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-0
   if (isStartTime == true) { //this is a reminder for maintenance start
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
-    sendTimedMessage(channel, "*_Notice:_* 서버 점검 시작 @devops_emergency @spacebarley", tTime);
+    sendTimedMessage(channel, "*_Notice:_* 서버 점검 시작 @devops_emergency", tTime);
     sendTimedMessage(targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime + 1); //+1 to prevent thread being created before reminder
   } else if (isStartTime == false) { //this is a reminder for maintenance end
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 10분 전", tTen);
-    sendTimedMessage(channel, "*_Notice:_* 서버 점검 종료", tTime);
+    sendTimedMessage(channel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", tTime);
   }
 }
 // end
@@ -113,24 +122,46 @@ function parameters(input) {
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
-  switch (updateType) {
-    case 'c':
-      mRoutine(targetChannel, startTime, endTime, updateDate);
-      sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
-      sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
-      break;
-    case 'h':
-      mRoutine(targetChannel, startTime, endTime, updateDate);
-      sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", endTime.getTime() - Date.now());
-      break;
-    case 'n':
-      sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
-      sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
-      sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작 @cd_production @console_qa", endTime.getTime() - Date.now());
-      break;
-      //case 'p': for pts
-    default:
-      console.log("Invalid updateType");
+  if (startTime > new Date() && endTime > new Date()) { //if it's before maintenance has started
+    console.log("Reminders will be executed for startTime and endTime.");
+    switch (updateType) {
+      case 'f':
+        mRoutine(targetChannel, startTime, endTime, updateDate);
+        sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
+        break;
+      case 'l':
+        mRoutine(targetChannel, startTime, endTime, updateDate);
+        break;
+      case 'm':
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
+        break;
+        //case 'p': for pts
+      default:
+        console.log("Invalid updateType");
+    }
+  } else if (startTime < new Date() && endTime > new Date()) { //if it's after maintenance has started, but before ended
+    console.log("It is already past the startTime, executing reminders for endTime only.");
+    switch (updateType) {
+      case 'f':
+        mReminder(targetChannel, false, endTime, updateDate);
+        sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
+        break;
+      case 'l':
+        mReminder(targetChannel, false, endTime, updateDate);
+        break;
+      case 'm':
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
+        break;
+        //case 'p': for pts
+      default:
+        console.log("Invalid updateType");
+    }
+  } else {
+    console.log("It is already past the endTime, no reminders will be executed.");
   }
 }
 
@@ -138,28 +169,49 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
 
 app.post("/mtlog", (req, res) => {
   var today = new Date();
-  var weekNum = Math.floor(today.getDate() / 7);
+  var weekNum = Math.floor((today.getDate() - 1) / 7);
   var table = [":sarangcry:", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
 
-  if (weekNum == 5) {
-    compensate++;
-    weekNum = 0;
-  }
+  var mtlogRef = db.collection('event').doc('mtlog');
+  let getMTLog = mtlogRef.get()
+    .then(doc => {
+      if (!doc.exists) {
+        console.log('No such document!');
+      } else {
+        compensate = doc.data().compensate;
+        lastCalled = doc.data().lastCalled.toDate();
 
-  //var returnText = (table[(weekNum + compensate) % 4]);
-  //var returnTargetChannel = req.body.channel_id;
-  res.send();
+        if (weekNum == 4 && Math.floor((lastCalled.getDate() - 1) / 7) != 4) { //if this is the first time this code is being called in a fifth week
+          compensate++;
+          weekNum = 0;
+        }
 
-  slack.chat.postMessage({
-    token: process.env.token,
-    channel: req.body.channel_id,
-    text: (table[(weekNum + compensate) % 4]),
-    link_names: 1
-  }).catch(err => console.log(err))
+        let updateLastCalled = mtlogRef.set({
+          'lastCalled': today,
+          'compensate': compensate
+        });
+        console.log("Compensate: " + compensate + ", lastCalled: " + lastCalled);
+
+        res.send();
+
+        slack.chat.postMessage({
+          token: process.env.token,
+          channel: req.body.channel_id,
+          text: (table[(weekNum + compensate) % 4]),
+          link_names: 1
+        }).catch(err => console.log(err))
+
+      }
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
+
+
 });
 
 app.post("/consoleupdate", (req, res) => {
-  console.log(req.body.text);
+  console.log("Received input: " + req.body.text);
 
   var updateType = parameters(req.body.text)[0];
   var startTime = new Date(parameters(req.body.text)[1]);
