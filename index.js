@@ -4,11 +4,13 @@ const slack = require("slack");
 const admin = require('firebase-admin');
 
 // START BLOCK: Keep heroku alive
+/*
 var http = require("http");
 setInterval(function() {
   http.get("http://frozen-wave-50664.herokuapp.com");
   console.log("Stay alive! " + new Date());
 }, 1200000);
+*/
 // END BLOCK: Keep heroku alive
 
 // START BLOCK: Initialize Firebase
@@ -17,7 +19,7 @@ admin.initializeApp({
     "type": process.env.type,
     "project_id": process.env.project_id,
     "private_key_id": process.env.private_key_id,
-    "private_key": process.env.private_key.replace(/\\n/g, '\n'),
+    "private_key": process.env.private_key_1.replace(/\\n/g, '\n') + process.env.private_key_2.replace(/\\n/g, '\n'),
     "client_email": process.env.client_email,
     "client_id": process.env.client_id,
     "auth_uri": process.env.auth_uri,
@@ -231,6 +233,6 @@ app.post("/consoleupdate", (req, res) => {
 });
 // END BLOCK: Command Handler
 
-app.listen(process.env.PORT, function() {
-  console.log("Server is running");
+app.listen(5000, function() {
+  console.log("Server is running on port " + 5000);
 });
