@@ -233,6 +233,6 @@ app.post("/consoleupdate", (req, res) => {
 });
 // END BLOCK: Command Handler
 
-app.listen(process.env.PORT, function() {
-  console.log("Server is running on port " + process.env.PORT);
+app.listen(5000, function() {
+  console.log("Server is running on port " + 5000);
 });
