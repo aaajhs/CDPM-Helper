@@ -4,11 +4,13 @@ const slack = require("slack");
 const admin = require('firebase-admin');
 
 // START BLOCK: Keep heroku alive
+/*
 var http = require("http");
 setInterval(function() {
   http.get("http://frozen-wave-50664.herokuapp.com");
   console.log("Stay alive! " + new Date());
 }, 1200000);
+*/
 // END BLOCK: Keep heroku alive
 
 // START BLOCK: Initialize Firebase
@@ -232,5 +234,5 @@ app.post("/consoleupdate", (req, res) => {
 // END BLOCK: Command Handler
 
 app.listen(process.env.PORT, function() {
-  console.log("Server is running");
+  console.log("Server is running on port " + process.env.PORT);
 });
