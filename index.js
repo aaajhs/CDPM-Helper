@@ -156,6 +156,10 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
 // end
 
 // START BLOCK: Command Handler
+app.get("/", function(req, res) {
+  res.sendFile(__dirname + "/index.html");
+});
+
 app.post("/mtlog", (req, res) => {
   var today = new Date();
   var weekNum = Math.floor((today.getDate() - 1) / 7);
