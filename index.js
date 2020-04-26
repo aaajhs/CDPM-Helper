@@ -3,16 +3,6 @@ const bodyParser = require("body-parser");
 const slack = require("slack");
 const admin = require('firebase-admin');
 
-// START BLOCK: Keep heroku alive
-/*
-var http = require("http");
-setInterval(function() {
-  http.get("http://frozen-wave-50664.herokuapp.com");
-  console.log("Stay alive! " + new Date());
-}, 1200000);
-*/
-// END BLOCK: Keep heroku alive
-
 // START BLOCK: Initialize Firebase
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -44,8 +34,7 @@ var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 // START BLOCK: Code to run when server is restarted
 // Retrieve last saved update info
 var updateRef = db.collection('event').doc('update');
-let getDoc = updateRef.get()
-  .then(doc => {
+let getDoc = updateRef.get().then(doc => {
     if (!doc.exists) {
       console.log('No such document!');
     } else {
@@ -60,9 +49,6 @@ let getDoc = updateRef.get()
   .catch(err => {
     console.log('Error getting document', err);
   });
-
-// Retrieve mtlog compensate value
-
 // END BLOCK: Code to run when server is restarted
 
 // function for sending message with a delay
@@ -121,6 +107,7 @@ function parameters(input) {
 
   return [updateType, start, end, date];
 }
+// end
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
@@ -166,9 +153,9 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
     console.log("It is already past the endTime, no reminders will be executed.");
   }
 }
+// end
 
 // START BLOCK: Command Handler
-
 app.post("/mtlog", (req, res) => {
   var today = new Date();
   var weekNum = Math.floor((today.getDate() - 1) / 7);
