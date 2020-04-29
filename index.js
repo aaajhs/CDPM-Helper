@@ -3,16 +3,6 @@ const bodyParser = require("body-parser");
 const slack = require("slack");
 const admin = require('firebase-admin');
 
-// START BLOCK: Keep heroku alive
-/*
-var http = require("http");
-setInterval(function() {
-  http.get("http://frozen-wave-50664.herokuapp.com");
-  console.log("Stay alive! " + new Date());
-}, 1200000);
-*/
-// END BLOCK: Keep heroku alive
-
 // START BLOCK: Initialize Firebase
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -42,24 +32,25 @@ app.use(bodyParser.urlencoded({
 var targetChannel = 'console_production'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // START BLOCK: Code to run when server is restarted
-// Retrieve last saved update info
+// Retrieve last saved update info every 5 minutes
 var updateRef = db.collection('event').doc('update');
-let getDoc = updateRef.get()
-  .then(doc => {
-    if (!doc.exists) {
-      console.log('No such document!');
-    } else {
-      //console.log('Document data:', doc.data()); Displays entire DB document
-      console.log("startTime(DB): " + doc.data().startTime.toDate());
-      console.log("endTime(DB): " + doc.data().endTime.toDate());
-      console.log("Time(Current): " + new Date());
+setInterval(function() {
+  let getDoc = updateRef.get()
+    .then(doc => {
+      if (!doc.exists) {
+        console.log('No such document!');
+      } else {
+        console.log("Last retrieved from DB: " + new Date());
+        console.log("startTime(DB): " + doc.data().startTime.toDate());
+        console.log("endTime(DB): " + doc.data().endTime.toDate());
 
-      alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
-    }
-  })
-  .catch(err => {
-    console.log('Error getting document', err);
-  });
+        alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
+      }
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
+}, 5 * 60 * 1000);
 
 // Retrieve mtlog compensate value
 
@@ -94,12 +85,10 @@ function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-0
   if (isStartTime == true) { //this is a reminder for maintenance start
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
-    sendTimedMessage(channel, "*_Notice:_* 서버 점검 시작 @devops_emergency", tTime);
-    sendTimedMessage(targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime + 1); //+1 to prevent thread being created before reminder
+    sendTimedMessage(targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime);
   } else if (isStartTime == false) { //this is a reminder for maintenance end
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 10분 전", tTen);
-    sendTimedMessage(channel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", tTime);
   }
 }
 // end
@@ -228,8 +217,6 @@ app.post("/consoleupdate", (req, res) => {
   });
 
   res.send("OK, Update has been registered.");
-
-  alertUpdate(updateType, startTime, endTime, updateDate);
 });
 // END BLOCK: Command Handler
 
