@@ -51,9 +51,6 @@ setInterval(function() {
       console.log('Error getting document', err);
     });
 }, 5 * 60 * 1000);
-
-// Retrieve mtlog compensate value
-
 // END BLOCK: Code to run when server is restarted
 
 // function for sending message with a delay
