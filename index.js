@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
 }));
 // END BLOCK: Initialize Express
 
-var targetChannel = 'console_production'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
+var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // START BLOCK: Code to run when server is restarted
 // Retrieve last saved update info every 5 minutes
