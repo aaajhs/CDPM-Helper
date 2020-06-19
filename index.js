@@ -111,7 +111,7 @@ function parameters(input) {
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
-  if (startTime > new Date() && endTime > new Date()) { //if it's before maintenance has started
+  if (startTime > new Date() && endTime > new Date() && startTime < new Date(new Date().getTime() + (5*60*1000))) { //if it's before maintenance has started AND five minutes later it'll be after maintenance started
     console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
     switch (updateType) {
       case 'f':
@@ -130,7 +130,7 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
       default:
         console.log("[Alert Update] Invalid updateType");
     }
-  } else if (startTime < new Date() && endTime > new Date()) { //if it's after maintenance has started, but before ended
+  } else if (startTime < new Date() && endTime > new Date() && endTime < new Date(new Date().getTime() + (5*60*1000))) { //if it's after maintenance has started, but before ended AND five minutes later it'll be after maintenance ended
     console.log("[Alert Update] It is already past the startTime, executing reminders for endTime only.");
     switch (updateType) {
       case 'f':
