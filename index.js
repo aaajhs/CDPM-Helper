@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({
 // END BLOCK: Initialize Express
 
 var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
+console.log("Update Alert targeting channel: " + targetChannel);
 
 // START BLOCK: Code to run when server is restarted
 // Retrieve last saved update info every 5 minutes
