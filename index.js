@@ -30,25 +30,28 @@ app.use(bodyParser.urlencoded({
 // END BLOCK: Initialize Express
 
 var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
+console.log("[App] Update Alert targeting channel: " + targetChannel);
 
 // START BLOCK: Code to run when server is restarted
-// Retrieve last saved update info
+// Retrieve last saved update info every 5 minutes
 var updateRef = db.collection('event').doc('update');
-let getDoc = updateRef.get().then(doc => {
-    if (!doc.exists) {
-      console.log('No such document!');
-    } else {
-      //console.log('Document data:', doc.data()); Displays entire DB document
-      console.log("startTime(DB): " + doc.data().startTime.toDate());
-      console.log("endTime(DB): " + doc.data().endTime.toDate());
-      console.log("Time(Current): " + new Date());
+setInterval(function() {
+  let getDoc = updateRef.get()
+    .then(doc => {
+      if (!doc.exists) {
+        console.log('[Alert Update] No such document!');
+      } else {
+        console.log("[Alert Update] Last retrieved from DB: " + new Date());
+        console.log("[Alert Update] startTime(DB): " + doc.data().startTime.toDate());
+        console.log("[Alert Update] endTime(DB): " + doc.data().endTime.toDate());
 
-      alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
-    }
-  })
-  .catch(err => {
-    console.log('Error getting document', err);
-  });
+        alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
+      }
+    })
+    .catch(err => {
+      console.log('[Alert Update] Error getting document', err);
+    });
+}, 5 * 60 * 1000);
 // END BLOCK: Code to run when server is restarted
 
 // function for sending message with a delay
@@ -80,12 +83,10 @@ function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-0
   if (isStartTime == true) { //this is a reminder for maintenance start
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
-    sendTimedMessage(channel, "*_Notice:_* 서버 점검 시작 @devops_emergency", tTime);
-    sendTimedMessage(targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime + 1); //+1 to prevent thread being created before reminder
+    sendTimedMessage(targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime);
   } else if (isStartTime == false) { //this is a reminder for maintenance end
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 10분 전", tTen);
-    sendTimedMessage(channel, "*_Notice:_* " + updateDate + " 라이브 서버 오픈", tTime);
   }
 }
 // end
@@ -111,8 +112,8 @@ function parameters(input) {
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
-  if (startTime > new Date() && endTime > new Date()) { //if it's before maintenance has started
-    console.log("Reminders will be executed for startTime and endTime.");
+  if (startTime > new Date() && endTime > new Date() && startTime < new Date(new Date().getTime() + (5*60*1000))) { //if it's before maintenance has started AND five minutes later it'll be after maintenance started
+    console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
     switch (updateType) {
       case 'f':
         mRoutine(targetChannel, startTime, endTime, updateDate);
@@ -128,10 +129,10 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
         break;
         //case 'p': for pts
       default:
-        console.log("Invalid updateType");
+        console.log("[Alert Update] Invalid updateType");
     }
-  } else if (startTime < new Date() && endTime > new Date()) { //if it's after maintenance has started, but before ended
-    console.log("It is already past the startTime, executing reminders for endTime only.");
+  } else if (startTime < new Date() && endTime > new Date() && endTime < new Date(new Date().getTime() + (5*60*1000))) { //if it's after maintenance has started, but before ended AND five minutes later it'll be after maintenance ended
+    console.log("[Alert Update] It is already past the startTime, executing reminders for endTime only.");
     switch (updateType) {
       case 'f':
         mReminder(targetChannel, false, endTime, updateDate);
@@ -147,10 +148,10 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
         break;
         //case 'p': for pts
       default:
-        console.log("Invalid updateType");
+        console.log("[Alert Update] Invalid updateType");
     }
   } else {
-    console.log("It is already past the endTime, no reminders will be executed.");
+    console.log("[Alert Update] It is more than five minutes before maintenance start/end, or it is already past the endTime. Reminder request will be ignored.");
   }
 }
 // end
@@ -169,7 +170,7 @@ app.post("/mtlog", (req, res) => {
   let getMTLog = mtlogRef.get()
     .then(doc => {
       if (!doc.exists) {
-        console.log('No such document!');
+        console.log('[mtlog] No such document!');
       } else {
         compensate = doc.data().compensate;
         lastCalled = doc.data().lastCalled.toDate();
@@ -183,7 +184,7 @@ app.post("/mtlog", (req, res) => {
           'lastCalled': today,
           'compensate': compensate
         });
-        console.log("Compensate: " + compensate + ", lastCalled: " + lastCalled);
+        console.log("[mtlog] Compensate: " + compensate + ", lastCalled: " + lastCalled);
 
         res.send();
 
@@ -197,14 +198,14 @@ app.post("/mtlog", (req, res) => {
       }
     })
     .catch(err => {
-      console.log('Error getting document', err);
+      console.log('[mtlog] Error getting document', err);
     });
 
 
 });
 
 app.post("/consoleupdate", (req, res) => {
-  console.log("Received input: " + req.body.text);
+  console.log("[Alert Update] Received input: " + req.body.text);
 
   var updateType = parameters(req.body.text)[0];
   var startTime = new Date(parameters(req.body.text)[1]);
@@ -219,11 +220,10 @@ app.post("/consoleupdate", (req, res) => {
   });
 
   res.send("OK, Update has been registered.");
-
-  alertUpdate(updateType, startTime, endTime, updateDate);
 });
 // END BLOCK: Command Handler
 
 app.listen(5000, function() {
+  console.log("[App] Server is running on port " + 5000);
   console.log("Server is running on port " + 5000);
 });
