@@ -150,7 +150,7 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
         console.log("[Alert Update] Invalid updateType");
     }
   } else {
-    console.log("[Alert Update] It is already past the endTime, no reminders will be executed.");
+    console.log("[Alert Update] It is more than five minutes before maintenance start/end, or it is already past the endTime. Reminder request will be ignored.");
   }
 }
 
