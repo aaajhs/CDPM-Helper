@@ -39,17 +39,17 @@ setInterval(function() {
   let getDoc = updateRef.get()
     .then(doc => {
       if (!doc.exists) {
-        console.log('No such document!');
+        console.log('[Alert Update] No such document!');
       } else {
-        console.log("Last retrieved from DB: " + new Date());
-        console.log("startTime(DB): " + doc.data().startTime.toDate());
-        console.log("endTime(DB): " + doc.data().endTime.toDate());
+        console.log("[Alert Update] Last retrieved from DB: " + new Date());
+        console.log("[Alert Update] startTime(DB): " + doc.data().startTime.toDate());
+        console.log("[Alert Update] endTime(DB): " + doc.data().endTime.toDate());
 
         alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
       }
     })
     .catch(err => {
-      console.log('Error getting document', err);
+      console.log('[Alert Update] Error getting document', err);
     });
 }, 5 * 60 * 1000);
 // END BLOCK: Code to run when server is restarted
