@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({
 // END BLOCK: Initialize Express
 
 var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
-console.log("Update Alert targeting channel: " + targetChannel);
+console.log("[App] Update Alert targeting channel: " + targetChannel);
 
 // START BLOCK: Code to run when server is restarted
 // Retrieve last saved update info every 5 minutes
@@ -112,7 +112,7 @@ function parameters(input) {
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
   if (startTime > new Date() && endTime > new Date()) { //if it's before maintenance has started
-    console.log("Reminders will be executed for startTime and endTime.");
+    console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
     switch (updateType) {
       case 'f':
         mRoutine(targetChannel, startTime, endTime, updateDate);
@@ -128,10 +128,10 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
         break;
         //case 'p': for pts
       default:
-        console.log("Invalid updateType");
+        console.log("[Alert Update] Invalid updateType");
     }
   } else if (startTime < new Date() && endTime > new Date()) { //if it's after maintenance has started, but before ended
-    console.log("It is already past the startTime, executing reminders for endTime only.");
+    console.log("[Alert Update] It is already past the startTime, executing reminders for endTime only.");
     switch (updateType) {
       case 'f':
         mReminder(targetChannel, false, endTime, updateDate);
@@ -147,10 +147,10 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
         break;
         //case 'p': for pts
       default:
-        console.log("Invalid updateType");
+        console.log("[Alert Update] Invalid updateType");
     }
   } else {
-    console.log("It is already past the endTime, no reminders will be executed.");
+    console.log("[Alert Update] It is already past the endTime, no reminders will be executed.");
   }
 }
 
@@ -165,7 +165,7 @@ app.post("/mtlog", (req, res) => {
   let getMTLog = mtlogRef.get()
     .then(doc => {
       if (!doc.exists) {
-        console.log('No such document!');
+        console.log('[mtlog] No such document!');
       } else {
         compensate = doc.data().compensate;
         lastCalled = doc.data().lastCalled.toDate();
@@ -179,7 +179,7 @@ app.post("/mtlog", (req, res) => {
           'lastCalled': today,
           'compensate': compensate
         });
-        console.log("Compensate: " + compensate + ", lastCalled: " + lastCalled);
+        console.log("[mtlog] Compensate: " + compensate + ", lastCalled: " + lastCalled);
 
         res.send();
 
@@ -193,14 +193,14 @@ app.post("/mtlog", (req, res) => {
       }
     })
     .catch(err => {
-      console.log('Error getting document', err);
+      console.log('[mtlog] Error getting document', err);
     });
 
 
 });
 
 app.post("/consoleupdate", (req, res) => {
-  console.log("Received input: " + req.body.text);
+  console.log("[Alert Update] Received input: " + req.body.text);
 
   var updateType = parameters(req.body.text)[0];
   var startTime = new Date(parameters(req.body.text)[1]);
@@ -219,5 +219,5 @@ app.post("/consoleupdate", (req, res) => {
 // END BLOCK: Command Handler
 
 app.listen(5000, function() {
-  console.log("Server is running on port " + 5000);
+  console.log("[App] Server is running on port " + 5000);
 });
