@@ -29,11 +29,11 @@ app.use(bodyParser.urlencoded({
 }));
 // END BLOCK: Initialize Express
 
-var targetChannel = 'console_production'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
+var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 console.log("[App] Update Alert targeting channel: " + targetChannel);
 
 // START BLOCK: Code to run when server is restarted
-// Retrieve last saved update info every 5 minutes
+// Retrieve last saved update info every 30 minutes
 var updateRef = db.collection('event').doc('update');
 setInterval(function() {
   let getDoc = updateRef.get()
@@ -51,7 +51,7 @@ setInterval(function() {
     .catch(err => {
       console.log('[Alert Update] Error getting document', err);
     });
-}, 5 * 60 * 1000);
+}, 30 * 60 * 1000);
 // END BLOCK: Code to run when server is restarted
 
 // function for sending message with a delay
@@ -111,7 +111,7 @@ function parameters(input) {
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
-  if (startTime > new Date() && endTime > new Date() && startTime < new Date(new Date().getTime() + (5*60*1000))) { //if it's before maintenance has started AND five minutes later it'll be after maintenance started
+  if (startTime > new Date() && endTime > new Date() && startTime < new Date(new Date().getTime() + (30*60*1000))) { //if it's before maintenance has started AND five minutes later it'll be after maintenance started
     console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
     switch (updateType) {
       case 'f':
@@ -130,7 +130,7 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
       default:
         console.log("[Alert Update] Invalid updateType");
     }
-  } else if (startTime < new Date() && endTime > new Date() && endTime < new Date(new Date().getTime() + (5*60*1000))) { //if it's after maintenance has started, but before ended AND five minutes later it'll be after maintenance ended
+  } else if (startTime < new Date() && endTime > new Date() && endTime < new Date(new Date().getTime() + (30*60*1000))) { //if it's after maintenance has started, but before ended AND five minutes later it'll be after maintenance ended
     console.log("[Alert Update] It is already past the startTime, executing reminders for endTime only.");
     switch (updateType) {
       case 'f':
