@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
 }));
 // END BLOCK: Initialize Express
 
-var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
+var targetChannel = 'console_production'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 console.log("[App] Update Alert targeting channel: " + targetChannel);
 
 // START BLOCK: Code to run when server is restarted
@@ -112,7 +112,7 @@ function parameters(input) {
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
-  if (startTime > new Date() && endTime > new Date() && startTime < new Date(new Date().getTime() + (5*60*1000))) { //if it's before maintenance has started AND five minutes later it'll be after maintenance started
+  if (new Date(startTime.getTime() - (30*60*1000)) > new Date() && new Date(endTime.getTime() - (30*60*1000)) > new Date() && new Date(startTime.getTime() - (30*60*1000)) < new Date(new Date().getTime() + (5*60*1000))) { //if it's more than 30 minutes before maintenance has started AND five minutes later it'll be less than 30 minutes before maintenance starts
     console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
     switch (updateType) {
       case 'f':
@@ -131,7 +131,7 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
       default:
         console.log("[Alert Update] Invalid updateType");
     }
-  } else if (startTime < new Date() && endTime > new Date() && endTime < new Date(new Date().getTime() + (5*60*1000))) { //if it's after maintenance has started, but before ended AND five minutes later it'll be after maintenance ended
+  } else if (startTime < new Date() && new Date(endTime.getTime() - (30*60*1000)) > new Date() && new Date(endTime.getTime() - (30*60*1000)) < new Date(new Date().getTime() + (5*60*1000))) { //if it's after maintenance has started, but more than 30 minutes before ended AND five minutes later it'll be less than 30 minutes before maintenance ends
     console.log("[Alert Update] It is already past the startTime, executing reminders for endTime only.");
     switch (updateType) {
       case 'f':
