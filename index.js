@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
 }));
 // END BLOCK: Initialize Express
 
-var targetChannel = 'console_production'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
+var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 console.log("[App] Update Alert targeting channel: " + targetChannel);
 
 // START BLOCK: Code to run when server is restarted
@@ -163,8 +163,14 @@ app.get("/", function(req, res) {
 
 app.post("/mtlog", (req, res) => {
   var today = new Date();
-  var weekNum = Math.floor((today.getDate() - 1) / 7);
-  var table = [":sarangcry:", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
+  var table = [":sarang:", ":nara2:", ":coco2:", ":shibe-doge:", ":new:"];
+
+  function getWeekNumber(targetDate){
+    targetDate.setUTCDate(targetDate.getUTCDate() + 4 - (targetDate.getUTCDay()||7)); //set targetDate to nearest Thursday & change weekday 0 to 7
+    var yearStart = new Date(Date.UTC(targetDate.getUTCFullYear(),0,1));
+    var weekNo = Math.ceil(( ( (targetDate - yearStart) / 86400000) + 1) / 7);
+    return weekNo;
+  }
 
   var mtlogRef = db.collection('event').doc('mtlog');
   let getMTLog = mtlogRef.get()
@@ -172,26 +178,24 @@ app.post("/mtlog", (req, res) => {
       if (!doc.exists) {
         console.log('[mtlog] No such document!');
       } else {
-        compensate = doc.data().compensate;
+        emojiEntry = doc.data().emojiEntry;
         lastCalled = doc.data().lastCalled.toDate();
 
-        if (weekNum == 4 && Math.floor((lastCalled.getDate() - 1) / 7) != 4) { //if this is the first time this code is being called in a fifth week
-          compensate++;
-          weekNum = 0;
-        }
+        if (getWeekNumber(lastCalled) != getWeekNumber(today)) //if this is the first time this code is being called this week
+          emojiEntry = emojiEntry % 5 + 1
 
         let updateLastCalled = mtlogRef.set({
           'lastCalled': today,
-          'compensate': compensate
+          'emojiEntry': emojiEntry
         });
-        console.log("[mtlog] Compensate: " + compensate + ", lastCalled: " + lastCalled);
+        console.log("[mtlog] emojiEntry: " + emojiEntry + ", lastCalled: " + lastCalled);
 
         res.send();
 
         slack.chat.postMessage({
           token: process.env.token,
           channel: req.body.channel_id,
-          text: (table[(weekNum + compensate) % 4]),
+          text: (table[emojiEntry]),
           link_names: 1
         }).catch(err => console.log(err))
 
