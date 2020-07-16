@@ -182,7 +182,7 @@ app.post("/mtlog", (req, res) => {
         lastCalled = doc.data().lastCalled.toDate();
 
         if (getWeekNumber(lastCalled) != getWeekNumber(today)) //if this is the first time this code is being called this week
-          emojiEntry = emojiEntry % 5 + 1
+          emojiEntry = (emojiEntry + 1) % 5
 
         let updateLastCalled = mtlogRef.set({
           'lastCalled': today,
