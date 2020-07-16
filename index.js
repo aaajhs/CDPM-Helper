@@ -192,10 +192,12 @@ app.post("/mtlog", (req, res) => {
 
         res.send();
 
+        var textToShow = "helloworld";
+
         slack.chat.postMessage({
           token: process.env.token,
           channel: req.body.channel_id,
-          text: (table[emojiEntry]),
+          text: /*(table[emojiEntry])*/textToShow,
           link_names: 1
         }).catch(err => console.log(err))
 
