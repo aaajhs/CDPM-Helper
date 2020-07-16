@@ -163,7 +163,7 @@ app.get("/", function(req, res) {
 
 app.post("/mtlog", (req, res) => {
   var today = new Date();
-  var table = [":sarang:", ":nara2:", ":coco2:", ":shibe-doge:", ":new:"];
+  var table = [":sarang:", ":nara2:", ":coco2:", ":shibe-doge:", ":borrie:"];
 
   function getWeekNumber(targetDate){
     targetDate.setUTCDate(targetDate.getUTCDate() + 4 - (targetDate.getUTCDay()||7)); //set targetDate to nearest Thursday & change weekday 0 to 7
