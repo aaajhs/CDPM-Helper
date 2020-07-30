@@ -116,11 +116,13 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
     console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
     switch (updateType) {
       case 'f':
-        mRoutine(targetChannel, startTime, endTime, updateDate);
+        //mRoutine(targetChannel, startTime, endTime, updateDate);
+        mReminder(targetChannel, true, startTime, updateDate);
         sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
         break;
       case 'l':
-        mRoutine(targetChannel, startTime, endTime, updateDate);
+        //mRoutine(targetChannel, startTime, endTime, updateDate);
+        mReminder(targetChannel, true, startTime, updateDate);
         break;
       case 'm':
         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
