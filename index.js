@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const slack = require("slack");
+const { WebClient } = require('@slack/web-api');
+const web = new WebClient(token);
 const admin = require('firebase-admin');
 
 // START BLOCK: Initialize Firebase
@@ -230,11 +232,11 @@ app.post("/consoleupdate", (req, res) => {
 // END BLOCK: Command Handler
 
 app.post("/interactive-endpoint", (req, res) => {
-  console.log(req.body.payload.callback_id);
   const payload = req.body.payload;
   const obj = JSON.parse(payload);
+  console.log(obj.trigger_id);
 
-  slack.views.open({
+  web.views.open({
     token: process.env.token,
     trigger_id: obj.trigger_id,
     view: {
