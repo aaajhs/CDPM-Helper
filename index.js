@@ -112,7 +112,7 @@ function parameters(input) {
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
-  if (new Date(startTime.getTime() - (30*60*1000)) > new Date() && new Date(endTime.getTime() - (30*60*1000)) > new Date() && new Date(startTime.getTime() - (30*60*1000)) < new Date(new Date().getTime() + (5*60*1000))) { //if it's more than 30 minutes before maintenance has started AND five minutes later it'll be less than 30 minutes before maintenance starts
+  if (new Date(startTime.getTime() - (30 * 60 * 1000)) > new Date() && new Date(endTime.getTime() - (30 * 60 * 1000)) > new Date() && new Date(startTime.getTime() - (30 * 60 * 1000)) < new Date(new Date().getTime() + (5 * 60 * 1000))) { //if it's more than 30 minutes before maintenance has started AND five minutes later it'll be less than 30 minutes before maintenance starts
     console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
     switch (updateType) {
       case 'f':
@@ -133,7 +133,7 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
       default:
         console.log("[Alert Update] Invalid updateType");
     }
-  } else if (startTime < new Date() && new Date(endTime.getTime() - (30*60*1000)) > new Date() && new Date(endTime.getTime() - (30*60*1000)) < new Date(new Date().getTime() + (5*60*1000))) { //if it's after maintenance has started, but more than 30 minutes before ended AND five minutes later it'll be less than 30 minutes before maintenance ends
+  } else if (startTime < new Date() && new Date(endTime.getTime() - (30 * 60 * 1000)) > new Date() && new Date(endTime.getTime() - (30 * 60 * 1000)) < new Date(new Date().getTime() + (5 * 60 * 1000))) { //if it's after maintenance has started, but more than 30 minutes before ended AND five minutes later it'll be less than 30 minutes before maintenance ends
     console.log("[Alert Update] It is already past the startTime, executing reminders for endTime only.");
     switch (updateType) {
       case 'f':
@@ -167,10 +167,10 @@ app.post("/mtlog", (req, res) => {
   var today = new Date();
   var table = [":sarang:", ":nara2:", ":coco2:", ":shibe-doge:", ":borrie:"];
 
-  function getWeekNumber(targetDate){
-    targetDate.setUTCDate(targetDate.getUTCDate() + 4 - (targetDate.getUTCDay()||7)); //set targetDate to nearest Thursday & change weekday 0 to 7
-    var yearStart = new Date(Date.UTC(targetDate.getUTCFullYear(),0,1));
-    var weekNo = Math.ceil(( ( (targetDate - yearStart) / 86400000) + 1) / 7);
+  function getWeekNumber(targetDate) {
+    targetDate.setUTCDate(targetDate.getUTCDate() + 4 - (targetDate.getUTCDay() || 7)); //set targetDate to nearest Thursday & change weekday 0 to 7
+    var yearStart = new Date(Date.UTC(targetDate.getUTCFullYear(), 0, 1));
+    var weekNo = Math.ceil((((targetDate - yearStart) / 86400000) + 1) / 7);
     return weekNo;
   }
 
@@ -231,6 +231,72 @@ app.post("/consoleupdate", (req, res) => {
 
 app.post("/interactive-endpoint", (req, res) => {
   console.log(req.body.payload);
+
+  if (req.body.payload.callback_id == "remind") {
+    res.send({
+      "title": {
+        "type": "plain_text",
+        "text": "My App",
+        "emoji": true
+      },
+      "submit": {
+        "type": "plain_text",
+        "text": "Submit",
+        "emoji": true
+      },
+      "type": "modal",
+      "close": {
+        "type": "plain_text",
+        "text": "Cancel",
+        "emoji": true
+      },
+      "blocks": [{
+          "type": "section",
+          "text": {
+            "type": "plain_text",
+            "text": "*Contents Update*\n- 점검 시작 30분 전, 10분 전 리마인더\n- 점검 스레드 생성\n- 점검 종료 30분 전, 10분 전 리마인더\n- (Optional) PTS 종료 리마인더\n*Hotfix/PTS*\n- 배포 시작 30분 전, 10분 전, 시작 시점 리마인더",
+            "emoji": true
+          }
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "input",
+          "element": {
+            "type": "static_select",
+            "placeholder": {
+              "type": "plain_text",
+              "text": "Select an item",
+              "emoji": true
+            },
+            "options": [{
+                "text": {
+                  "type": "plain_text",
+                  "text": "Contents Update",
+                  "emoji": true
+                },
+                "value": "cu"
+              },
+              {
+                "text": {
+                  "type": "plain_text",
+                  "text": "Hotfix/PTS",
+                  "emoji": true
+                },
+                "value": "hotfix_pts"
+              }
+            ]
+          },
+          "label": {
+            "type": "plain_text",
+            "text": "Update Type",
+            "emoji": true
+          }
+        }
+      ]
+    });
+  }
 });
 
 app.listen(5000, function() {
