@@ -239,7 +239,8 @@ app.post("/interactive-endpoint", (req, res) => {
   console.log(payload);
 
   if (obj.type === "view_submission") {
-    console.log(obj.state.values.[*].[*].selected_option);
+    console.log(payload.state.values.*.*.selected_option);
+    console.log(obj.state.values.*.*.selected_option);
   } else {
     web.views.open({
       token: process.env.token,
