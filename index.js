@@ -236,7 +236,7 @@ app.post("/consoleupdate", (req, res) => {
 app.post("/interactive-endpoint", (req, res) => {
   const payload = req.body.payload;
   const obj = JSON.parse(payload);
-  console.log(obj.trigger_id);
+  console.log(obj);
 
   if (obj.type === "view_submission") {
     console.log("submission accepted");
