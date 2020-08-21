@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-const slack = require("slack");
+//const slack = require("slack");
 const {
   WebClient
 } = require('@slack/web-api'); //official slack web api
