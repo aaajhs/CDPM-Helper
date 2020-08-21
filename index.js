@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const slack = require("slack");
-const { WebClient } = require('@slack/web-api');
-const web = new WebClient(process.env.token);
+const {
+  WebClient
+} = require('@slack/web-api'); //official slack web api
+const web = new WebClient(process.env.token); //initialize
 const admin = require('firebase-admin');
 
 // START BLOCK: Initialize Firebase
@@ -59,7 +61,7 @@ setInterval(function() {
 // function for sending message with a delay
 function sendTimedMessage(channel, text, time) {
   setTimeout(function() {
-    slack.chat.postMessage({
+    web.chat.postMessage({ //replaced slack with web
       token: process.env.token,
       channel,
       text,
@@ -196,7 +198,7 @@ app.post("/mtlog", (req, res) => {
 
         res.send();
 
-        slack.chat.postMessage({
+        web.chat.postMessage({ //replaced slack with web
           token: process.env.token,
           channel: req.body.channel_id,
           text: (table[emojiEntry]),
@@ -236,79 +238,79 @@ app.post("/interactive-endpoint", (req, res) => {
   const obj = JSON.parse(payload);
   console.log(obj.trigger_id);
 
-  web.views.open({
-    token: process.env.token,
-    trigger_id: obj.trigger_id,
-    view: {
-      "title": {
-        "type": "plain_text",
-        "text": "My App",
-        "emoji": true
-      },
-      "submit": {
-        "type": "plain_text",
-        "text": "Submit",
-        "emoji": true
-      },
-      "type": "modal",
-      "close": {
-        "type": "plain_text",
-        "text": "Cancel",
-        "emoji": true
-      },
-      "blocks": [{
-          "type": "section",
-          "text": {
-            "type": "plain_text",
-            "text": "*Contents Update*\n- 점검 시작 30분 전, 10분 전 리마인더\n- 점검 스레드 생성\n- 점검 종료 30분 전, 10분 전 리마인더\n- (Optional) PTS 종료 리마인더\n*Hotfix/PTS*\n- 배포 시작 30분 전, 10분 전, 시작 시점 리마인더",
-            "emoji": true
-          }
+  if (obj.type === "view_submission") {
+    console.log("submission accepted");
+  } else {
+    web.views.open({
+      token: process.env.token,
+      trigger_id: obj.trigger_id,
+      view: {
+        "title": {
+          "type": "plain_text",
+          "text": "My App",
+          "emoji": true
         },
-        {
-          "type": "divider"
+        "submit": {
+          "type": "plain_text",
+          "text": "Submit",
+          "emoji": true
         },
-        {
-          "type": "input",
-          "element": {
-            "type": "static_select",
-            "placeholder": {
+        "type": "modal",
+        "close": {
+          "type": "plain_text",
+          "text": "Cancel",
+          "emoji": true
+        },
+        "blocks": [{
+            "type": "section",
+            "text": {
               "type": "plain_text",
-              "text": "Select an item",
+              "text": "*Contents Update*\n- 점검 시작 30분 전, 10분 전 리마인더\n- 점검 스레드 생성\n- 점검 종료 30분 전, 10분 전 리마인더\n- (Optional) PTS 종료 리마인더\n*Hotfix/PTS*\n- 배포 시작 30분 전, 10분 전, 시작 시점 리마인더",
               "emoji": true
-            },
-            "options": [{
-                "text": {
-                  "type": "plain_text",
-                  "text": "Contents Update",
-                  "emoji": true
-                },
-                "value": "cu"
-              },
-              {
-                "text": {
-                  "type": "plain_text",
-                  "text": "Hotfix/PTS",
-                  "emoji": true
-                },
-                "value": "hotfix_pts"
-              }
-            ]
+            }
           },
-          "label": {
-            "type": "plain_text",
-            "text": "Update Type",
-            "emoji": true
+          {
+            "type": "divider"
+          },
+          {
+            "type": "input",
+            "element": {
+              "type": "static_select",
+              "placeholder": {
+                "type": "plain_text",
+                "text": "Select an item",
+                "emoji": true
+              },
+              "options": [{
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Contents Update",
+                    "emoji": true
+                  },
+                  "value": "cu"
+                },
+                {
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Hotfix/PTS",
+                    "emoji": true
+                  },
+                  "value": "hotfix_pts"
+                }
+              ]
+            },
+            "label": {
+              "type": "plain_text",
+              "text": "Update Type",
+              "emoji": true
+            }
           }
-        }
-      ]
-    }
-  }).catch(err => console.log(err))
+        ]
+      }
+    }).catch(err => console.log(err))
 
-  // if (req.body.payload.callback_id == "remind") {
-  //   console.log(req.body.payload.callback_id == "remind");
-  //   return
-  // }
-
+  }
+  res.send(200);
 });
 
 app.listen(5000, function() {
