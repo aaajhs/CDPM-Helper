@@ -240,6 +240,7 @@ app.post("/interactive-endpoint", (req, res) => {
 
   if (obj.type === "view_submission") {
     console.log("submission accepted");
+    res.send("Response accepted");
   } else {
     web.views.open({
       token: process.env.token,
