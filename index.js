@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const slack = require("slack");
 const { WebClient } = require('@slack/web-api');
-const web = new WebClient(token);
+const web = new WebClient(process.env.token);
 const admin = require('firebase-admin');
 
 // START BLOCK: Initialize Firebase
