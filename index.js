@@ -233,7 +233,8 @@ app.post("/interactive-endpoint", (req, res) => {
   console.log(req.body.payload);
 
   if (req.body.payload.callback_id == "remind") {
-    res.send({
+    console.log(req.body.payload.callback_id == "remind");
+    return ({
       "title": {
         "type": "plain_text",
         "text": "My App",
