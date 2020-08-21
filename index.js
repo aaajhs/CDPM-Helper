@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
 }));
 // END BLOCK: Initialize Express
 
-var targetChannel = 'console_production'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
+var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 console.log("[App] Update Alert targeting channel: " + targetChannel);
 
 // START BLOCK: Code to run when server is restarted
@@ -228,6 +228,10 @@ app.post("/consoleupdate", (req, res) => {
   res.send("OK, Update has been registered.");
 });
 // END BLOCK: Command Handler
+
+app.post("/interactive-endpoint", (req, res) => {
+  console.log(req.body.payload);
+});
 
 app.listen(5000, function() {
   console.log("[App] Server is running on port " + 5000);
