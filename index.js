@@ -108,6 +108,7 @@ function parameters(input) {
 
   return [updateType, start, end, date];
 }
+// end
 
 // function to alert updates
 function alertUpdate(updateType, startTime, endTime, updateDate) {
@@ -115,11 +116,13 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
     console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
     switch (updateType) {
       case 'f':
-        mRoutine(targetChannel, startTime, endTime, updateDate);
+        //mRoutine(targetChannel, startTime, endTime, updateDate);
+        mReminder(targetChannel, true, startTime, updateDate);
         sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
         break;
       case 'l':
-        mRoutine(targetChannel, startTime, endTime, updateDate);
+        //mRoutine(targetChannel, startTime, endTime, updateDate);
+        mReminder(targetChannel, true, startTime, updateDate);
         break;
       case 'm':
         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
@@ -153,13 +156,23 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
     console.log("[Alert Update] It is more than five minutes before maintenance start/end, or it is already past the endTime. Reminder request will be ignored.");
   }
 }
+// end
 
 // START BLOCK: Command Handler
+app.get("/", function(req, res) {
+  res.sendFile(__dirname + "/index.html");
+});
 
 app.post("/mtlog", (req, res) => {
   var today = new Date();
-  var weekNum = Math.floor((today.getDate() - 1) / 7);
-  var table = [":sarangcry:", ":kate_ps4:", ":coco2:", ":shibe-doge:"];
+  var table = [":sarang:", ":nara2:", ":coco2:", ":shibe-doge:", ":borrie:"];
+
+  function getWeekNumber(targetDate){
+    targetDate.setUTCDate(targetDate.getUTCDate() + 4 - (targetDate.getUTCDay()||7)); //set targetDate to nearest Thursday & change weekday 0 to 7
+    var yearStart = new Date(Date.UTC(targetDate.getUTCFullYear(),0,1));
+    var weekNo = Math.ceil(( ( (targetDate - yearStart) / 86400000) + 1) / 7);
+    return weekNo;
+  }
 
   var mtlogRef = db.collection('event').doc('mtlog');
   let getMTLog = mtlogRef.get()
@@ -167,26 +180,24 @@ app.post("/mtlog", (req, res) => {
       if (!doc.exists) {
         console.log('[mtlog] No such document!');
       } else {
-        compensate = doc.data().compensate;
+        emojiEntry = doc.data().emojiEntry;
         lastCalled = doc.data().lastCalled.toDate();
 
-        if (weekNum == 4 && Math.floor((lastCalled.getDate() - 1) / 7) != 4) { //if this is the first time this code is being called in a fifth week
-          compensate++;
-          weekNum = 0;
-        }
+        if (getWeekNumber(lastCalled) != getWeekNumber(today)) //if this is the first time this code is being called this week
+          emojiEntry = (emojiEntry + 1) % 5
 
         let updateLastCalled = mtlogRef.set({
           'lastCalled': today,
-          'compensate': compensate
+          'emojiEntry': emojiEntry
         });
-        console.log("[mtlog] Compensate: " + compensate + ", lastCalled: " + lastCalled);
+        console.log("[mtlog] emojiEntry: " + emojiEntry + ", lastCalled: " + lastCalled);
 
         res.send();
 
         slack.chat.postMessage({
           token: process.env.token,
           channel: req.body.channel_id,
-          text: (table[(weekNum + compensate) % 4]),
+          text: (table[emojiEntry]),
           link_names: 1
         }).catch(err => console.log(err))
 
