@@ -95,19 +95,26 @@ function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-0
 // end
 
 // function to handle parameters
-function parameters(input) {
-  var updateType = input.substring(0, 1);
-  var year = input.substring(2, 4);
-  var month = input.substring(4, 6);
-  var day = input.substring(6, 8);
-  var startHour = input.substring(9, 11);
-  var startMinute = input.substring(11, 13);
-  var endHour = input.substring(14, 16);
-  var endMinute = input.substring(16, 18);
+function parameters( /*input*/ type, date, start, end) {
+  // var updateType = input.substring(0, 1);
+  // var year = input.substring(2, 4);
+  // var month = input.substring(4, 6);
+  // var day = input.substring(6, 8);
+  // var startHour = input.substring(9, 11);
+  // var startMinute = input.substring(11, 13);
+  // var endHour = input.substring(14, 16);
+  // var endMinute = input.substring(16, 18);
+  //
+  // var start = "20" + year + "-" + month + "-" + day + "T" + startHour + ":" + startMinute + ":00";
+  // var end = "20" + year + "-" + month + "-" + day + "T" + endHour + ":" + endMinute + ":00";
+  // var date = month + "/" + day;
+  //
+  // return [updateType, start, end, date];
 
-  var start = "20" + year + "-" + month + "-" + day + "T" + startHour + ":" + startMinute + ":00";
-  var end = "20" + year + "-" + month + "-" + day + "T" + endHour + ":" + endMinute + ":00";
-  var date = month + "/" + day;
+  var updateType = type;
+  var date = date;
+  var start = date + "T" + start.substring(0,2) + ":" + start.substring(2,4) + ":00";
+  var end = date + "T" + end.substring(0,2) + ":" + end.substring(2,4) + ":00";
 
   return [updateType, start, end, date];
 }
@@ -213,108 +220,50 @@ app.post("/mtlog", (req, res) => {
 
 });
 
-app.post("/consoleupdate", (req, res) => {
-  console.log("[Alert Update] Received input: " + req.body.text);
-
-  var updateType = parameters(req.body.text)[0];
-  var startTime = new Date(parameters(req.body.text)[1]);
-  var endTime = new Date(parameters(req.body.text)[2]);
-  var updateDate = parameters(req.body.text)[3];
-
-  let update = updateRef.set({
-    'updateType': updateType,
-    'startTime': startTime,
-    'endTime': endTime,
-    'updateDate': updateDate
-  });
-
-  res.send("OK, Update has been registered.");
-});
+// app.post("/consoleupdate", (req, res) => {
+//   console.log("[Alert Update] Received input: " + req.body.text);
+//
+//   var updateType = parameters(req.body.text)[0];
+//   var startTime = new Date(parameters(req.body.text)[1]);
+//   var endTime = new Date(parameters(req.body.text)[2]);
+//   var updateDate = parameters(req.body.text)[3];
+//
+//   let update = updateRef.set({
+//     'updateType': updateType,
+//     'startTime': startTime,
+//     'endTime': endTime,
+//     'updateDate': updateDate
+//   });
+//
+//   res.send("OK, Update has been registered.");
+// });
 
 app.post("/interactive-endpoint", (req, res) => {
-  // const payload = req.body.payload;
-  // console.log(payload);
-  // const obj = JSON.parse(payload);
   const {
     type,
     user,
     trigger_id,
     view
   } = JSON.parse(req.body.payload);
-  // console.log(view);
 
-  // if (obj.type === "block_actions") { //if update type is selected
-  //   web.views.push({
-  //     token: process.env.token,
-  //     trigger_id: obj.trigger_id,
-  //     view: {
-  //       "title": {
-  //         "type": "plain_text",
-  //         "text": "My App",
-  //         "emoji": true
-  //       },
-  //       "submit": {
-  //         "type": "plain_text",
-  //         "text": "Submit"
-  //       },
-  //       "type": "modal",
-  //       "blocks": [{
-  //           "type": "input",
-  //           "element": {
-  //             "type": "datepicker"
-  //           },
-  //           "label": {
-  //             "type": "plain_text",
-  //             "text": "업데이트 날짜",
-  //             "emoji": true
-  //           }
-  //         },
-  //         {
-  //           "type": "input",
-  //           "element": {
-  //             "type": "plain_text_input",
-  //             "placeholder": {
-  //               "type": "plain_text",
-  //               "text": "예. 2PM = 1400"
-  //             }
-  //           },
-  //           "label": {
-  //             "type": "plain_text",
-  //             "text": "서버 점검 시작시간",
-  //             "emoji": true
-  //           }
-  //         },
-  //         {
-  //           "type": "input",
-  //           "element": {
-  //             "type": "plain_text_input",
-  //             "placeholder": {
-  //               "type": "plain_text",
-  //               "text": "예. 7PM = 1900"
-  //             }
-  //           },
-  //           "label": {
-  //             "type": "plain_text",
-  //             "text": "서버 점검 종료시간",
-  //             "emoji": true
-  //           }
-  //         }
-  //       ]
-  //     }
-  //   });
-  // } else if (obj.type === "view submission") { //if updated submission
-  //   //use the input to book the update
-  // }
-  if ( /*obj.*/ type === "view_submission") {
+  if (type === "view_submission") {
     const updateType = view.state.values.updateType01.updateType02.selected_option.value;
     const updateDate = view.state.values.updateDate01.updateDate02.selected_date;
     const updateStart = view.state.values.updateStart01.updateStart02.value;
     const updateEnd = view.state.values.updateEnd01.updateEnd02.value;
-    console.log(updateType + " " + updateDate + " " + updateStart + " " + updateEnd);
+
+
+    //console.log(updateType + " " + updateDate + " " + updateStart + " " + updateEnd);
+    let update = updateRef.set({
+      'updateType': updateType,
+      'startTime': updateStart,
+      'endTime': updateEnd,
+      'updateDate': updateDate
+    });
   } else {
     web.views.open({
       token: process.env.token,
-      trigger_id: /*obj.*/ trigger_id,
+      trigger_id: trigger_id,
       view: {
         "title": {
           "type": "plain_text",
@@ -360,7 +309,7 @@ app.post("/interactive-endpoint", (req, res) => {
                     "text": "Contents Update",
                     "emoji": true
                   },
-                  "value": "cu"
+                  "value": "l"
                 },
                 {
                   "text": {
@@ -368,7 +317,7 @@ app.post("/interactive-endpoint", (req, res) => {
                     "text": "Hotfix/PTS",
                     "emoji": true
                   },
-                  "value": "hotfix_pts"
+                  "value": "m"
                 }
               ]
             },
