@@ -299,7 +299,7 @@ app.post("/interactive-endpoint", (req, res) => {
   //   //use the input to book the update
   // }
   if (obj.type === "view_submission"){
-    console.log("Success");
+    console.log(JSON.parse(payload.view.state.values));
   }
    else {
     web.views.open({
