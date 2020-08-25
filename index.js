@@ -234,7 +234,12 @@ app.post("/consoleupdate", (req, res) => {
 app.post("/interactive-endpoint", (req, res) => {
   // const payload = req.body.payload;
   // const obj = JSON.parse(payload);
-  const {type, user, trigger_id, view} = JSON.parse(req.body.payload);
+  const {
+    type,
+    user,
+    trigger_id,
+    view
+  } = JSON.parse(req.body.payload);
   //console.log(payload);
 
   // if (obj.type === "block_actions") { //if update type is selected
@@ -299,14 +304,16 @@ app.post("/interactive-endpoint", (req, res) => {
   // } else if (obj.type === "view submission") { //if updated submission
   //   //use the input to book the update
   // }
-  if (/*obj.*/type === "view_submission"){
-    const updateSelection = view.state.values.updateSection.updateItem.selected_option.value;
-    console.log(updateSelection);
-  }
-   else {
+  if ( /*obj.*/ type === "view_submission") {
+    const updateType = view.state.values.updateType01.updateType02.selected_option.value;
+    const updateDate = view.state.values.updateDate01.updateDate02.selected_option.value;
+    const updateStart = view.state.values.updateStart01.updateStart02.selected_option.value;
+    const updateEnd = view.state.values.updateEnd01.updateEnd02.selected_option.value;
+    console.log(updateType + " " + updateDate + " " + updateStart + " " + updateEnd);
+  } else {
     web.views.open({
       token: process.env.token,
-      trigger_id: /*obj.*/trigger_id,
+      trigger_id: /*obj.*/ trigger_id,
       view: {
         "title": {
           "type": "plain_text",
@@ -337,10 +344,10 @@ app.post("/interactive-endpoint", (req, res) => {
           },
           {
             "type": "input",
-            "block_id": "updateSection",
+            "block_id": "updateType01",
             "element": {
               "type": "static_select",
-              "action_id": "updateItem",
+              "action_id": "updateType02",
               "placeholder": {
                 "type": "plain_text",
                 "text": "Select an item",
@@ -367,6 +374,53 @@ app.post("/interactive-endpoint", (req, res) => {
             "label": {
               "type": "plain_text",
               "text": "Update Type",
+              "emoji": true
+            }
+          },
+          {
+            "type": "input",
+            "block_id": "updateDate01",
+            "element": {
+              "type": "datepicker",
+              "action_id": "updateDate02"
+            },
+            "label": {
+              "type": "plain_text",
+              "text": "업데이트 날짜",
+              "emoji": true
+            }
+          },
+          {
+            "type": "input",
+            "block_id": "updateStart01",
+            "element": {
+              "type": "plain_text_input",
+              "action_id": "updateStart02",
+              "placeholder": {
+                "type": "plain_text",
+                "text": "예. 2PM = 1400"
+              }
+            },
+            "label": {
+              "type": "plain_text",
+              "text": "서버 점검 시작시간",
+              "emoji": true
+            }
+          },
+          {
+            "type": "input",
+            "block_id": "updateEnd01",
+            "element": {
+              "type": "plain_text_input",
+              "action_id": "updateEnd02",
+              "placeholder": {
+                "type": "plain_text",
+                "text": "예. 7PM = 1900"
+              }
+            },
+            "label": {
+              "type": "plain_text",
+              "text": "서버 점검 종료시간",
               "emoji": true
             }
           }
