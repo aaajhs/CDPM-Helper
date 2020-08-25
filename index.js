@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-//const slack = require("slack");
 const {
   WebClient
 } = require('@slack/web-api'); //official slack web api
@@ -61,7 +60,7 @@ setInterval(function() {
 // function for sending message with a delay
 function sendTimedMessage(channel, text, time) {
   setTimeout(function() {
-    web.chat.postMessage({ //replaced slack with web
+    web.chat.postMessage({
       token: process.env.token,
       channel,
       text,
@@ -198,7 +197,7 @@ app.post("/mtlog", (req, res) => {
 
         res.send();
 
-        web.chat.postMessage({ //replaced slack with web
+        web.chat.postMessage({
           token: process.env.token,
           channel: req.body.channel_id,
           text: (table[emojiEntry]),
@@ -231,16 +230,73 @@ app.post("/consoleupdate", (req, res) => {
 
   res.send("OK, Update has been registered.");
 });
-// END BLOCK: Command Handler
 
 app.post("/interactive-endpoint", (req, res) => {
   const payload = req.body.payload;
   const obj = JSON.parse(payload);
   console.log(payload);
 
-  if (obj.type === "view_submission") {
-    console.log(payload.state.values.*.*.selected_option);
-    console.log(obj.state.values.*.*.selected_option);
+  if (obj.type === "block_actions") { //if update type is selected
+    web.views.push({
+      token: process.env.token,
+      trigger_id: obj.trigger_id,
+      view: {
+        "title": {
+          "type": "plain_text",
+          "text": "My App",
+          "emoji": true
+        },
+        "submit": {
+          "type": "plain_text",
+          "text": "Submit"
+        },
+        "type": "modal",
+        "blocks": [{
+            "type": "input",
+            "element": {
+              "type": "datepicker"
+            },
+            "label": {
+              "type": "plain_text",
+              "text": "업데이트 날짜",
+              "emoji": true
+            }
+          },
+          {
+            "type": "input",
+            "element": {
+              "type": "plain_text_input",
+              "placeholder": {
+                "type": "plain_text",
+                "text": "예. 2PM = 1400"
+              }
+            },
+            "label": {
+              "type": "plain_text",
+              "text": "서버 점검 시작시간",
+              "emoji": true
+            }
+          },
+          {
+            "type": "input",
+            "element": {
+              "type": "plain_text_input",
+              "placeholder": {
+                "type": "plain_text",
+                "text": "예. 7PM = 1900"
+              }
+            },
+            "label": {
+              "type": "plain_text",
+              "text": "서버 점검 종료시간",
+              "emoji": true
+            }
+          }
+        ]
+      }
+    });
+  } else if (obj.type === "view submission") { //if updated submission
+    //use the input to book the update
   } else {
     web.views.open({
       token: process.env.token,
@@ -266,7 +322,7 @@ app.post("/interactive-endpoint", (req, res) => {
             "type": "section",
             "text": {
               "type": "plain_text",
-              "text": "*Contents Update*\n- 점검 시작 30분 전, 10분 전 리마인더\n- 점검 스레드 생성\n- 점검 종료 30분 전, 10분 전 리마인더\n- (Optional) PTS 종료 리마인더\n*Hotfix/PTS*\n- 배포 시작 30분 전, 10분 전, 시작 시점 리마인더",
+              "text": "Contents Update\n- 점검 시작 30분 전, 10분 전 리마인더\n- 점검 스레드 생성\n- 점검 종료 30분 전, 10분 전 리마인더\n- (Optional) PTS 종료 리마인더\nHotfix/PTS\n- 배포 시작 30분 전, 10분 전, 시작 시점 리마인더",
               "emoji": true
             }
           },
@@ -309,10 +365,10 @@ app.post("/interactive-endpoint", (req, res) => {
         ]
       }
     }).catch(err => console.log(err))
-
   }
   res.send();
 });
+// END BLOCK: Command Handler
 
 app.listen(5000, function() {
   console.log("[App] Server is running on port " + 5000);
