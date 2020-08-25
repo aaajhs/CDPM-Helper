@@ -232,8 +232,9 @@ app.post("/consoleupdate", (req, res) => {
 });
 
 app.post("/interactive-endpoint", (req, res) => {
-  const payload = req.body.payload;
-  const obj = JSON.parse(payload);
+  // const payload = req.body.payload;
+  // const obj = JSON.parse(payload);
+  const {type, user, view} = JSON.parse(req.body.payload);
   console.log(payload);
 
   // if (obj.type === "block_actions") { //if update type is selected
@@ -298,8 +299,9 @@ app.post("/interactive-endpoint", (req, res) => {
   // } else if (obj.type === "view submission") { //if updated submission
   //   //use the input to book the update
   // }
-  if (obj.type === "view_submission"){
-    console.log(JSON.parse(payload.view.state.values));
+  if (/*obj.*/type === "view_submission"){
+    const updateSelection = view.state.values.updateSection.updateItem.value;
+    console.log(updateSelection);
   }
    else {
     web.views.open({
@@ -324,7 +326,6 @@ app.post("/interactive-endpoint", (req, res) => {
         },
         "blocks": [{
             "type": "section",
-            "block_id": "updateSection",
             "text": {
               "type": "plain_text",
               "text": "Contents Update\n- 점검 시작 30분 전, 10분 전 리마인더\n- 점검 스레드 생성\n- 점검 종료 30분 전, 10분 전 리마인더\n- (Optional) PTS 종료 리마인더\nHotfix/PTS\n- 배포 시작 30분 전, 10분 전, 시작 시점 리마인더",
@@ -336,6 +337,7 @@ app.post("/interactive-endpoint", (req, res) => {
           },
           {
             "type": "input",
+            "block_id": "updateSection",
             "element": {
               "type": "static_select",
               "action_id": "updateItem",
