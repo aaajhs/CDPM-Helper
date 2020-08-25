@@ -232,8 +232,8 @@ app.post("/consoleupdate", (req, res) => {
 });
 
 app.post("/interactive-endpoint", (req, res) => {
-  const payload = req.body.payload;
-  console.log(payload);
+  // const payload = req.body.payload;
+  // console.log(payload);
   // const obj = JSON.parse(payload);
   const {
     type,
@@ -241,7 +241,7 @@ app.post("/interactive-endpoint", (req, res) => {
     trigger_id,
     view
   } = JSON.parse(req.body.payload);
-  console.log(view);
+  // console.log(view);
 
   // if (obj.type === "block_actions") { //if update type is selected
   //   web.views.push({
@@ -307,9 +307,9 @@ app.post("/interactive-endpoint", (req, res) => {
   // }
   if ( /*obj.*/ type === "view_submission") {
     const updateType = view.state.values.updateType01.updateType02.selected_option.value;
-    const updateDate = view.state.values.updateDate01.updateDate02.selected_option.value;
-    const updateStart = view.state.values.updateStart01.updateStart02.selected_option.value;
-    const updateEnd = view.state.values.updateEnd01.updateEnd02.selected_option.value;
+    const updateDate = view.state.values.updateDate01.updateDate02.selected_date;
+    const updateStart = view.state.values.updateStart01.updateStart02.value;
+    const updateEnd = view.state.values.updateEnd01.updateEnd02.value;
     console.log(updateType + " " + updateDate + " " + updateStart + " " + updateEnd);
   } else {
     web.views.open({
