@@ -234,7 +234,7 @@ app.post("/consoleupdate", (req, res) => {
 app.post("/interactive-endpoint", (req, res) => {
   // const payload = req.body.payload;
   // const obj = JSON.parse(payload);
-  const {type, user, view} = JSON.parse(req.body.payload);
+  const {type, user, trigger_id, view} = JSON.parse(req.body.payload);
   //console.log(payload);
 
   // if (obj.type === "block_actions") { //if update type is selected
@@ -306,7 +306,7 @@ app.post("/interactive-endpoint", (req, res) => {
    else {
     web.views.open({
       token: process.env.token,
-      trigger_id: obj.trigger_id,
+      trigger_id: /*obj.*/trigger_id,
       view: {
         "title": {
           "type": "plain_text",
