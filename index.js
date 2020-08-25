@@ -324,6 +324,7 @@ app.post("/interactive-endpoint", (req, res) => {
         },
         "blocks": [{
             "type": "section",
+            "block_id": "updateSection",
             "text": {
               "type": "plain_text",
               "text": "Contents Update\n- 점검 시작 30분 전, 10분 전 리마인더\n- 점검 스레드 생성\n- 점검 종료 30분 전, 10분 전 리마인더\n- (Optional) PTS 종료 리마인더\nHotfix/PTS\n- 배포 시작 30분 전, 10분 전, 시작 시점 리마인더",
@@ -337,6 +338,7 @@ app.post("/interactive-endpoint", (req, res) => {
             "type": "input",
             "element": {
               "type": "static_select",
+              "action_id": "updateItem",
               "placeholder": {
                 "type": "plain_text",
                 "text": "Select an item",
