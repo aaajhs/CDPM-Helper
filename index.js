@@ -256,8 +256,8 @@ app.post("/interactive-endpoint", (req, res) => {
     //console.log(updateType + " " + updateDate + " " + updateStart + " " + updateEnd);
     let update = updateRef.set({
       'updateType': updateType,
-      'startTime': updateStart,
-      'endTime': updateEnd,
+      'startTime': new Date(updateStart),
+      'endTime': new Date(updateEnd),
       'updateDate': updateDate
     });
   } else {
