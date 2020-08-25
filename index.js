@@ -236,8 +236,73 @@ app.post("/interactive-endpoint", (req, res) => {
   const obj = JSON.parse(payload);
   console.log(payload);
 
-  if (obj.type === "block_actions") { //if update type is selected
-    web.views.push({
+  // if (obj.type === "block_actions") { //if update type is selected
+  //   web.views.push({
+  //     token: process.env.token,
+  //     trigger_id: obj.trigger_id,
+  //     view: {
+  //       "title": {
+  //         "type": "plain_text",
+  //         "text": "My App",
+  //         "emoji": true
+  //       },
+  //       "submit": {
+  //         "type": "plain_text",
+  //         "text": "Submit"
+  //       },
+  //       "type": "modal",
+  //       "blocks": [{
+  //           "type": "input",
+  //           "element": {
+  //             "type": "datepicker"
+  //           },
+  //           "label": {
+  //             "type": "plain_text",
+  //             "text": "업데이트 날짜",
+  //             "emoji": true
+  //           }
+  //         },
+  //         {
+  //           "type": "input",
+  //           "element": {
+  //             "type": "plain_text_input",
+  //             "placeholder": {
+  //               "type": "plain_text",
+  //               "text": "예. 2PM = 1400"
+  //             }
+  //           },
+  //           "label": {
+  //             "type": "plain_text",
+  //             "text": "서버 점검 시작시간",
+  //             "emoji": true
+  //           }
+  //         },
+  //         {
+  //           "type": "input",
+  //           "element": {
+  //             "type": "plain_text_input",
+  //             "placeholder": {
+  //               "type": "plain_text",
+  //               "text": "예. 7PM = 1900"
+  //             }
+  //           },
+  //           "label": {
+  //             "type": "plain_text",
+  //             "text": "서버 점검 종료시간",
+  //             "emoji": true
+  //           }
+  //         }
+  //       ]
+  //     }
+  //   });
+  // } else if (obj.type === "view submission") { //if updated submission
+  //   //use the input to book the update
+  // }
+  if (obj.type === "view_submission"){
+    console.log("Success");
+  }
+   else {
+    web.views.open({
       token: process.env.token,
       trigger_id: obj.trigger_id,
       view: {
@@ -248,70 +313,9 @@ app.post("/interactive-endpoint", (req, res) => {
         },
         "submit": {
           "type": "plain_text",
-          "text": "Submit"
-        },
-        "type": "modal",
-        "blocks": [{
-            "type": "input",
-            "element": {
-              "type": "datepicker"
-            },
-            "label": {
-              "type": "plain_text",
-              "text": "업데이트 날짜",
-              "emoji": true
-            }
-          },
-          {
-            "type": "input",
-            "element": {
-              "type": "plain_text_input",
-              "placeholder": {
-                "type": "plain_text",
-                "text": "예. 2PM = 1400"
-              }
-            },
-            "label": {
-              "type": "plain_text",
-              "text": "서버 점검 시작시간",
-              "emoji": true
-            }
-          },
-          {
-            "type": "input",
-            "element": {
-              "type": "plain_text_input",
-              "placeholder": {
-                "type": "plain_text",
-                "text": "예. 7PM = 1900"
-              }
-            },
-            "label": {
-              "type": "plain_text",
-              "text": "서버 점검 종료시간",
-              "emoji": true
-            }
-          }
-        ]
-      }
-    });
-  } else if (obj.type === "view submission") { //if updated submission
-    //use the input to book the update
-  } else {
-    web.views.open({
-      token: process.env.token,
-      trigger_id: obj.trigger_id,
-      view: {
-        "title": {
-          "type": "plain_text",
-          "text": "My App",
+          "text": "Submit",
           "emoji": true
         },
-        // "submit": {
-        //   "type": "plain_text",
-        //   "text": "Submit",
-        //   "emoji": true
-        // },
         "type": "modal",
         "close": {
           "type": "plain_text",
