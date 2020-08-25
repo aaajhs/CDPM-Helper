@@ -240,6 +240,7 @@ app.post("/interactive-endpoint", (req, res) => {
     trigger_id,
     view
   } = JSON.parse(req.body.payload);
+  console.log(view);
   //console.log(payload);
 
   // if (obj.type === "block_actions") { //if update type is selected
