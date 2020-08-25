@@ -307,11 +307,11 @@ app.post("/interactive-endpoint", (req, res) => {
           "text": "My App",
           "emoji": true
         },
-        "submit": {
-          "type": "plain_text",
-          "text": "Submit",
-          "emoji": true
-        },
+        // "submit": {
+        //   "type": "plain_text",
+        //   "text": "Submit",
+        //   "emoji": true
+        // },
         "type": "modal",
         "close": {
           "type": "plain_text",
