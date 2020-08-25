@@ -300,7 +300,7 @@ app.post("/interactive-endpoint", (req, res) => {
   //   //use the input to book the update
   // }
   if (/*obj.*/type === "view_submission"){
-    const updateSelection = view.state.values.updateSection.updateItem.value;
+    const updateSelection = JSON.parse(view.state.values.updateSection.updateItem.value);
     console.log(updateSelection);
   }
    else {
