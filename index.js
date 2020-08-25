@@ -260,8 +260,6 @@ app.post("/interactive-endpoint", (req, res) => {
       'endTime': new Date(updateParameters[2]),
       'updateDate': updateParameters[3]
     });
-
-    res.send("OK, Update has been registered.");
   } else {
     web.views.open({
       token: process.env.token,
