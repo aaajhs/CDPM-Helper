@@ -235,7 +235,7 @@ app.post("/interactive-endpoint", (req, res) => {
   // const payload = req.body.payload;
   // const obj = JSON.parse(payload);
   const {type, user, view} = JSON.parse(req.body.payload);
-  console.log(payload);
+  //console.log(payload);
 
   // if (obj.type === "block_actions") { //if update type is selected
   //   web.views.push({
