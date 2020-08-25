@@ -95,7 +95,7 @@ function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-0
 // end
 
 // function to handle parameters
-function parameters( /*input*/ type, date, start, end) {
+function parameters( /*input*/ type, start, end, date) {
   // var updateType = input.substring(0, 1);
   // var year = input.substring(2, 4);
   // var month = input.substring(4, 6);
@@ -252,13 +252,13 @@ app.post("/interactive-endpoint", (req, res) => {
     const updateStart = view.state.values.updateStart01.updateStart02.value;
     const updateEnd = view.state.values.updateEnd01.updateEnd02.value;
 
-
+    const updateParameters = parameters(updateType, updateStart, updateEnd, updateDate);
     //console.log(updateType + " " + updateDate + " " + updateStart + " " + updateEnd);
     let update = updateRef.set({
-      'updateType': updateType,
-      'startTime': new Date(updateStart),
-      'endTime': new Date(updateEnd),
-      'updateDate': updateDate
+      'updateType': updateParameters[0],
+      'startTime': new Date(updateParameters[1]),
+      'endTime': new Date(updateParameters[2]),
+      'updateDate': updateParameters[3]
     });
   } else {
     web.views.open({
