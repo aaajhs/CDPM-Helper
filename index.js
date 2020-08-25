@@ -232,7 +232,8 @@ app.post("/consoleupdate", (req, res) => {
 });
 
 app.post("/interactive-endpoint", (req, res) => {
-  // const payload = req.body.payload;
+  const payload = req.body.payload;
+  console.log(payload);
   // const obj = JSON.parse(payload);
   const {
     type,
@@ -241,7 +242,6 @@ app.post("/interactive-endpoint", (req, res) => {
     view
   } = JSON.parse(req.body.payload);
   console.log(view);
-  //console.log(payload);
 
   // if (obj.type === "block_actions") { //if update type is selected
   //   web.views.push({
