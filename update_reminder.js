@@ -29,7 +29,7 @@ function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-0
 }
 
 // function to handle parameters
-function parameters(start, end) {
+function parameters(date, start, end) {
 
   var start = date + "T" + start.substring(0, 2) + ":" + start.substring(2, 4) + ":00";
   var end = date + "T" + end.substring(0, 2) + ":" + end.substring(2, 4) + ":00";

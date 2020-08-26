@@ -101,7 +101,7 @@ app.post("/interactive-endpoint", (req, res) => {
     const updateStart = view.state.values.updateStart01.updateStart02.value;
     const updateEnd = view.state.values.updateEnd01.updateEnd02.value;
 
-    const updateParameters = update_reminder.parameters(updateType, updateStart, updateEnd, updateDate);
+    const updateParameters = update_reminder.parameters(updateDate, updateStart, updateEnd);
     let update = updateRef.set({
       'updateType': updateType,
       'startTime': new Date(updateParameters[0]),
