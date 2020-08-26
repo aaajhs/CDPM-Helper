@@ -1,3 +1,5 @@
+var config = require('./config');
+
 // function for sending message with a delay
 function sendTimedMessage(channel, text, time) {
   setTimeout(function() {

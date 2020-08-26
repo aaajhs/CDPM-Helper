@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-const {
-  WebClient
-} = require('@slack/web-api'); //official slack web api
-const web = new WebClient(process.env.token); //initialize
+// const {
+//   WebClient
+// } = require('@slack/web-api'); //official slack web api
+// const web = new WebClient(process.env.token); //initialize
+// exports.web = web;
 const admin = require('firebase-admin');
 const fs = require('fs');
 
+var config = require('./config');
 var update_reminder = require('./update_reminder');
 
 // START BLOCK: Initialize Firebase
@@ -35,7 +37,8 @@ app.use(bodyParser.urlencoded({
 }));
 // END BLOCK: Initialize Express
 
-targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
+// var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
+// exports.targetChannel = targetChannel;
 console.log("[App] Update Alert targeting channel: " + targetChannel);
 
 // START BLOCK: Code to run when server is restarted
