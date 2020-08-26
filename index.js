@@ -7,6 +7,8 @@ const web = new WebClient(process.env.token); //initialize
 const admin = require('firebase-admin');
 const fs = require('fs');
 
+var update_reminder = require('./update_reminder');
+
 // START BLOCK: Initialize Firebase
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -42,15 +44,11 @@ var updateRef = db.collection('event').doc('update');
 setInterval(function() {
   let getDoc = updateRef.get()
     .then(doc => {
-      if (!doc.exists) {
-        console.log('[Alert Update] No such document!');
-      } else {
-        console.log("[Alert Update] Last retrieved from DB: " + new Date());
-        console.log("[Alert Update] startTime(DB): " + doc.data().startTime.toDate());
-        console.log("[Alert Update] endTime(DB): " + doc.data().endTime.toDate());
+      console.log("[Alert Update] Last retrieved from DB: " + new Date());
+      console.log("[Alert Update] startTime(DB): " + doc.data().startTime.toDate());
+      console.log("[Alert Update] endTime(DB): " + doc.data().endTime.toDate());
 
-        alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
-      }
+      update_reminder.alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
     })
     .catch(err => {
       console.log('[Alert Update] Error getting document', err);
@@ -58,116 +56,93 @@ setInterval(function() {
 }, 5 * 60 * 1000);
 // END BLOCK: Code to run when server is restarted
 
-// function for sending message with a delay
-function sendTimedMessage(channel, text, time) {
-  setTimeout(function() {
-    web.chat.postMessage({
-      token: process.env.token,
-      channel,
-      text,
-      link_names: 1
-    }).catch(err => console.log(err))
-  }, time);
-};
-// end
-
-// function for maintenance reminder routine
-function mRoutine(targetChannel, startTime, endTime, updateDate) { // startTime, endTime is in 2020-03-12T12:00:00 format
-  mReminder(targetChannel, true, startTime, updateDate);
-  mReminder(targetChannel, false, endTime, updateDate);
-}
-// end
-
-// function for maintenance reminders
-function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-03-21T12:44:44 format
-  var tThirty = time.getTime() - (30 * 60 * 1000) - Date.now();
-  var tTen = time.getTime() - (10 * 60 * 1000) - Date.now();
-  var tTime = time.getTime() - Date.now();
-
-  if (isStartTime == true) { //this is a reminder for maintenance start
-    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
-    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
-    sendTimedMessage(targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime);
-  } else if (isStartTime == false) { //this is a reminder for maintenance end
-    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
-    sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 10분 전", tTen);
-  }
-}
-// end
-
-// function to handle parameters
-function parameters( /*input*/ type, start, end, date) {
-  // var updateType = input.substring(0, 1);
-  // var year = input.substring(2, 4);
-  // var month = input.substring(4, 6);
-  // var day = input.substring(6, 8);
-  // var startHour = input.substring(9, 11);
-  // var startMinute = input.substring(11, 13);
-  // var endHour = input.substring(14, 16);
-  // var endMinute = input.substring(16, 18);
-  //
-  // var start = "20" + year + "-" + month + "-" + day + "T" + startHour + ":" + startMinute + ":00";
-  // var end = "20" + year + "-" + month + "-" + day + "T" + endHour + ":" + endMinute + ":00";
-  // var date = month + "/" + day;
-  //
-  // return [updateType, start, end, date];
-
-  var updateType = type;
-  var date = date;
-  var start = date + "T" + start.substring(0,2) + ":" + start.substring(2,4) + ":00";
-  var end = date + "T" + end.substring(0,2) + ":" + end.substring(2,4) + ":00";
-
-  return [updateType, start, end, date];
-}
-// end
-
-// function to alert updates
-function alertUpdate(updateType, startTime, endTime, updateDate) {
-  if (new Date(startTime.getTime() - (30 * 60 * 1000)) > new Date() && new Date(endTime.getTime() - (30 * 60 * 1000)) > new Date() && new Date(startTime.getTime() - (30 * 60 * 1000)) < new Date(new Date().getTime() + (5 * 60 * 1000))) { //if it's more than 30 minutes before maintenance has started AND five minutes later it'll be less than 30 minutes before maintenance starts
-    console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
-    switch (updateType) {
-      case 'f':
-        //mRoutine(targetChannel, startTime, endTime, updateDate);
-        mReminder(targetChannel, true, startTime, updateDate);
-        sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
-        break;
-      case 'l':
-        //mRoutine(targetChannel, startTime, endTime, updateDate);
-        mReminder(targetChannel, true, startTime, updateDate);
-        break;
-      case 'm':
-        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
-        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
-        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
-        break;
-        //case 'p': for pts
-      default:
-        console.log("[Alert Update] Invalid updateType");
-    }
-  } else if (startTime < new Date() && new Date(endTime.getTime() - (30 * 60 * 1000)) > new Date() && new Date(endTime.getTime() - (30 * 60 * 1000)) < new Date(new Date().getTime() + (5 * 60 * 1000))) { //if it's after maintenance has started, but more than 30 minutes before ended AND five minutes later it'll be less than 30 minutes before maintenance ends
-    console.log("[Alert Update] It is already past the startTime, executing reminders for endTime only.");
-    switch (updateType) {
-      case 'f':
-        mReminder(targetChannel, false, endTime, updateDate);
-        sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
-        break;
-      case 'l':
-        mReminder(targetChannel, false, endTime, updateDate);
-        break;
-      case 'm':
-        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
-        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
-        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
-        break;
-        //case 'p': for pts
-      default:
-        console.log("[Alert Update] Invalid updateType");
-    }
-  } else {
-    console.log("[Alert Update] It is more than five minutes before maintenance start/end, or it is already past the endTime. Reminder request will be ignored.");
-  }
-}
-// end
+// // function for sending message with a delay
+// function sendTimedMessage(channel, text, time) {
+//   setTimeout(function() {
+//     web.chat.postMessage({
+//       token: process.env.token,
+//       channel,
+//       text,
+//       link_names: 1
+//     }).catch(err => console.log(err))
+//   }, time);
+// };
+// // end
+//
+// // function for maintenance reminders
+// function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-03-21T12:44:44 format
+//   var tThirty = time.getTime() - (30 * 60 * 1000) - Date.now();
+//   var tTen = time.getTime() - (10 * 60 * 1000) - Date.now();
+//   var tTime = time.getTime() - Date.now();
+//
+//   if (isStartTime == true) { //this is a reminder for maintenance start
+//     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
+//     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
+//     sendTimedMessage(targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime);
+//   } else if (isStartTime == false) { //this is a reminder for maintenance end
+//     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
+//     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 10분 전", tTen);
+//   }
+// }
+// // end
+//
+// // function to handle parameters
+// function parameters(type, start, end, date) {
+//
+//   var updateType = type;
+//   var date = date;
+//   var start = date + "T" + start.substring(0, 2) + ":" + start.substring(2, 4) + ":00";
+//   var end = date + "T" + end.substring(0, 2) + ":" + end.substring(2, 4) + ":00";
+//
+//   return [updateType, start, end, date];
+// }
+// // end
+//
+// // function to alert updates
+// function alertUpdate(updateType, startTime, endTime, updateDate) {
+//   if (new Date(startTime.getTime() - (30 * 60 * 1000)) > new Date() && new Date(endTime.getTime() - (30 * 60 * 1000)) > new Date() && new Date(startTime.getTime() - (30 * 60 * 1000)) < new Date(new Date().getTime() + (5 * 60 * 1000))) { //if it's more than 30 minutes before maintenance has started AND five minutes later it'll be less than 30 minutes before maintenance starts
+//     console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
+//     switch (updateType) {
+//       case 'f':
+//         mReminder(targetChannel, true, startTime, updateDate);
+//         sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
+//         break;
+//       case 'l':
+//         mReminder(targetChannel, true, startTime, updateDate);
+//         break;
+//       case 'm':
+//         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+//         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+//         sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
+//         break;
+//         //case 'p': for pts
+//       default:
+//         console.log("[Alert Update] Invalid updateType");
+//     }
+//   } else if (startTime < new Date() && new Date(endTime.getTime() - (30 * 60 * 1000)) > new Date() && new Date(endTime.getTime() - (30 * 60 * 1000)) < new Date(new Date().getTime() + (5 * 60 * 1000))) { //if it's after maintenance has started, but more than 30 minutes before ended AND five minutes later it'll be less than 30 minutes before maintenance ends
+//     console.log("[Alert Update] It is already past the startTime, executing reminders for endTime only.");
+//     switch (updateType) {
+//       case 'f':
+//         mReminder(targetChannel, false, endTime, updateDate);
+//         sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
+//         break;
+//       case 'l':
+//         mReminder(targetChannel, false, endTime, updateDate);
+//         break;
+//       case 'm':
+//         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+//         sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+//         sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
+//         break;
+//         //case 'p': for pts
+//       default:
+//         console.log("[Alert Update] Invalid updateType");
+//     }
+//   } else {
+//     console.log("[Alert Update] It is more than five minutes before maintenance start/end, or it is already past the endTime. Reminder request will be ignored.");
+//   }
+// }
+// // end
 
 // START BLOCK: Command Handler
 app.get("/", function(req, res) {
@@ -217,8 +192,6 @@ app.post("/mtlog", (req, res) => {
     .catch(err => {
       console.log('[mtlog] Error getting document', err);
     });
-
-
 });
 
 // app.post("/consoleupdate", (req, res) => {
@@ -254,7 +227,7 @@ app.post("/interactive-endpoint", (req, res) => {
     const updateStart = view.state.values.updateStart01.updateStart02.value;
     const updateEnd = view.state.values.updateEnd01.updateEnd02.value;
 
-    const updateParameters = parameters(updateType, updateStart, updateEnd, updateDate);
+    const updateParameters = update_reminder.parameters(updateType, updateStart, updateEnd, updateDate);
     //console.log(updateType + " " + updateDate + " " + updateStart + " " + updateEnd);
     let update = updateRef.set({
       'updateType': updateParameters[0],
