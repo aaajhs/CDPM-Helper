@@ -11,5 +11,6 @@ var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 exports.express = express;
 exports.bodyParser = bodyParser;
 exports.admin = admin;
+exports.fs = fs;
 exports.web = web;
 exports.targetChannel = targetChannel;

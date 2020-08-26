@@ -93,7 +93,7 @@ app.post("/interactive-endpoint", (req, res) => {
     trigger_id,
     view
   } = JSON.parse(req.body.payload);
-  const view01 = fs.readFileSync('./shortcut_reminder_view01.json', 'utf8');
+  const view01 = config.fs.readFileSync('./shortcut_reminder_view01.json', 'utf8');
 
   if (type === "view_submission") {
     const updateType = view.state.values.updateType01.updateType02.selected_option.value;
