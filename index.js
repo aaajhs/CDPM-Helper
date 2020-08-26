@@ -5,6 +5,7 @@ const {
 } = require('@slack/web-api'); //official slack web api
 const web = new WebClient(process.env.token); //initialize
 const admin = require('firebase-admin');
+const fs = require('fs');
 
 // START BLOCK: Initialize Firebase
 admin.initializeApp({
@@ -245,6 +246,7 @@ app.post("/interactive-endpoint", (req, res) => {
     trigger_id,
     view
   } = JSON.parse(req.body.payload);
+  const view01 = fs.readFileSync('./shortcut_reminder_view01.json', 'utf8');
 
   if (type === "view_submission") {
     const updateType = view.state.values.updateType01.updateType02.selected_option.value;
@@ -264,118 +266,7 @@ app.post("/interactive-endpoint", (req, res) => {
     web.views.open({
       token: process.env.token,
       trigger_id: trigger_id,
-      view: {
-        "title": {
-          "type": "plain_text",
-          "text": "My App",
-          "emoji": true
-        },
-        "submit": {
-          "type": "plain_text",
-          "text": "Submit",
-          "emoji": true
-        },
-        "type": "modal",
-        "close": {
-          "type": "plain_text",
-          "text": "Cancel",
-          "emoji": true
-        },
-        "blocks": [{
-            "type": "section",
-            "text": {
-              "type": "plain_text",
-              "text": "Contents Update\n- 점검 시작 30분 전, 10분 전 리마인더\n- 점검 스레드 생성\n- 점검 종료 30분 전, 10분 전 리마인더\n- (Optional) PTS 종료 리마인더\nHotfix/PTS\n- 배포 시작 30분 전, 10분 전, 시작 시점 리마인더",
-              "emoji": true
-            }
-          },
-          {
-            "type": "divider"
-          },
-          {
-            "type": "input",
-            "block_id": "updateType01",
-            "element": {
-              "type": "static_select",
-              "action_id": "updateType02",
-              "placeholder": {
-                "type": "plain_text",
-                "text": "Select an item",
-                "emoji": true
-              },
-              "options": [{
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Contents Update",
-                    "emoji": true
-                  },
-                  "value": "l"
-                },
-                {
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Hotfix/PTS",
-                    "emoji": true
-                  },
-                  "value": "m"
-                }
-              ]
-            },
-            "label": {
-              "type": "plain_text",
-              "text": "Update Type",
-              "emoji": true
-            }
-          },
-          {
-            "type": "input",
-            "block_id": "updateDate01",
-            "element": {
-              "type": "datepicker",
-              "action_id": "updateDate02"
-            },
-            "label": {
-              "type": "plain_text",
-              "text": "업데이트 날짜",
-              "emoji": true
-            }
-          },
-          {
-            "type": "input",
-            "block_id": "updateStart01",
-            "element": {
-              "type": "plain_text_input",
-              "action_id": "updateStart02",
-              "placeholder": {
-                "type": "plain_text",
-                "text": "예. 2PM = 1400"
-              }
-            },
-            "label": {
-              "type": "plain_text",
-              "text": "서버 점검 시작시간",
-              "emoji": true
-            }
-          },
-          {
-            "type": "input",
-            "block_id": "updateEnd01",
-            "element": {
-              "type": "plain_text_input",
-              "action_id": "updateEnd02",
-              "placeholder": {
-                "type": "plain_text",
-                "text": "예. 7PM = 1900"
-              }
-            },
-            "label": {
-              "type": "plain_text",
-              "text": "서버 점검 종료시간",
-              "emoji": true
-            }
-          }
-        ]
-      }
+      view: view01
     }).catch(err => console.log(err))
   }
   res.send();
