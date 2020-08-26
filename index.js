@@ -1,14 +1,10 @@
-const express = require('express');
-const bodyParser = require("body-parser");
-const admin = require('firebase-admin');
-
-const fs = require('fs');
-var config = require('./config');
-var update_reminder = require('./update_reminder');
+const config = require('./config');
+const update_reminder = require('./update_reminder');
+const mtlog = require('./mtlog');
 
 // START BLOCK: Initialize Firebase
-admin.initializeApp({
-  credential: admin.credential.cert({
+config.admin.initializeApp({
+  credential: config.admin.credential.cert({
     "type": process.env.type,
     "project_id": process.env.project_id,
     "private_key_id": process.env.private_key_id,
@@ -22,12 +18,12 @@ admin.initializeApp({
   }),
   databaseURL: 'https://cdpu-helper.firebaseio.com'
 });
-let db = admin.firestore();
+const db = config.admin.firestore();
 // END BLOCK: Initialize Firebase
 
 // START BLOCK: Initialize Express
-const app = express();
-app.use(bodyParser.urlencoded({
+const app = config.express();
+app.use(config.bodyParser.urlencoded({
   extended: true
 }));
 // END BLOCK: Initialize Express
@@ -41,8 +37,6 @@ setInterval(function() {
   let getDoc = updateRef.get()
     .then(doc => {
       console.log("[Alert Update] Last retrieved from DB: " + new Date());
-      console.log("[Alert Update] startTime(DB): " + doc.data().startTime.toDate());
-      console.log("[Alert Update] endTime(DB): " + doc.data().endTime.toDate());
 
       update_reminder.alertUpdate(doc.data().updateType, doc.data().startTime.toDate(), doc.data().endTime.toDate(), doc.data().updateDate);
     })
@@ -57,12 +51,6 @@ app.post("/mtlog", (req, res) => {
   var today = new Date();
   var table = [":sarang:", ":nara2:", ":coco2:", ":borrie:"];
 
-  function getWeekNumber(targetDate) {
-    targetDate.setUTCDate(targetDate.getUTCDate() + 4 - (targetDate.getUTCDay() || 7)); //set targetDate to nearest Thursday & change weekday 0 to 7
-    var yearStart = new Date(Date.UTC(targetDate.getUTCFullYear(), 0, 1));
-    var weekNo = Math.ceil((((targetDate - yearStart) / 86400000) + 1) / 7);
-    return weekNo;
-  }
 
   var mtlogRef = db.collection('event').doc('mtlog');
   let getMTLog = mtlogRef.get()
@@ -73,14 +61,14 @@ app.post("/mtlog", (req, res) => {
         emojiEntry = doc.data().emojiEntry;
         lastCalled = doc.data().lastCalled.toDate();
 
-        if (getWeekNumber(lastCalled) != getWeekNumber(today)) //if this is the first time this code is being called this week
+        if (mtlog.getWeekNumber(lastCalled) != mtlog.getWeekNumber(today)) //if this is the first time this code is being called this week
           emojiEntry = (emojiEntry + 1) % 4
 
         let updateLastCalled = mtlogRef.set({
           'lastCalled': today,
           'emojiEntry': emojiEntry
         });
-        console.log("[mtlog] emojiEntry: " + emojiEntry + ", lastCalled: " + lastCalled);
+        console.log("[mtlog] emojiEntry: " + table[emojiEntry] + ", lastCalled: " + lastCalled);
 
         res.send();
 
@@ -114,12 +102,11 @@ app.post("/interactive-endpoint", (req, res) => {
     const updateEnd = view.state.values.updateEnd01.updateEnd02.value;
 
     const updateParameters = update_reminder.parameters(updateType, updateStart, updateEnd, updateDate);
-    //console.log(updateType + " " + updateDate + " " + updateStart + " " + updateEnd);
     let update = updateRef.set({
-      'updateType': updateParameters[0],
-      'startTime': new Date(updateParameters[1]),
-      'endTime': new Date(updateParameters[2]),
-      'updateDate': updateParameters[3]
+      'updateType': updateType,
+      'startTime': new Date(updateParameters[0]),
+      'endTime': new Date(updateParameters[1]),
+      'updateDate': updateDate
     });
   } else {
     config.web.views.open({

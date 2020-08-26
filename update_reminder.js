@@ -1,4 +1,4 @@
-var config = require('./config');
+const config = require('./config');
 
 // function for sending message with a delay
 function sendTimedMessage(channel, text, time) {
@@ -29,14 +29,12 @@ function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-0
 }
 
 // function to handle parameters
-function parameters(type, start, end, date) {
+function parameters(start, end) {
 
-  var updateType = type;
-  var date = date;
   var start = date + "T" + start.substring(0, 2) + ":" + start.substring(2, 4) + ":00";
   var end = date + "T" + end.substring(0, 2) + ":" + end.substring(2, 4) + ":00";
 
-  return [updateType, start, end, date];
+  return [start, end];
 }
 
 // function to alert updates
