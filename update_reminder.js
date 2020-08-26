@@ -3,7 +3,7 @@ var config = require('./config');
 // function for sending message with a delay
 function sendTimedMessage(channel, text, time) {
   setTimeout(function() {
-    web.chat.postMessage({
+    config.web.chat.postMessage({
       token: process.env.token,
       channel,
       text,
@@ -21,7 +21,7 @@ function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-0
   if (isStartTime == true) { //this is a reminder for maintenance start
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
-    sendTimedMessage(targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime);
+    sendTimedMessage(config.targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime);
   } else if (isStartTime == false) { //this is a reminder for maintenance end
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 10분 전", tTen);
@@ -45,16 +45,16 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
     console.log("[Alert Update] Reminders will be executed for startTime and endTime.");
     switch (updateType) {
       case 'f':
-        mReminder(targetChannel, true, startTime, updateDate);
-        sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
+        mReminder(config.targetChannel, true, startTime, updateDate);
+        sendTimedMessage(config.targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
         break;
       case 'l':
-        mReminder(targetChannel, true, startTime, updateDate);
+        mReminder(config.targetChannel, true, startTime, updateDate);
         break;
       case 'm':
-        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
-        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
-        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
+        sendTimedMessage(config.targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+        sendTimedMessage(config.targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+        sendTimedMessage(config.targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
         break;
         //case 'p': for pts
       default:
@@ -64,16 +64,16 @@ function alertUpdate(updateType, startTime, endTime, updateDate) {
     console.log("[Alert Update] It is already past the startTime, executing reminders for endTime only.");
     switch (updateType) {
       case 'f':
-        mReminder(targetChannel, false, endTime, updateDate);
-        sendTimedMessage(targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
+        mReminder(config.targetChannel, false, endTime, updateDate);
+        sendTimedMessage(config.targetChannel, "*_Reminder:_* PTS Close @devops_emergency", endTime.getTime() - Date.now());
         break;
       case 'l':
-        mReminder(targetChannel, false, endTime, updateDate);
+        mReminder(config.targetChannel, false, endTime, updateDate);
         break;
       case 'm':
-        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
-        sendTimedMessage(targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
-        sendTimedMessage(targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
+        sendTimedMessage(config.targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 30분 전", endTime.getTime() - (30 * 60 * 1000) - Date.now());
+        sendTimedMessage(config.targetChannel, "*_Reminder:_* 패치 배포(GA) 시작 10분 전", endTime.getTime() - (10 * 60 * 1000) - Date.now());
+        sendTimedMessage(config.targetChannel, "*_Notice:_* " + updateDate + " 패치 배포(GA) 시작", endTime.getTime() - Date.now());
         break;
         //case 'p': for pts
       default:

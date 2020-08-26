@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({
 
 // var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 // exports.targetChannel = targetChannel;
-console.log("[App] Update Alert targeting channel: " + targetChannel);
+console.log("[App] Update Alert targeting channel: " + config.targetChannel);
 
 // START BLOCK: Code to run when server is restarted
 // Retrieve last saved update info every 5 minutes
@@ -183,7 +183,7 @@ app.post("/mtlog", (req, res) => {
 
         res.send();
 
-        web.chat.postMessage({
+        config.web.chat.postMessage({
           token: process.env.token,
           channel: req.body.channel_id,
           text: (table[emojiEntry]),
@@ -239,7 +239,7 @@ app.post("/interactive-endpoint", (req, res) => {
       'updateDate': updateParameters[3]
     });
   } else {
-    web.views.open({
+    config.web.views.open({
       token: process.env.token,
       trigger_id: trigger_id,
       view: view01
