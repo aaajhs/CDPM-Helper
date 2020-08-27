@@ -5,7 +5,7 @@ const fs = require('fs');
 const { WebClient } = require('@slack/web-api'); //official slack web api
 const web = new WebClient(process.env.token); //initialize
 
-var targetChannel = 'bot-testspace'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
+var targetChannel = 'console_production'; // TAKE CAUTION @@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
 exports.express = express;
