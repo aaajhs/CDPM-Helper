@@ -16,12 +16,13 @@ function sendTimedMessage(channel, text, time) {
 function mReminder(channel, isStartTime, time, updateDate) { //time is in 2020-03-21T12:44:44 format
   var tThirty = time.getTime() - (30 * 60 * 1000) - Date.now();
   var tTen = time.getTime() - (10 * 60 * 1000) - Date.now();
+  var tFive = time.getTime() - (5 * 60 * 1000) - Date.now();
   var tTime = time.getTime() - Date.now();
 
   if (isStartTime == true) { //this is a reminder for maintenance start
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 시작 10분 전", tTen);
-    sendTimedMessage(config.targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tTime);
+    sendTimedMessage(config.targetChannel, "*_Thread:_* `" + updateDate + " 점검 스레드`", tFive);
   } else if (isStartTime == false) { //this is a reminder for maintenance end
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 30분 전", tThirty);
     sendTimedMessage(channel, "*_Reminder:_* 서버 점검 종료 10분 전", tTen);
