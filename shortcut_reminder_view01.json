@@ -1,0 +1,112 @@
+{
+  "title": {
+    "type": "plain_text",
+    "text": "My App",
+    "emoji": true
+  },
+  "submit": {
+    "type": "plain_text",
+    "text": "Submit",
+    "emoji": true
+  },
+  "type": "modal",
+  "close": {
+    "type": "plain_text",
+    "text": "Cancel",
+    "emoji": true
+  },
+  "blocks": [{
+      "type": "section",
+      "text": {
+        "type": "plain_text",
+        "text": "Contents Update\n- 점검 시작 30분 전, 10분 전 리마인더\n- 점검 스레드 생성\n- 점검 종료 30분 전, 10분 전 리마인더\nHotfix/PTS\n- 배포 시작 30분 전, 10분 전, 시작 시점 리마인더",
+        "emoji": true
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "input",
+      "block_id": "updateType01",
+      "element": {
+        "type": "static_select",
+        "action_id": "updateType02",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "Select an item",
+          "emoji": true
+        },
+        "options": [{
+            "text": {
+              "type": "plain_text",
+              "text": "Contents Update",
+              "emoji": true
+            },
+            "value": "l"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "Hotfix/PTS",
+              "emoji": true
+            },
+            "value": "m"
+          }
+        ]
+      },
+      "label": {
+        "type": "plain_text",
+        "text": "Update Type",
+        "emoji": true
+      }
+    },
+    {
+      "type": "input",
+      "block_id": "updateDate01",
+      "element": {
+        "type": "datepicker",
+        "action_id": "updateDate02"
+      },
+      "label": {
+        "type": "plain_text",
+        "text": "업데이트 날짜",
+        "emoji": true
+      }
+    },
+    {
+      "type": "input",
+      "block_id": "updateStart01",
+      "element": {
+        "type": "plain_text_input",
+        "action_id": "updateStart02",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "예. 2PM = 1400"
+        }
+      },
+      "label": {
+        "type": "plain_text",
+        "text": "서버 점검 시작시간",
+        "emoji": true
+      }
+    },
+    {
+      "type": "input",
+      "block_id": "updateEnd01",
+      "element": {
+        "type": "plain_text_input",
+        "action_id": "updateEnd02",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "예. 7PM = 1900"
+        }
+      },
+      "label": {
+        "type": "plain_text",
+        "text": "서버 점검 종료시간",
+        "emoji": true
+      }
+    }
+  ]
+}
