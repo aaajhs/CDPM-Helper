@@ -37,11 +37,16 @@ async function handle_modal(payload){
 
             if(update_type == "maintenance"){
                 console.log("got to maintenance!");
-                await web.views.update({
-                    token: process.env.token,
-                    external_id: "reminder_view_maintenance",
-                    view: update_maintenance
-                });
+                try{
+                    await web.views.update({
+                        token: process.env.token,
+                        external_id: "reminder_view_maintenance",
+                        view: update_maintenance
+                    });
+                }
+                catch(err){
+                    console.log("web.views error: " + err);
+                }
             }
             else if(update_type == "no_maintenance"){
                 console.log("got to no maintenance!");
