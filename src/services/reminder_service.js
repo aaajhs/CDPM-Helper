@@ -22,8 +22,6 @@ function handle_modal(payload){
         actions,
     } = payload;
 
-    console.log(payload);
-
     try{
         if(type == "shortcut"){
             web.views.open({
@@ -32,11 +30,10 @@ function handle_modal(payload){
                 view: update_initial
             });
         }
-        else if(type == "block_actions" && actions){
+        else if(type == "block_actions" && actions[0].action_id == "update_type"){
             const update_type = actions[0].selected_option.value;
 
             if(update_type == "maintenance"){
-                console.log("here we go");
                 web.views.update({
                     token: process.env.token,
                     view: update_maintenance,
