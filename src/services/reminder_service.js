@@ -16,12 +16,11 @@ module.exports = {
 };
 
 async function handle_modal(payload){
-    console.log(payload);
     const {
         type,
         trigger_id,
         actions,
-        previous_view_id,
+        view_id = view.id,
     } = payload;
 
     try{
@@ -39,12 +38,12 @@ async function handle_modal(payload){
 
             if(update_type == "maintenance"){
                 console.log("got to maintenance!");
-                console.log(previous_view_id);
-                console.log(payload.previous_view_id);
+                console.log(view_id);
+                console.log(payload.view.id);
                 try{
                     await web.views.update({
                         token: process.env.token,
-                        view_id: previous_view_id,
+                        view_id: view_id,
                         view: update_maintenance
                     });
                 }
