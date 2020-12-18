@@ -17,7 +17,6 @@ module.exports = {
 
 function handle_modal(type, trigger_id, view, state){
     const update_type = state.values.update_type.update_type.selected_option.value;
-    const submission = view.state.values;
 
     try{
         if(type == "block_actions" && update_type == "maintenance"){
@@ -35,6 +34,7 @@ function handle_modal(type, trigger_id, view, state){
             });
         }
         else if(type == "view_submission"){
+            const submission = view.state.values;
             create_reminder(submission);
         }
         else{
