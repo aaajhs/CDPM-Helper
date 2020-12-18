@@ -15,7 +15,7 @@ module.exports = {
     check_db_update,
 };
 
-function handle_modal(payload){
+async function handle_modal(payload){
     const {
         type,
         trigger_id,
@@ -37,7 +37,7 @@ function handle_modal(payload){
 
             if(update_type == "maintenance"){
                 console.log("got to maintenance!");
-                web.views.update({
+                await web.views.update({
                     token: process.env.token,
                     external_id: "reminder_view_maintenance",
                     view: update_maintenance
@@ -45,7 +45,7 @@ function handle_modal(payload){
             }
             else if(update_type == "no_maintenance"){
                 console.log("got to no maintenance!");
-                web.views.update({
+                await web.views.update({
                     token: process.env.token,
                     external_id: "reminder_view_no_maintenance",
                     view: update_no_maintenance
