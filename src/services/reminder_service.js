@@ -39,6 +39,7 @@ function handle_modal(payload){
                 console.log("got to maintenance!");
                 web.views.update({
                     token: process.env.token,
+                    external_id: "reminder_view_maintenance",
                     view: update_maintenance
                 });
             }
@@ -46,6 +47,7 @@ function handle_modal(payload){
                 console.log("got to no maintenance!");
                 web.views.update({
                     token: process.env.token,
+                    external_id: "reminder_view_no_maintenance",
                     view: update_no_maintenance
                 });
             }
