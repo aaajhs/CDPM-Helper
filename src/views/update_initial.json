@@ -1,0 +1,57 @@
+{
+	"title": {
+		"type": "plain_text",
+		"text": "Set Update Reminder",
+		"emoji": true
+	},
+	"type": "modal",
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel",
+		"emoji": true
+	},
+	"blocks": [
+		{
+			"type": "section",
+			"block_id": "update_type",
+			"text": {
+				"type": "mrkdwn",
+				"text": "업데이트 유형을 선택해 주세요:"
+			},
+			"accessory": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Update type",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "점검",
+							"emoji": true
+						},
+						"value": "maintenance"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "배포",
+							"emoji": true
+						},
+						"value": "no_maintenance"
+					}
+				],
+				"action_id": "update_type"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*점검* - 점검이 필요한 업데이트 ( 정기 업데이트 / 핫픽스 등 )\n*배포* - 점검이 불필요한 단순 배포 ( PTS / 무점검 핫픽스 등 )"
+			}
+		}
+	]
+}

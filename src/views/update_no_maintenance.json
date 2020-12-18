@@ -1,0 +1,129 @@
+{
+	"title": {
+		"type": "plain_text",
+		"text": "Set Update Reminder",
+		"emoji": true
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Submit",
+		"emoji": true
+	},
+	"type": "modal",
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel",
+		"emoji": true
+	},
+	"blocks": [
+		{
+			"type": "section",
+			"block_id": "update_type",
+			"text": {
+				"type": "mrkdwn",
+				"text": "업데이트 유형을 선택해 주세요:"
+			},
+			"accessory": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Update type",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "점검",
+							"emoji": true
+						},
+						"value": "maintenance"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "배포",
+							"emoji": true
+						},
+						"value": "no_maintenance"
+					}
+				],
+				"action_id": "update_type"
+			}
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "section",
+			"block_id": "target_date",
+			"text": {
+				"type": "mrkdwn",
+				"text": "업데이트 예정일"
+			},
+			"accessory": {
+				"type": "datepicker",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Target date",
+					"emoji": true
+				},
+				"action_id": "target_date"
+			}
+		},
+		{
+			"type": "section",
+			"block_id": "start_time",
+			"text": {
+				"type": "mrkdwn",
+				"text": "배포 시작 시각"
+			},
+			"accessory": {
+				"type": "timepicker",
+				"initial_time": "14:00",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Start time",
+					"emoji": true
+				},
+				"action_id": "start_time"
+			}
+		},
+		{
+			"type": "actions",
+			"block_id": "start_time_notification",
+			"elements": [
+				{
+					"type": "checkboxes",
+					"options": [
+						{
+							"text": {
+								"type": "plain_text",
+								"text": "30분 전",
+								"emoji": true
+							},
+							"value": "30"
+						},
+						{
+							"text": {
+								"type": "plain_text",
+								"text": "10분 전",
+								"emoji": true
+							},
+							"value": "10"
+						},
+						{
+							"text": {
+								"type": "plain_text",
+								"text": "정시",
+								"emoji": true
+							},
+							"value": "0"
+						}
+					],
+					"action_id": "start_time_notification"
+				}
+			]
+		}
+	]
+}
