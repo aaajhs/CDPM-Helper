@@ -22,6 +22,8 @@ function handle_modal(payload){
         actions,
     } = payload;
 
+    console.log(payload);
+
     try{
         if(type == "shortcut"){
             web.views.open({
@@ -30,11 +32,11 @@ function handle_modal(payload){
                 view: update_initial
             });
         }
-        else if(type == "block_actions"){
-            console.log(actions[0].selected_option.value);
+        else if(type == "block_actions" && actions){
             const update_type = actions[0].selected_option.value;
 
             if(update_type == "maintenance"){
+                console.log("here we go");
                 web.views.update({
                     token: process.env.token,
                     view: update_maintenance,
@@ -50,7 +52,7 @@ function handle_modal(payload){
             }
         }
         else if(type == "view_submission"){
-            console.log(payload);
+            console.log(payload.view.blocks);
             //let submission = view.state.values;
             //create_reminder(submission);
         }
