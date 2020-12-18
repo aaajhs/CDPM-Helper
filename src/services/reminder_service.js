@@ -51,6 +51,7 @@ function handle_modal(payload){
         else if(type == "view_submission"){
             const submission = payload.view.blocks;
             console.log(submission);
+            console.log(submission[2].accessory.placeholder);
             create_reminder(submission);
         }
     }
