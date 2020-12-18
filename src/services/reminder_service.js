@@ -38,6 +38,8 @@ async function handle_modal(payload){
 
             if(update_type == "maintenance"){
                 console.log("got to maintenance!");
+                console.log(previous_view_id);
+                console.log(payload.previous_view_id);
                 try{
                     await web.views.update({
                         token: process.env.token,
