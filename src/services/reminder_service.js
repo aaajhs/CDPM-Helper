@@ -20,6 +20,7 @@ function handle_modal(type, trigger_id, view, state){
 
     try{
         if(type == "block_actions" && update_type == "maintenance"){
+            let update_type = state.values.update_type.update_type.selected_option.value;
             web.views.open({
                 token: process.env.token,
                 trigger_id: trigger_id,
@@ -27,6 +28,7 @@ function handle_modal(type, trigger_id, view, state){
             });
         }
         else if(type == "block_actions" && update_type == "no_maintenance"){
+            let update_type = state.values.update_type.update_type.selected_option.value;
             web.views.open({
                 token: process.env.token,
                 trigger_id: trigger_id,
@@ -34,10 +36,11 @@ function handle_modal(type, trigger_id, view, state){
             });
         }
         else if(type == "view_submission"){
-            const submission = view.state.values;
+            let submission = view.state.values;
             create_reminder(submission);
         }
         else{
+            console.log("here!");
             web.views.open({
                 token: process.env.token,
                 trigger_id: trigger_id,
