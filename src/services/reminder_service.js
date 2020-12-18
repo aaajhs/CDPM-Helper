@@ -16,6 +16,7 @@ module.exports = {
 };
 
 async function handle_modal(payload){
+    console.log(payload);
     const {
         type,
         trigger_id,
