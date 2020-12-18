@@ -24,7 +24,6 @@ function handle_modal(payload){
 
     try{
         if(type == "shortcut"){
-            console.log("now we are here");
             web.views.open({
                 token: process.env.token,
                 trigger_id: trigger_id,
@@ -49,14 +48,12 @@ function handle_modal(payload){
                     view_id: payload.view.id
                 });
             }
-            console.log("we're past the update_type phase..");
         }
         else if(type == "view_submission"){
-            let submission = view.state.values;
-            create_reminder(submission);
+            console.log(payload);
+            //let submission = view.state.values;
+            //create_reminder(submission);
         }
-
-        //return;
     }
     catch(err){
         console.log("[App] Reminder error: " + err);
