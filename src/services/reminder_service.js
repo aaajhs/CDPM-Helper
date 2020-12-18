@@ -22,7 +22,7 @@ function handle_modal(payload){
         actions,
     } = payload;
 
-    console.log(payload.view.state.values);
+    console.log(payload);
 
     try{
         if(type == "shortcut"){
@@ -34,6 +34,8 @@ function handle_modal(payload){
         }
         else if(type == "block_actions" && actions[0].action_id == "update_type"){
             const update_type = actions[0].selected_option.value;
+
+            console.log(payload.view.state.values);
 
             if(update_type == "maintenance"){
                 web.views.update({
