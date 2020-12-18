@@ -16,6 +16,7 @@ module.exports = {
 };
 
 function handle_modal(payload){
+    var p = JSON.parse(payload);
     console.log("[Payload] " + payload);
     console.log("[Payload type] " + payload.type);
     const type = payload.type;
