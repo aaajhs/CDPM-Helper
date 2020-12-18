@@ -5,7 +5,8 @@ module.exports = {
 };
 
 function handle_modal(req, res) {
-  reminder_service.handle_modal(req.body.payload);
+  const payload = JSON.parse(req.body.payload);
+  reminder_service.handle_modal(payload);
 
   res.status(200).send();
 }
