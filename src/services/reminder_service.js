@@ -16,6 +16,8 @@ module.exports = {
 };
 
 function handle_modal(payload){
+    console.log("[Payload] " + payload);
+    console.log("[Payload type] " + payload.type);
     const type = payload.type;
     try{
         if(type == "shortcut"){
