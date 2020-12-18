@@ -6,6 +6,7 @@ const admin = require("firebase-admin");
 // const cred = require("../credentials");
 const port = process.env.PORT || 5000;
 
+if(db) console.log("[App] Connected to Firestore DB111111");
 // Firebase DB
 admin.initializeApp({
     credential: admin.credential.cert({
@@ -23,7 +24,7 @@ admin.initializeApp({
     databaseURL: "https://cdpu-helper.firebaseio.com"
 });
 export const db = admin.firestore();
-// console log successful db connection
+if(db) console.log("[App] Connected to Firestore DB");
 
 // Express
 app.use(bodyParser.urlencoded({ extended: true }));
