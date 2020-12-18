@@ -20,7 +20,10 @@ function handle_modal(payload){
         type,
         trigger_id,
 
-    } = payload.type;
+    } = payload;
+
+
+
     try{
         if(type == "shortcut"){
             console.log("now we are here");
