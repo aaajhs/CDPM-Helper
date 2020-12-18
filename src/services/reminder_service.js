@@ -16,7 +16,11 @@ module.exports = {
 };
 
 function handle_modal(payload){
-    const type = payload.type;
+    const {
+        type,
+        trigger_id,
+
+    } = payload.type;
     try{
         if(type == "shortcut"){
             console.log("now we are here");
