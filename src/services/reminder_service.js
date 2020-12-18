@@ -15,7 +15,7 @@ module.exports = {
     check_db_update,
 };
 
-async function handle_modal(payload){
+function handle_modal(payload){
     const {
         type,
         trigger_id,
@@ -36,25 +36,17 @@ async function handle_modal(payload){
             const update_type = actions[0].selected_option.value;
 
             if(update_type == "maintenance"){
-                console.log("got to maintenance!");
-                console.log(payload.view.id);
-                try{
-                    await web.views.update({
-                        token: process.env.token,
-                        view: update_maintenance,
-                        view_id: payload.view.id
-                    });
-                }
-                catch(err){
-                    console.log("web.views error: " + err);
-                }
+                web.views.update({
+                    token: process.env.token,
+                    view: update_maintenance,
+                    view_id: payload.view.id
+                });
             }
             else if(update_type == "no_maintenance"){
-                console.log("got to no maintenance!");
-                await web.views.update({
+                web.views.update({
                     token: process.env.token,
-                    view_id: previous_view_id,
-                    view: update_no_maintenance
+                    view: update_no_maintenance,
+                    view_id: payload.view.id
                 });
             }
             console.log("we're past the update_type phase..");
@@ -64,7 +56,7 @@ async function handle_modal(payload){
             create_reminder(submission);
         }
 
-        return;
+        //return;
     }
     catch(err){
         console.log("[App] Reminder error: " + err);
