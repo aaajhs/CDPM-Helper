@@ -49,9 +49,9 @@ function handle_modal(payload){
             }
         }
         else if(type == "view_submission"){
-            console.log(payload.view.blocks);
-            //let submission = view.state.values;
-            //create_reminder(submission);
+            const submission = payload.view.blocks;
+            console.log(submission);
+            create_reminder(submission);
         }
     }
     catch(err){
