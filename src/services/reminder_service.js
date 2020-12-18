@@ -20,6 +20,7 @@ async function handle_modal(payload){
         type,
         trigger_id,
         actions,
+        previous_view_id,
     } = payload;
 
     try{
@@ -40,7 +41,7 @@ async function handle_modal(payload){
                 try{
                     await web.views.update({
                         token: process.env.token,
-                        external_id: "reminder_view_maintenance",
+                        view_id: previous_view_id,
                         view: update_maintenance
                     });
                 }
@@ -52,7 +53,7 @@ async function handle_modal(payload){
                 console.log("got to no maintenance!");
                 await web.views.update({
                     token: process.env.token,
-                    external_id: "reminder_view_no_maintenance",
+                    view_id: previous_view_id,
                     view: update_no_maintenance
                 });
             }
