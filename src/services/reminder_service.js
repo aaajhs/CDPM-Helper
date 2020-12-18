@@ -1,11 +1,12 @@
 const { db } = require("../app");
+// const cred = require("../../credentials");
 const time_service = require("../services/time_service");
 const { WebClient } = require('@slack/web-api'); //official slack web api
 const web = new WebClient(process.env.token); //initialize
 const fs = require('fs');
-const update_initial = fs.readFileSync("../views/update_initial.json", "utf8");
-const update_maintenance = fs.readFileSync("../views/update_maintenance.json", "utf8");
-const update_no_maintenance = fs.readFileSync("../views/update_no_maintenance.json", "utf8");
+const update_initial = fs.readFileSync(__dirname + "/../views/update_initial.json", "utf8");
+const update_maintenance = fs.readFileSync(__dirname + "/../views/update_maintenance.json", "utf8");
+const update_no_maintenance = fs.readFileSync(__dirname + "/../views/update_no_maintenance.json", "utf8");
 
 const channel = "bot-testspace";
 

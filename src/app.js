@@ -3,11 +3,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const admin = require("firebase-admin");
+// const cred = require("../credentials");
 const port = process.env.PORT || 5000;
-//old packages - delete
-const config = require('./config');
-const update_reminder = require('./update_reminder');
-const mtlog = require('./mtlog');
 
 // Firebase DB
 admin.initializeApp({
@@ -15,7 +12,7 @@ admin.initializeApp({
         "type": process.env.type,
         "project_id": process.env.project_id,
         "private_key_id": process.env.private_key_id,
-        "private_key": process.env.private_key_1.replace(/\\n/g, '\n') + process.env.private_key_2.replace(/\\n/g, '\n'),
+        "private_key": process.env.private_key,
         "client_email": process.env.client_email,
         "client_id": process.env.client_id,
         "auth_uri": process.env.auth_uri,
@@ -127,7 +124,7 @@ app.post("/interactive-endpoint", (req, res) => {
 require("./routes/reminder_route")(app);
 
 // Service
-const reminder_service = require("./services/reminder_service")(app);
+const reminder_service = require("./services/reminder_service");
 reminder_service.check_db_update();
 
 // Run
