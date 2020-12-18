@@ -20,7 +20,6 @@ async function handle_modal(payload){
         type,
         trigger_id,
         actions,
-        view_id = view.id,
     } = payload;
 
     try{
@@ -38,12 +37,11 @@ async function handle_modal(payload){
 
             if(update_type == "maintenance"){
                 console.log("got to maintenance!");
-                console.log(view_id);
                 console.log(payload.view.id);
                 try{
                     await web.views.update({
                         token: process.env.token,
-                        view_id: view_id,
+                        view_id: payload.view_id,
                         view: update_maintenance
                     });
                 }
