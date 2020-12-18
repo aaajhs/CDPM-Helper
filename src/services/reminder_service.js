@@ -35,7 +35,7 @@ function handle_modal(payload){
         else if(type == "block_actions" && actions[0].action_id == "update_type"){
             const update_type = actions[0].selected_option.value;
 
-            console.log(payload.view.state.values);
+            console.log(payload.view.state.values.update_type.update_type.selected_option);
 
             if(update_type == "maintenance"){
                 web.views.update({
