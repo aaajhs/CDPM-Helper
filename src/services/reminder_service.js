@@ -34,7 +34,7 @@ function handle_modal(payload){
             });
         }
         else if(type == "block_actions"){
-            //let payload.
+            console.log(payload);
 
             if(update_type == "maintenance"){
                 let update_type = state.values.update_type.update_type.selected_option.value;
