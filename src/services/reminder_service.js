@@ -41,8 +41,8 @@ async function handle_modal(payload){
                 try{
                     await web.views.update({
                         token: process.env.token,
-                        view_id: payload.view_id,
-                        view: update_maintenance
+                        view: update_maintenance,
+                        view_id: payload.view.id
                     });
                 }
                 catch(err){
