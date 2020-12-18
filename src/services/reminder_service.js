@@ -37,17 +37,15 @@ function handle_modal(payload){
 
             if(update_type == "maintenance"){
                 console.log("got to maintenance!");
-                web.views.open({
+                web.views.update({
                     token: process.env.token,
-                    trigger_id: trigger_id,
                     view: update_maintenance
                 });
             }
             else if(update_type == "no_maintenance"){
                 console.log("got to no maintenance!");
-                web.views.open({
+                web.views.update({
                     token: process.env.token,
-                    trigger_id: trigger_id,
                     view: update_no_maintenance
                 });
             }
