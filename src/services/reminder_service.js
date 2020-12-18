@@ -19,10 +19,8 @@ function handle_modal(payload){
     const {
         type,
         trigger_id,
-
+        actions,
     } = payload;
-
-
 
     try{
         if(type == "shortcut"){
@@ -34,12 +32,11 @@ function handle_modal(payload){
             });
         }
         else if(type == "block_actions"){
-            console.log(payload.actions[0].selected_option.value);
-            const update_type = payload.actions[0].selected_option.value;
+            console.log(actions[0].selected_option.value);
+            const update_type = actions[0].selected_option.value;
 
             if(update_type == "maintenance"){
                 console.log("got to maintenance!");
-                let update_type = state.values.update_type.update_type.selected_option.value;
                 web.views.open({
                     token: process.env.token,
                     trigger_id: trigger_id,
@@ -48,7 +45,6 @@ function handle_modal(payload){
             }
             else if(update_type == "no_maintenance"){
                 console.log("got to no maintenance!");
-                let update_type = state.values.update_type.update_type.selected_option.value;
                 web.views.open({
                     token: process.env.token,
                     trigger_id: trigger_id,
