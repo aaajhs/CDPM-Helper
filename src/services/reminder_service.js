@@ -34,9 +34,11 @@ function handle_modal(payload){
             });
         }
         else if(type == "block_actions"){
-            console.log(payload.actions[0].selected_option);
+            console.log(payload.actions[0].selected_option.value);
+            const update_type = payload.actions[0].selected_option.value;
 
             if(update_type == "maintenance"){
+                console.log("got to maintenance!");
                 let update_type = state.values.update_type.update_type.selected_option.value;
                 web.views.open({
                     token: process.env.token,
@@ -45,6 +47,7 @@ function handle_modal(payload){
                 });
             }
             else if(update_type == "no_maintenance"){
+                console.log("got to no maintenance!");
                 let update_type = state.values.update_type.update_type.selected_option.value;
                 web.views.open({
                     token: process.env.token,
@@ -52,6 +55,7 @@ function handle_modal(payload){
                     view: update_no_maintenance
                 });
             }
+            console.log("we're past the update_type phase..");
         }
         else if(type == "view_submission"){
             let submission = view.state.values;
