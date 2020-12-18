@@ -5,11 +5,7 @@ module.exports = {
 };
 
 function handle_modal(req, res) {
-
-  let { type, trigger_id, view, state } = req.body.payload;
-  console.log(req.body.payload);
-
-  reminder_service.handle_modal(type, trigger_id, view, state);
+  reminder_service.handle_modal(req.body.payload);
 
   res.status(200).send();
 }

@@ -15,37 +15,40 @@ module.exports = {
     check_db_update,
 };
 
-function handle_modal(type, trigger_id, view, state){
-    const update_type = state.values.update_type.update_type.selected_option.value;
-
+function handle_modal(payload){
+    const type = payload.type;
     try{
-        if(type == "block_actions" && update_type == "maintenance"){
-            let update_type = state.values.update_type.update_type.selected_option.value;
-            web.views.open({
-                token: process.env.token,
-                trigger_id: trigger_id,
-                view: update_maintenance
-            });
-        }
-        else if(type == "block_actions" && update_type == "no_maintenance"){
-            let update_type = state.values.update_type.update_type.selected_option.value;
-            web.views.open({
-                token: process.env.token,
-                trigger_id: trigger_id,
-                view: update_no_maintenance
-            });
-        }
-        else if(type == "view_submission"){
-            let submission = view.state.values;
-            create_reminder(submission);
-        }
-        else{
-            console.log("here!");
+        if(type == "shortcut"){
+            console.log("now we are here");
             web.views.open({
                 token: process.env.token,
                 trigger_id: trigger_id,
                 view: update_initial
             });
+        }
+        else if(type == "block_actions"){
+            //let payload.
+
+            if(update_type == "maintenance"){
+                let update_type = state.values.update_type.update_type.selected_option.value;
+                web.views.open({
+                    token: process.env.token,
+                    trigger_id: trigger_id,
+                    view: update_maintenance
+                });
+            }
+            else if(update_type == "no_maintenance"){
+                let update_type = state.values.update_type.update_type.selected_option.value;
+                web.views.open({
+                    token: process.env.token,
+                    trigger_id: trigger_id,
+                    view: update_no_maintenance
+                });
+            }
+        }
+        else if(type == "view_submission"){
+            let submission = view.state.values;
+            create_reminder(submission);
         }
 
         return;
