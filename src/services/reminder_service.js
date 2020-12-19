@@ -92,18 +92,18 @@ function store_reminder(submission){
     };
 
     submission.start_time_notification.forEach(noti => {
-        start_notifications.push(noti.value);
+        data.start_notifications.push(noti.value);
     });
 
     submission.end_time_notification.forEach(noti => {
-        end_notifications.push(noti.value);
+        data.end_notifications.push(noti.value);
     });
 
     submission.option.forEach(noti => {
-        notification_options.push(noti.value);
+        data.notification_options.push(noti.value);
     });
 
-    db.collection('reminders').doc().set(submission);
+    db.collection('reminders').doc().set(data);
     return;
 }
 
