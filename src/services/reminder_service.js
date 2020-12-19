@@ -88,6 +88,8 @@ function format_reminder(values){
 }
 
 function store_reminder(submission){
+    console.log("target_date: " + submission.target_date);
+    console.log("start_time: " + submission.start_time);
     const data = {
         update_type: submission.update_type.value,
         start_time: time_service.format_time(submission.target_date, submission.start_time),
