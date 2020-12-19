@@ -53,7 +53,7 @@ function handle_modal(payload){
             });
         }
         else if(type == "view_submission"){
-            console.log(payload.view.state.values.selected_option);
+            console.log(payload.view.state.values);
             const values = payload.view.state.values;
             const submission = {
                 update_type: values.update_type.update_type.selected_option[0],
@@ -65,6 +65,7 @@ function handle_modal(payload){
                 option: [],
             };
 
+            if(values.end_time.end_time)
             if(values.start_time_notification.start_time_notification.selected_options.length != 0){
                 console.log("starttime option is not empty");
                 submission.start_time = values.start_time.start_time.selected_time;
