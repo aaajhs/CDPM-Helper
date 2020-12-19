@@ -59,16 +59,12 @@ function handle_modal(payload){
             // console.log(submission);
             // create_reminder(submission);
 
-            if(values.end_time){
-                // take end_time.end_time.selected_time
+            if(values.end_time_notification.end_time_notification.selected_options){
+                console.log("endtime option is not empty");
             }
 
-            if(values.end_time_notification){
-
-            }
-
-            if(values.option){
-                
+            if(values.option.option.selected_options){
+                console.log("option option is not empty");
             }
         }
     }
