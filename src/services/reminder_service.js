@@ -53,7 +53,6 @@ function handle_modal(payload){
             });
         }
         else if(type == "view_submission"){
-            console.log(payload.view.state.values);
             const values = payload.view.state.values;
             const submission = {
                 update_type: values.update_type.update_type.selected_option,
@@ -65,23 +64,8 @@ function handle_modal(payload){
                 option: values.option.option.selected_options,
             };
 
-            // if(values.start_time_notification.start_time_notification.selected_options.length != 0){
-            //     console.log("starttime option is not empty");
-            //     submission.start_time = values.start_time.start_time.selected_time;
-            // }
-
-            // if(values.end_time_notification.end_time_notification.selected_options.length != 0){
-            //     console.log("endtime option is not empty");
-            //     submission.end_time = values.end_time.end_time.selected_time;
-            // }
-
-            // if(values.option.option.selected_options.length != 0){
-            //     console.log("option option is not empty");
-            //     submission.option = values.option.option.selected_options;
-            // }
-
             console.log(submission);
-            // create_reminder(submission);
+            create_reminder(submission);
         }
     }
     catch(err){
@@ -90,20 +74,20 @@ function handle_modal(payload){
 }
 
 function create_reminder(submission){
-    const data = {
-        update_type: submission.update_type.update_type.selected_option.value,
-        target_date: submission.target_date.target_date.selected_date,
-        start_time: submission.start_time.start_time.selected_time,
-        start_time_notification: submission.start_time_notification.start_time_notification.selected_options
-    };
+    // const data = {
+    //     update_type: submission.update_type.update_type.selected_option.value,
+    //     target_date: submission.target_date.target_date.selected_date,
+    //     start_time: submission.start_time.start_time.selected_time,
+    //     start_time_notification: submission.start_time_notification.start_time_notification.selected_options
+    // };
 
-    if(submission.update_type.update_type.selected_option.value == "maintenance"){
-        data.end_time = submission.end_time.end_time.selected_time;
-        data.end_time_notification = submission.end_time_notification.end_time_notification.selected_options;
-        data.option = submission.option.option.selected_options;
-    }
+    // if(submission.update_type.update_type.selected_option.value == "maintenance"){
+    //     data.end_time = submission.end_time.end_time.selected_time;
+    //     data.end_time_notification = submission.end_time_notification.end_time_notification.selected_options;
+    //     data.option = submission.option.option.selected_options;
+    // }
 
-    db.collection('event').doc().set(data);
+    db.collection('reminders').doc().set(submission);
     return;
 }
 
