@@ -116,21 +116,21 @@ function check_db_update(){
       db.collection("reminders").orderBy("start_time", "asc").limit(1).get()
         .then(querySnapshot => {
             if(!querySnapshot.empty){
-                const doc = querySnapshot.docs[0].data();
+                const data = querySnapshot.docs[0].data();
 
                 var current_time = new Date();
-                const { start_time } = doc;
+                const { start_time } = data;
 
                 console.log("Current time: " + current_time);
                 console.log("Start time: " + start_time.toDate());
                 console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)));
 
                 // if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ //date is today and start time is within 35 minutes
-                //     schedule_reminder(doc);
+                //     schedule_reminder(data);
                 // }
                 // else
                 if(current_time > (start_time - 30 * 60 * 1000)){ // Reminder date is past the target date
-                    doc.delete();
+                    querySnapshot.docs[0].ref.delete();
                 }
             }
 
@@ -140,7 +140,7 @@ function check_db_update(){
         .catch(err => {
           console.log('[App] Error getting document: ', err);
         });
-    }, 0.5 * 60 * 1000);
+    }, 0.25 * 60 * 1000);
 }
 
 function schedule_reminder(doc){
