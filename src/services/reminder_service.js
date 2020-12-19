@@ -84,6 +84,7 @@ function format_reminder(values){
         data.option = values.option.option.selected_options;
     }
 
+    console.log(data.target_date);
     return data;
 }
 
