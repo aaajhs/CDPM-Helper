@@ -118,15 +118,15 @@ function check_db_update(){
         .then(querySnapshot => {
             if(!querySnapshot.empty){
                 const data = querySnapshot.docs[0].data();
-                console.log(data);
+
+                var current_time = new Date();
+                const { start_time } = data;
+
+                console.log("Current time: " + current_time);
+                console.log("Start time: " + start_time);
+                console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)));
             }
 
-            var current_time = new Date();
-            const { start_time } = doc;
-
-            console.log("Current time: " + current_time);
-            // console.log("Start time: " + start_time);
-            console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)))
 
             // if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ //date is today and start time is within 35 minutes
             //     schedule_reminder(doc);
