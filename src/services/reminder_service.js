@@ -55,6 +55,7 @@ function handle_modal(payload){
         else if(type == "view_submission"){
             const values = payload.view.state.values;
             const submission = format_reminder(values);
+            console.log(submission);
 
             store_reminder(submission);
         }
@@ -65,7 +66,6 @@ function handle_modal(payload){
 }
 
 function format_reminder(values){
-    console.log(values.target_date.target_date.selected_date);
     const data = {
         update_type: values.update_type.update_type.selected_option,
         target_date: values.target_date.target_date.selected_date,
@@ -84,7 +84,6 @@ function format_reminder(values){
         data.option = values.option.option.selected_options;
     }
 
-    console.log(data.target_date);
     return data;
 }
 
