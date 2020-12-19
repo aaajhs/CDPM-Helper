@@ -73,7 +73,7 @@ function handle_modal(payload){
             }
 
             console.log(submission);
-            create_reminder(submission);
+            store_reminder(submission);
         }
     }
     catch(err){
@@ -81,19 +81,27 @@ function handle_modal(payload){
     }
 }
 
-function create_reminder(submission){
-    // const data = {
-    //     update_type: submission.update_type.update_type.selected_option.value,
-    //     target_date: submission.target_date.target_date.selected_date,
-    //     start_time: submission.start_time.start_time.selected_time,
-    //     start_time_notification: submission.start_time_notification.start_time_notification.selected_options
-    // };
+function store_reminder(submission){
+    const data = {
+        update_type: submission.update_type.value,
+        start_time: time_service.format_time(submission.target_date, submission.start_time),
+        end_time: time_service.format_time(submission.target_date, submission.end_time),
+        start_notifications: [],
+        end_notifications: [],
+        notification_options: [],
+    };
 
-    // if(submission.update_type.update_type.selected_option.value == "maintenance"){
-    //     data.end_time = submission.end_time.end_time.selected_time;
-    //     data.end_time_notification = submission.end_time_notification.end_time_notification.selected_options;
-    //     data.option = submission.option.option.selected_options;
-    // }
+    submission.start_time_notification.forEach(noti => {
+        start_notifications.push(noti.value);
+    });
+
+    submission.end_time_notification.forEach(noti => {
+        end_notifications.push(noti.value);
+    });
+
+    submission.option.forEach(noti => {
+        notification_options.push(noti.value);
+    });
 
     db.collection('reminders').doc().set(submission);
     return;
