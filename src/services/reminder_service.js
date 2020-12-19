@@ -86,12 +86,12 @@ function format_reminder(values){
     return data;
 }
 
-function store_reminder(submission){
+async function store_reminder(submission){
     console.log("log 1: " + submission.target_date);
     const data = {
         update_type: submission.update_type.value,
-        start_time: time_service.format_time(submission.target_date, submission.start_time),
-        end_time: time_service.format_time(submission.target_date, submission.end_time),
+        start_time: await time_service.format_time(submission.target_date, submission.start_time),
+        end_time: await time_service.format_time(submission.target_date, submission.end_time),
         start_notifications: [],
         end_notifications: [],
         notification_options: [],
