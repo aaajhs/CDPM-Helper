@@ -61,11 +61,15 @@ function handle_modal(payload){
                 start_time_notification: values.start_time_notification.start_time_notification.selected_options,
                 end_time: values.start_time.start_time.selected_time,
                 end_time_notification: [],
-                option: values.option.option.selected_options,
+                option: [],
             };
 
             if(values.end_time_notification.end_time_notification.selected_options.length != 0){
                 submission.end_time_notification = values.end_time_notification.end_time_notification.selected_options;
+            }
+
+            if(values.option.option.selected_options.length != 0){
+                submission.option = values.option.option.selected_options;
             }
 
             console.log(submission);
