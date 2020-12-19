@@ -122,7 +122,7 @@ function check_db_update(){
 
                 var current_time = new Date();
                 var start_time = data.start_time.toDate();
-                const { start_time } = data;
+                //const { start_time } = data;
 
                 console.log("Current time: " + current_time);
                 console.log("Start time: " + start_time);
