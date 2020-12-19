@@ -72,18 +72,9 @@ function format_reminder(values){
             start_time: values.start_time.start_time.selected_time,
             start_time_notification: values.start_time_notification.start_time_notification.selected_options,
             end_time: values.end_time ? values.end_time.end_time.selected_time : values.start_time.start_time.selected_time,
-            end_time_notification: [],
-            option: [],
+            end_time_notification: values.end_time_notification ? values.end_time_notification.end_time_notification.selected_options : [],
+            option: values.option ? values.option.option.selected_options : [],
         };
-    
-        if(data.update_type == "maintenance"){
-            data.end_time = values.end_time.end_time.selected_time;
-            data.end_time_notification = values.end_time_notification.end_time_notification.selected_options;
-        }
-    
-        if(values.option){
-            data.option = values.option.option.selected_options;
-        }
     
         return data;
     }
