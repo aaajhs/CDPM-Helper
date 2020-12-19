@@ -53,6 +53,7 @@ function handle_modal(payload){
             });
         }
         else if(type == "view_submission"){
+            console.log("Error is here");
             const values = payload.view.state.values;
             const submission = format_reminder(values);
 
