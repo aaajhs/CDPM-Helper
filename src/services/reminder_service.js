@@ -71,7 +71,7 @@ function format_reminder(values){
             target_date: values.target_date.target_date.selected_date,
             start_time: values.start_time.start_time.selected_time,
             start_time_notification: values.start_time_notification.start_time_notification.selected_options,
-            end_time: values.end_time.end_time.selected_time,
+            end_time: start_time,
             end_time_notification: [],
             option: [],
         };
@@ -92,12 +92,12 @@ function format_reminder(values){
     }
 }
 
-async function store_reminder(submission){
+function store_reminder(submission){
     try{
         const data = {
             update_type: submission.update_type.value,
-            start_time: await time_service.format_time(submission.target_date, submission.start_time),
-            end_time: await time_service.format_time(submission.target_date, submission.end_time),
+            start_time: time_service.format_time(submission.target_date, submission.start_time),
+            end_time: time_service.format_time(submission.target_date, submission.end_time),
             start_notifications: [],
             end_notifications: [],
             notification_options: [],
