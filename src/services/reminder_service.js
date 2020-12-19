@@ -116,7 +116,7 @@ function check_db_update(){
     setInterval( () => {
       db.collection('reminders').orderBy("start_time").limit(1).get()
         .then(doc => {
-            console.log(doc);
+            console.log(doc.data());
             var current_time = new Date();
             const { start_time } = doc;
 
