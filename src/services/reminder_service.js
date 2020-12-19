@@ -114,7 +114,7 @@ function store_reminder(submission){
 
 function check_db_update(){
     setInterval( () => {
-      db.collection('reminders').doc().orderBy("start_time").limit(1).get()
+      db.collection("reminders").orderBy(FieldPath.start_time(), Query.Direction.ASCENDING).limit(1).get()
         .then(doc => {
             const data = doc.data();
             console.log(data);
