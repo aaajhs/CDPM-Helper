@@ -117,8 +117,8 @@ function check_db_update(){
       db.collection("reminders").orderBy("start_time", "asc").limit(1).get()
         .then(querySnapshot => {
             if(!querySnapshot.empty){
-                const data = querySnapshot.docs[0];
-                console.log(data._fieldsProto.start_time.timestampValue);
+                const data = querySnapshot.docs[0].data();
+                console.log(data);
             }
 
             var current_time = new Date();
