@@ -65,7 +65,6 @@ function handle_modal(payload){
 }
 
 function format_reminder(values){
-    console.log(values);
     const data = {
         update_type: values.update_type.update_type.selected_option,
         target_date: values.target_date.target_date.selected_date,
@@ -76,7 +75,7 @@ function format_reminder(values){
         option: [],
     };
 
-    if(update_type == "maintenance"){
+    if(data.update_type == "maintenance"){
         data.end_time = values.end_time.end_time.selected_time;
         data.end_time_notification = values.end_time_notification.end_time_notification.selected_options;
     }
