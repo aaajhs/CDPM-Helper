@@ -56,7 +56,7 @@ function handle_modal(payload){
             console.log(payload.view.state.values);
             const values = payload.view.state.values;
             const submission = {
-                update_type: payload.actions[0].action_id,
+                update_type: values.update_type.update_type.selected_option[0],
                 target_date: values.target_date.target_date.selected_date,
                 start_time: values.start_time.start_time.selected_time,
                 start_time_notification: [],
