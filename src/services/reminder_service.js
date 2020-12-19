@@ -71,7 +71,7 @@ function format_reminder(values){
             target_date: values.target_date.target_date.selected_date,
             start_time: values.start_time.start_time.selected_time,
             start_time_notification: values.start_time_notification.start_time_notification.selected_options,
-            end_time: "",
+            end_time: values.end_time.end_time.selected_time,
             end_time_notification: [],
             option: [],
         };
