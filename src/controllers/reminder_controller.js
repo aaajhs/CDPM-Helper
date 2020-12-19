@@ -7,7 +7,9 @@ module.exports = {
 function handle_modal(req, res) {
   const payload = JSON.parse(req.body.payload);
   try{
-    console.log(payload.view.state.values);
+    if(payload.view){
+      console.log(payload.view.state.values);
+    }
   }
   catch(err){
     console.log(err);
