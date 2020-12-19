@@ -53,14 +53,10 @@ function handle_modal(payload){
             });
         }
         else if(type == "view_submission"){
-            console.log("Log 1");
             const values = payload.view.state.values;
-            console.log("Log 2");
             const submission = format_reminder(values);
-            console.log("Log 3");
 
             store_reminder(submission);
-            console.log("Log 4");
         }
     }
     catch(err){
