@@ -64,11 +64,11 @@ function handle_modal(payload){
                 option: [],
             };
 
-            if(values.end_time_notification.end_time_notification.selected_options.length != 0){
+            if(values.end_time_notification){
                 submission.end_time_notification = values.end_time_notification.end_time_notification.selected_options;
             }
 
-            if(values.option.option.selected_options.length != 0){
+            if(values.option){
                 submission.option = values.option.option.selected_options;
             }
 
