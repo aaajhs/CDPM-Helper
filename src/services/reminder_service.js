@@ -121,10 +121,11 @@ function check_db_update(){
                 const data = querySnapshot.docs[0].data();
 
                 var current_time = new Date();
+                var start_time = data.start_time.toDate();
                 const { start_time } = data;
 
                 console.log("Current time: " + current_time);
-                console.log("Start time: " + start_time.toDate());
+                console.log("Start time: " + start_time);
                 console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)));
 
                 // if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ //date is today and start time is within 35 minutes
