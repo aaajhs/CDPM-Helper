@@ -135,9 +135,6 @@ function check_db_update(){
                     querySnapshot.docs[0].ref.delete();
                 }
             }
-
-
-            
         })
         .catch(err => {
           console.log('[App] Error getting document: ' + err);
