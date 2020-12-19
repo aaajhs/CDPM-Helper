@@ -88,8 +88,6 @@ function format_reminder(values){
 }
 
 function store_reminder(submission){
-    console.log("target_date: " + submission.target_date);
-    console.log("start_time: " + submission.start_time);
     const data = {
         update_type: submission.update_type.value,
         start_time: time_service.format_time(submission.target_date, submission.start_time),
@@ -122,7 +120,7 @@ function check_db_update(){
             const { start_time } = doc;
 
             console.log("Current time: " + current_time);
-            console.log("Start time: " + (start_time);
+            console.log("Start time: " + start_time);
             console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)))
 
             // if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ //date is today and start time is within 35 minutes
