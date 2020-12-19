@@ -118,7 +118,7 @@ function check_db_update(){
         .then(querySnapshot => {
             if(!querySnapshot.empty){
                 const data = querySnapshot.docs[0];
-                console.log(data);
+                console.log(data._fieldsProto.start_time.timestampValue);
             }
 
             var current_time = new Date();
