@@ -116,6 +116,7 @@ function check_db_update(){
     setInterval( () => {
       db.collection('reminders').orderBy("start_time").limit(1).get()
         .then(doc => {
+            console.log(doc);
             var current_time = new Date();
             const { start_time } = doc;
 
@@ -133,7 +134,7 @@ function check_db_update(){
         .catch(err => {
           console.log('[App] Error getting document: ', err);
         });
-    }, 5 * 60 * 1000);
+    }, 1 * 60 * 1000);
 }
 
 function schedule_reminder(doc){
