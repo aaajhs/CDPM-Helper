@@ -126,12 +126,12 @@ function check_db_update(){
                 console.log("Start time: " + new Date(start_time));
                 console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)));
 
-                if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ //date is today and start time is within 35 minutes
-                    schedule_reminder(doc);
-                }
-                else if(current_time > (start_time - 30 * 60 * 1000)){ // Reminder date is past the target date
-                    doc.delete();
-                }
+                // if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ //date is today and start time is within 35 minutes
+                //     schedule_reminder(doc);
+                // }
+                // else if(current_time > (start_time - 30 * 60 * 1000)){ // Reminder date is past the target date
+                //     doc.delete();
+                // }
             }
 
 
