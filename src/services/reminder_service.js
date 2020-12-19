@@ -22,16 +22,6 @@ function handle_modal(payload){
         actions,
     } = payload;
 
-    console.log(payload);
-    if(payload.view){
-
-        // payload.view.blocks.forEach(block => {
-        //     if(block.block_id == "update_type"){
-        //         console.log(block.accessory.options);
-        //     }
-        // })
-    }
-
     try{
         if(type == "shortcut"){
             web.views.open({
@@ -43,11 +33,9 @@ function handle_modal(payload){
         else if(type == "block_actions"){
             actions.forEach(action => {
                 if(action.action_id == "update_type"){
-                    console.log("entered action_id conditional");
                     const update_type = action.selected_option.value;
 
                     if(update_type == "maintenance"){
-                        console.log("entered maintenance conditional");
                         web.views.update({
                             token: process.env.token,
                             view: update_maintenance,
@@ -65,9 +53,10 @@ function handle_modal(payload){
             });
         }
         else if(type == "view_submission"){
-            const submission = payload.view.state.values;
-            console.log(submission);
-            create_reminder(submission);
+            console.log(payload);
+            // const submission = payload.view.state.values;
+            // console.log(submission);
+            // create_reminder(submission);
         }
     }
     catch(err){
