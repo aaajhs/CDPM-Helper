@@ -114,15 +114,18 @@ function store_reminder(submission){
 
 function check_db_update(){
     setInterval( () => {
-      db.collection("reminders").orderBy(FieldPath.start_time(), Query.Direction.ASCENDING).limit(1).get()
-        .then(doc => {
-            const data = doc.data();
-            console.log(data);
+      db.collection("reminders").orderBy("start_time", "asc").limit(1).get()
+        .then(querySnapshot => {
+            if(!querySnapshot.empty){
+                const data = querySnapshot.docs[0];
+                console.log(data);
+            }
+
             var current_time = new Date();
             const { start_time } = doc;
 
             console.log("Current time: " + current_time);
-            console.log("Start time: " + start_time);
+            // console.log("Start time: " + start_time);
             console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)))
 
             // if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ //date is today and start time is within 35 minutes
