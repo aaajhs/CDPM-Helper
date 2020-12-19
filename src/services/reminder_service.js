@@ -129,7 +129,7 @@ function check_db_update(){
                 //     schedule_reminder(data);
                 // }
                 // else
-                if(current_time > (start_time - 30 * 60 * 1000)){ // Reminder date is past the target date
+                if(current_time < (start_time - 30 * 60 * 1000)){ // Reminder date is past the target date
                     querySnapshot.docs[0].ref.delete();
                 }
             }
