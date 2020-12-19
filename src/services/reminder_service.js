@@ -22,8 +22,6 @@ function handle_modal(payload){
         actions,
     } = payload;
 
-    console.log(payload);
-
     try{
         if(type == "shortcut"){
             web.views.open({
@@ -56,6 +54,7 @@ function handle_modal(payload){
         }
         else if(type == "view_submission"){
             const values = payload.view.state.values;
+            console.log(payload.view.state.values);
             const submission = format_reminder(values);
 
             console.log(submission);
