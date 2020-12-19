@@ -53,7 +53,7 @@ function handle_modal(payload){
             });
         }
         else if(type == "view_submission"){
-            console.log(payload.state);
+            console.log(payload);
             const values = payload.state.values;
             // const submission = payload.view.state.values;
             // console.log(submission);
