@@ -42,11 +42,9 @@ function handle_modal(payload){
         }
         else if(type == "block_actions"){
             actions.forEach(action => {
-                console.log("entered foreach loop. action: " + actions[0].action_id);
-                console.log("entered foreach loop. action: " + action.action_id);
                 if(action.action_id == "update_type"){
-                    const update_type = actions.selected_option.value;
                     console.log("entered action_id conditional");
+                    const update_type = action.selected_option.value;
 
                     if(update_type == "maintenance"){
                         console.log("entered maintenance conditional");
