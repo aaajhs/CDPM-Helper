@@ -140,7 +140,7 @@ function check_db_update(){
         .catch(err => {
           console.log('[App] Error getting document: ', err);
         });
-    }, 1 * 60 * 1000);
+    }, 0.5 * 60 * 1000);
 }
 
 function schedule_reminder(doc){
