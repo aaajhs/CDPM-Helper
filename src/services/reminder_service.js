@@ -54,23 +54,7 @@ function handle_modal(payload){
         }
         else if(type == "view_submission"){
             const values = payload.view.state.values;
-            const submission = {
-                update_type: values.update_type.update_type.selected_option,
-                target_date: values.target_date.target_date.selected_date,
-                start_time: values.start_time.start_time.selected_time,
-                start_time_notification: values.start_time_notification.start_time_notification.selected_options,
-                end_time: values.start_time.start_time.selected_time,
-                end_time_notification: [],
-                option: [],
-            };
-
-            if(values.end_time_notification){
-                submission.end_time_notification = values.end_time_notification.end_time_notification.selected_options;
-            }
-
-            if(values.option){
-                submission.option = values.option.option.selected_options;
-            }
+            const submission = format_reminder(values);
 
             console.log(submission);
             store_reminder(submission);
@@ -79,6 +63,28 @@ function handle_modal(payload){
     catch(err){
         console.log("[App] Reminder error: " + err);
     }
+}
+
+function format_reminder(values){
+    const data = {
+        update_type: values.update_type.update_type.selected_option,
+        target_date: values.target_date.target_date.selected_date,
+        start_time: values.start_time.start_time.selected_time,
+        start_time_notification: values.start_time_notification.start_time_notification.selected_options,
+        end_time: values.start_time.start_time.selected_time,
+        end_time_notification: [],
+        option: [],
+    };
+
+    if(values.end_time_notification){
+        data.end_time_notification = values.end_time_notification.end_time_notification.selected_options;
+    }
+
+    if(values.option){
+        data.option = values.option.option.selected_options;
+    }
+
+    return data;
 }
 
 function store_reminder(submission){
