@@ -53,7 +53,7 @@ function handle_modal(payload){
             });
         }
         else if(type == "view_submission"){
-            console.log(payload);
+            console.log(payload.view.state.values.selected_option);
             const values = payload.view.state.values;
             const submission = {
                 update_type: values.update_type.update_type.selected_option[0],
