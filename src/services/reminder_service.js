@@ -53,10 +53,23 @@ function handle_modal(payload){
             });
         }
         else if(type == "view_submission"){
-            console.log(payload);
+            console.log(payload.state.values);
+            const values = payload.state.values;
             // const submission = payload.view.state.values;
             // console.log(submission);
             // create_reminder(submission);
+
+            if(values.end_time){
+                // take end_time.end_time.selected_time
+            }
+
+            if(values.end_time_notification){
+
+            }
+
+            if(values.option){
+                
+            }
         }
     }
     catch(err){
