@@ -65,7 +65,7 @@ function handle_modal(payload){
 }
 
 function format_reminder(values){
-    console.log(values.start_time.start_time.selected_time);
+    console.log(values);
     const data = {
         update_type: values.update_type.update_type.selected_option,
         target_date: values.target_date.target_date.selected_date,
