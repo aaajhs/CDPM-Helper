@@ -54,10 +54,8 @@ function handle_modal(payload){
         }
         else if(type == "view_submission"){
             const values = payload.view.state.values;
-            console.log(payload.view.state.values);
             const submission = format_reminder(values);
 
-            console.log(submission);
             store_reminder(submission);
         }
     }
@@ -89,9 +87,6 @@ function format_reminder(values){
 }
 
 function store_reminder(submission){
-    console.log(submission.target_date);
-    console.log(submission.start_time);
-    console.log(submission.end_time);
     const data = {
         update_type: submission.update_type.value,
         start_time: time_service.format_time(submission.target_date, submission.start_time),
@@ -126,9 +121,9 @@ function check_db_update(){
                 var current_time = new Date();
                 const { start_time } = doc;
 
-                console.log("Current time: " + current_time);
-                console.log("Start time: " + start_time.toDate());
-                console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)));
+                // console.log("Current time: " + current_time);
+                // console.log("Start time: " + start_time.toDate());
+                // console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)));
 
                 // if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ //date is today and start time is within 35 minutes
                 //     schedule_reminder(doc);

@@ -6,6 +6,12 @@ module.exports = {
 
 function handle_modal(req, res) {
   const payload = JSON.parse(req.body.payload);
+  try{
+    console.log(payload.view.state.values);
+  }
+  catch(err){
+    console.log(err);
+  }
   reminder_service.handle_modal(payload);
 
   res.status(200).send();
