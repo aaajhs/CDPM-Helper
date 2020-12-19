@@ -60,9 +60,9 @@ function handle_modal(payload){
                 target_date: values.target_date.target_date.selected_date,
                 start_time: values.start_time.start_time.selected_time,
                 start_time_notification: values.start_time_notification.start_time_notification.selected_options,
-                end_time: "",
-                end_time_notification: [],
-                option: [],
+                end_time: values.start_time.start_time.selected_time,
+                end_time_notification: values.end_time_notification.end_time_notification.selected_options,
+                option: values.option.option.selected_options,
             };
 
             // if(values.start_time_notification.start_time_notification.selected_options.length != 0){
@@ -70,15 +70,15 @@ function handle_modal(payload){
             //     submission.start_time = values.start_time.start_time.selected_time;
             // }
 
-            if(values.end_time_notification.end_time_notification.selected_options.length != 0){
-                console.log("endtime option is not empty");
-                submission.end_time = values.end_time.end_time.selected_time;
-            }
+            // if(values.end_time_notification.end_time_notification.selected_options.length != 0){
+            //     console.log("endtime option is not empty");
+            //     submission.end_time = values.end_time.end_time.selected_time;
+            // }
 
-            if(values.option.option.selected_options.length != 0){
-                console.log("option option is not empty");
-                submission.option = values.option.option.selected_options;
-            }
+            // if(values.option.option.selected_options.length != 0){
+            //     console.log("option option is not empty");
+            //     submission.option = values.option.option.selected_options;
+            // }
 
             console.log(submission);
             // create_reminder(submission);
