@@ -56,20 +56,19 @@ function handle_modal(payload){
             console.log(payload.view.state.values);
             const values = payload.view.state.values;
             const submission = {
-                update_type: values.update_type.update_type.selected_option[0],
+                update_type: values.update_type.update_type.selected_option,
                 target_date: values.target_date.target_date.selected_date,
                 start_time: values.start_time.start_time.selected_time,
-                start_time_notification: [],
+                start_time_notification: values.start_time_notification.start_time_notification.selected_options,
                 end_time: "",
                 end_time_notification: [],
                 option: [],
             };
 
-            if(values.end_time.end_time)
-            if(values.start_time_notification.start_time_notification.selected_options.length != 0){
-                console.log("starttime option is not empty");
-                submission.start_time = values.start_time.start_time.selected_time;
-            }
+            // if(values.start_time_notification.start_time_notification.selected_options.length != 0){
+            //     console.log("starttime option is not empty");
+            //     submission.start_time = values.start_time.start_time.selected_time;
+            // }
 
             if(values.end_time_notification.end_time_notification.selected_options.length != 0){
                 console.log("endtime option is not empty");
