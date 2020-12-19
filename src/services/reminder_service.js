@@ -22,7 +22,9 @@ function handle_modal(payload){
         actions,
     } = payload;
 
-    console.log(payload.view.blocks);
+    if(payload.view){
+        console.log(payload.view.blocks);
+    }
 
     try{
         if(type == "shortcut"){
