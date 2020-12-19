@@ -149,7 +149,7 @@ function check_db_update(){
             
         })
         .catch(err => {
-          console.log('[App] Error getting document: ', err);
+          console.log('[App] Error getting document: ' + err);
         });
     }, 0.25 * 60 * 1000);
 }
