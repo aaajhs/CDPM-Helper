@@ -117,12 +117,13 @@ function check_db_update(){
       db.collection('reminders').orderBy("start_time").limit(1).get()
         .then(doc => {
             var current_time = new Date();
+            const { start_time } = doc;
 
             console.log("Current time: " + current_time);
             console.log("Start time T-30 min: " + (start_time - 30 * 60 * 1000));
             console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)))
 
-            // if(current_time < (start_time - 30 * 60 * 1000) && current_time > (start_time - 35 * 60 * 1000)){ //date is today and start time is within 35 minutes
+            // if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ //date is today and start time is within 35 minutes
             //     schedule_reminder(doc);
             // }
             // else if(current_time > (start_time - 30 * 60 * 1000)){ // Reminder date is past the target date
