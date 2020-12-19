@@ -65,6 +65,7 @@ function handle_modal(payload){
 }
 
 function format_reminder(values){
+    console.log(values.target_date.target_date.selected_date);
     const data = {
         update_type: values.update_type.update_type.selected_option,
         target_date: values.target_date.target_date.selected_date,
@@ -87,7 +88,6 @@ function format_reminder(values){
 }
 
 function store_reminder(submission){
-    console.log(submission.target_date);
     const data = {
         update_type: submission.update_type.value,
         start_time: time_service.format_time(submission.target_date, submission.start_time),
