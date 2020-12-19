@@ -87,7 +87,6 @@ function format_reminder(values){
 }
 
 async function store_reminder(submission){
-    console.log("log 1: " + submission.target_date);
     const data = {
         update_type: submission.update_type.value,
         start_time: await time_service.format_time(submission.target_date, submission.start_time),
@@ -109,7 +108,6 @@ async function store_reminder(submission){
         data.notification_options.push(noti.value);
     });
 
-    console.log("log 4: " + data.start_time);
     return db.collection('reminders').doc().set(data);
 }
 
@@ -123,9 +121,9 @@ function check_db_update(){
                 var current_time = new Date();
                 const { start_time } = doc;
 
-                // console.log("Current time: " + current_time);
-                // console.log("Start time: " + start_time.toDate());
-                // console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)));
+                console.log("Current time: " + current_time);
+                console.log("Start time: " + start_time.toDate());
+                console.log("Is it before scheduled start time?" + (current_time < (start_time - 30 * 60 * 1000)));
 
                 // if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ //date is today and start time is within 35 minutes
                 //     schedule_reminder(doc);
