@@ -60,56 +60,66 @@ function handle_modal(payload){
         }
     }
     catch(err){
-        console.log("[App] Reminder error: " + err);
+        console.log("[App] Error handling modal: " + err);
     }
 }
 
 function format_reminder(values){
-    const data = {
-        update_type: values.update_type.update_type.selected_option,
-        target_date: values.target_date.target_date.selected_date,
-        start_time: values.start_time.start_time.selected_time,
-        start_time_notification: values.start_time_notification.start_time_notification.selected_options,
-        end_time: "",
-        end_time_notification: [],
-        option: [],
-    };
-
-    if(data.update_type == "maintenance"){
-        data.end_time = values.end_time.end_time.selected_time;
-        data.end_time_notification = values.end_time_notification.end_time_notification.selected_options;
+    try{
+        const data = {
+            update_type: values.update_type.update_type.selected_option,
+            target_date: values.target_date.target_date.selected_date,
+            start_time: values.start_time.start_time.selected_time,
+            start_time_notification: values.start_time_notification.start_time_notification.selected_options,
+            end_time: "",
+            end_time_notification: [],
+            option: [],
+        };
+    
+        if(data.update_type == "maintenance"){
+            data.end_time = values.end_time.end_time.selected_time;
+            data.end_time_notification = values.end_time_notification.end_time_notification.selected_options;
+        }
+    
+        if(values.option){
+            data.option = values.option.option.selected_options;
+        }
+    
+        return data;
     }
-
-    if(values.option){
-        data.option = values.option.option.selected_options;
+    catch(err){
+        console.log("[App] Error formatting reminder: " + err);
     }
-
-    return data;
 }
 
 async function store_reminder(submission){
-    const data = {
-        update_type: submission.update_type.value,
-        start_time: await time_service.format_time(submission.target_date, submission.start_time),
-        end_time: await time_service.format_time(submission.target_date, submission.end_time),
-        start_notifications: [],
-        end_notifications: [],
-        notification_options: [],
-    };
-
-    submission.start_time_notification.forEach(noti => {
-        data.start_notifications.push(noti.value);
-    });
-
-    submission.end_time_notification.forEach(noti => {
-        data.end_notifications.push(noti.value);
-    });
-
-    submission.option.forEach(noti => {
-        data.notification_options.push(noti.value);
-    });
-
-    return db.collection('reminders').doc().set(data);
+    try{
+        const data = {
+            update_type: submission.update_type.value,
+            start_time: await time_service.format_time(submission.target_date, submission.start_time),
+            end_time: await time_service.format_time(submission.target_date, submission.end_time),
+            start_notifications: [],
+            end_notifications: [],
+            notification_options: [],
+        };
+    
+        submission.start_time_notification.forEach(noti => {
+            data.start_notifications.push(noti.value);
+        });
+    
+        submission.end_time_notification.forEach(noti => {
+            data.end_notifications.push(noti.value);
+        });
+    
+        submission.option.forEach(noti => {
+            data.notification_options.push(noti.value);
+        });
+    
+        return db.collection('reminders').doc().set(data);
+    }
+    catch(err){
+        console.log("[App] Error storing reminder: " + err);
+    }
 }
 
 function check_db_update(){
