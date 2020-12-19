@@ -24,6 +24,12 @@ function handle_modal(payload){
 
     if(payload.view){
         console.log(payload.view.blocks);
+
+        payload.view.blocks.forEach(block => {
+            if(block == "update_type"){
+                console.log(block.accessory.options);
+            }
+        })
     }
 
     try{
