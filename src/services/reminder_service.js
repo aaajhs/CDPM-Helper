@@ -53,14 +53,10 @@ function handle_modal(payload){
             });
         }
         else if(type == "view_submission"){
-            console.log("log 1");
             const values = payload.view.state.values;
-            console.log("log 2");
             const submission = format_reminder(values);
-            console.log("log 3");
 
             store_reminder(submission);
-            console.log("log 4");
         }
     }
     catch(err){
@@ -69,17 +65,19 @@ function handle_modal(payload){
 }
 
 function format_reminder(values){
+    console.log(values.start_time.start_time.selected_time);
     const data = {
         update_type: values.update_type.update_type.selected_option,
         target_date: values.target_date.target_date.selected_date,
         start_time: values.start_time.start_time.selected_time,
         start_time_notification: values.start_time_notification.start_time_notification.selected_options,
-        end_time: values.end_time.end_time.selected_time,
+        end_time,
         end_time_notification: [],
         option: [],
     };
 
-    if(values.end_time_notification){
+    if(update_type == "maintenance"){
+        data.end_time = values.end_time.end_time.selected_time;
         data.end_time_notification = values.end_time_notification.end_time_notification.selected_options;
     }
 
