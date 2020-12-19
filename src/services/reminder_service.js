@@ -22,6 +22,7 @@ function handle_modal(payload){
         actions,
     } = payload;
 
+    console.log("Error is here");
     try{
         if(type == "shortcut"){
             web.views.open({
@@ -41,6 +42,7 @@ function handle_modal(payload){
                             view: update_maintenance,
                             view_id: payload.view.id
                         });
+                        console.log("Error is here - maintenance");
                     }
                     else if(update_type == "no_maintenance"){
                         web.views.update({
@@ -48,12 +50,13 @@ function handle_modal(payload){
                             view: update_no_maintenance,
                             view_id: payload.view.id
                         });
+                        console.log("Error is here - nomaintenance");
                     }
                 }
             });
         }
         else if(type == "view_submission"){
-            console.log("Error is here");
+            console.log("Error is here - viewsubmission");
             const values = payload.view.state.values;
             const submission = format_reminder(values);
 
