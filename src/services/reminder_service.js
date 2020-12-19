@@ -56,13 +56,13 @@ function handle_modal(payload){
             console.log(payload.view.state.values);
             const values = payload.view.state.values;
             const submission = {
-                update_type = payload.actions[0].action_id,
-                target_date = values.target_date.target_date.selected_date,
-                start_time = values.start_time.start_time.selected_time,
-                start_time_notification = [],
+                update_type: payload.actions[0].action_id,
+                target_date: values.target_date.target_date.selected_date,
+                start_time: values.start_time.start_time.selected_time,
+                start_time_notification: [],
                 end_time,
-                end_time_notification = [],
-                option = [],
+                end_time_notification: [],
+                option: [],
             };
 
             if(values.end_time_notification.end_time_notification.selected_options.length != 0){
