@@ -22,6 +22,8 @@ function handle_modal(payload){
         actions,
     } = payload;
 
+    console.log(payload);
+
     try{
         if(type == "shortcut"){
             web.views.open({
