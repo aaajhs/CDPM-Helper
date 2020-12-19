@@ -60,7 +60,7 @@ function handle_modal(payload){
                 target_date: values.target_date.target_date.selected_date,
                 start_time: values.start_time.start_time.selected_time,
                 start_time_notification: [],
-                end_time,
+                end_time: "",
                 end_time_notification: [],
                 option: [],
             };
