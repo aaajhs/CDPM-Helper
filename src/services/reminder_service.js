@@ -55,7 +55,6 @@ function handle_modal(payload){
         else if(type == "view_submission"){
             const values = payload.view.state.values;
             const submission = format_reminder(values);
-            console.log(submission);
 
             store_reminder(submission);
         }
@@ -88,6 +87,7 @@ function format_reminder(values){
 }
 
 function store_reminder(submission){
+    console.log(submission);
     const data = {
         update_type: submission.update_type.value,
         start_time: time_service.format_time(submission.target_date, submission.start_time),
@@ -109,6 +109,7 @@ function store_reminder(submission){
         data.notification_options.push(noti.value);
     });
 
+    console.log(data.start_time);
     return db.collection('reminders').doc().set(data);
 }
 
