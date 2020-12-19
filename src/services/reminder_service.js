@@ -55,17 +55,28 @@ function handle_modal(payload){
         else if(type == "view_submission"){
             console.log(payload.view.state.values);
             const values = payload.view.state.values;
-            // const submission = payload.view.state.values;
-            // console.log(submission);
-            // create_reminder(submission);
+            const submission = {
+                update_type = payload.actions[0].action_id,
+                target_date = values.target_date.target_date.selected_date,
+                start_time = values.start_time.start_time.selected_time,
+                start_time_notification = [],
+                end_time,
+                end_time_notification = [],
+                option = [],
+            };
 
             if(values.end_time_notification.end_time_notification.selected_options.length != 0){
                 console.log("endtime option is not empty");
+                submission.end_time = values.end_time.end_time.selected_time;
             }
 
             if(values.option.option.selected_options.length != 0){
                 console.log("option option is not empty");
+                submission.option = values.option.option.selected_options;
             }
+
+            console.log(submission);
+            // create_reminder(submission);
         }
     }
     catch(err){
