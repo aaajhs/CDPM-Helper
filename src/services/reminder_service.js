@@ -119,7 +119,6 @@ function check_db_update(){
         .then(querySnapshot => {
             if(!querySnapshot.empty){
                 const data = querySnapshot.docs[0].data();
-                console.log(data);
 
                 var current_time = new Date();
                 const { start_time } = data;
@@ -132,7 +131,7 @@ function check_db_update(){
                 //     schedule_reminder(data);
                 // }
                 // else
-                if(current_time < (start_time - 30 * 60 * 1000)){ // Reminder date is past the target date
+                if(current_time > (start_time - 30 * 60 * 1000)){ // Reminder date is past the target date
                     querySnapshot.docs[0].ref.delete();
                     console.log("[App] Deleted expired document.");
                 }
