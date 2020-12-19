@@ -40,25 +40,27 @@ function handle_modal(payload){
                 view: update_initial
             });
         }
-        else if(type == "block_actions" && actions[0].action_id == "update_type"){
-            const update_type = actions[0].selected_option.value;
+        else if(type == "block_actions"){
+            actions.forEach(action => {
+                if(action.action_id == "update_type"){
+                    const update_type = actions.selected_option.value;
 
-            console.log("here: " + JSON.parse(payload.view.state.values.update_type.update_type.selected_option));
-
-            if(update_type == "maintenance"){
-                web.views.update({
-                    token: process.env.token,
-                    view: update_maintenance,
-                    view_id: payload.view.id
-                });
-            }
-            else if(update_type == "no_maintenance"){
-                web.views.update({
-                    token: process.env.token,
-                    view: update_no_maintenance,
-                    view_id: payload.view.id
-                });
-            }
+                    if(update_type == "maintenance"){
+                        web.views.update({
+                            token: process.env.token,
+                            view: update_maintenance,
+                            view_id: payload.view.id
+                        });
+                    }
+                    else if(update_type == "no_maintenance"){
+                        web.views.update({
+                            token: process.env.token,
+                            view: update_no_maintenance,
+                            view_id: payload.view.id
+                        });
+                    }
+                }
+            });
         }
         else if(type == "view_submission"){
             const submission = payload.view.state.values;
