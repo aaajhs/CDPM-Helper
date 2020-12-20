@@ -129,7 +129,7 @@ function check_db_update(){
                 console.log("start_time: " + start_time);
                 console.log(start_time - current_time);
 
-                if(current_time < (start_time - (30 * 60 * 1000) && current_time > (start_time - (35 * 60 * 1000)))){ // Reminder is on schedule, put on standby
+                if(current_time < (start_time - (30 * 60 * 1000)) && current_time > (start_time - (35 * 60 * 1000))){ // Reminder is on schedule, put on standby
                     console.log("Entered scheduling condition");
                     schedule_reminder(data);
                 }
