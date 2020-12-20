@@ -183,7 +183,7 @@ function schedule_reminder(data){
     data.start_notifications.forEach(option => {
         var msg_type = data.update_type + "_start";
         var message = build_message(msg_type, option);
-        var msg_schedule = data.start_time - (parseInt(option)) - Date.now();
+        var msg_schedule = data.start_time.getTime() - (parseInt(option)) - Date.now();
         send_timed_message(channel, message, msg_schedule);
     });
 
@@ -191,7 +191,7 @@ function schedule_reminder(data){
         data.end_notifications.forEach(option => {
             var msg_type = "maintenance_end";
             var message = build_message(msg_type, option);
-            var msg_schedule = data.end_time - (parseInt(option)) - Date.now();
+            var msg_schedule = data.end_time.getTime() - (parseInt(option)) - Date.now();
             send_timed_message(channel, message, msg_schedule);
         });
     }
@@ -200,12 +200,12 @@ function schedule_reminder(data){
         switch(option){
             case "option_start_thread":
                 var message = build_message("start_thread");
-                var msg_schedule = data.start_time - (5 * 60 * 1000) - Date.now();
+                var msg_schedule = data.start_time.getTime() - (5 * 60 * 1000) - Date.now();
                 send_timed_message(channel, message, msg_schedule);
                 break;
             case "option_close_pts":
                 var message = build_message("close_pts");
-                var msg_schedule = data.end_time - Date.now();
+                var msg_schedule = data.end_time.getTime() - Date.now();
                 send_timed_message(channel, message, msg_schedule);
                 break;
         }
