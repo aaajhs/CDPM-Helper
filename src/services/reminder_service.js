@@ -183,13 +183,11 @@ async function schedule_reminder(data){
     const set_channel = db.collection("config").doc("target_channel");
     const doc = await set_channel.get();
     if(!doc.exists){
-        console.log("No such document!");
+        console.log("[App] Cannot find target channel!");
     }
     else {
-        console.log("Document data: " + doc.data().reminder);
+        channel = doc.data().reminder;
     }
-
-    console.log(channel);
     
     data.start_notifications.forEach(option => {
         var msg_type = data.update_type + "_start";
