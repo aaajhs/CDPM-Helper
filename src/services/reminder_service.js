@@ -124,7 +124,7 @@ function check_db_update(){
                 var start_time = data.start_time.toDate();
 
                 if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ // Reminder is on schedule, put on standby
-                    //schedule_reminder(data);
+                    schedule_reminder(data);
                 }
                 else if(current_time > (start_time - 30 * 60 * 1000)){ // Reminder expired, delete reminder
                     querySnapshot.docs[0].ref.delete();
@@ -138,49 +138,75 @@ function check_db_update(){
     }, 0.25 * 60 * 1000);
 }
 
-function schedule_reminder(doc){
-    var maintenance_start_message = "[Notice] 서버 점검 시작 ";
-    var maintenance_end_message = "[Notice] 서버 점검 종료 ";
-    var no_maintenance_start_message = "[Notice] 패치 배포 시작 ";
-    var start_thread_message = "[Thread] " + doc.target_date.target_date.selected_date + " 점검 쓰레드";
-    var close_pts_message = "[Notice] PTS를 닫아야 합니다."
+function build_message(type, time = 0){
+    const msg_header = "[Notice] ";
+    const msg_type = "";
+    const msg_time = "";
 
-    if(doc.update_type.update_type.selected_option.value == "maintenance"){
-        doc.start_time_notification.start_time_notification.selected_options.forEach(option => {
-                if(option.value > 0){
-                    send_timed_message(channel, maintenance_start_message + option.value + "분 전 입니다.", option.value * 60 * 1000);
-                }
-                else if(option.value == 0){
-                    send_timed_message(channel, maintenance_start_message, option.value * 60 * 1000);
-                }
-        });
-        doc.end_time_notification.end_time_notification.selected_options.forEach(option => {
-                if(option.value > 0){
-                    send_timed_message(channel, maintenance_end_message + option.value + "분 전 입니다.", option.value * 60 * 1000);
-                }
-                else if(option.value == 0){
-                    send_timed_message(channel, maintenance_end_message, option.value * 60 * 1000);
-                }
-        });
-    }
-    else if(doc.update_type.update_type.selected_option.value == "no_maintenance"){
-        doc.start_time_notification.start_time_notification.selected_options.forEach(option => {
-                if(option.value > 0){
-                    send_timed_message(channel, no_maintenance_start_message + option.value + "분 전 입니다.", option.value * 60 * 1000);
-                }
-                else if(option.value == 0){
-                    send_timed_message(channel, no_maintenance_start_message, option.value * 60 * 1000);
-                }
-        });
+    switch(type){
+        case "maintenance_start":
+            msg_type = "서버 점검 시작 ";
+            break;
+        case "maintenance_end":
+            msg_type = "서버 점검 종료 ";
+            break;
+        case "no_maintenance_start":
+            msg_type = "패치 배포 시작 ";
+            break;
+        case "start_thread":
+            msg_header = "[Thread] ";
+
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+            msg_type = date + " 점검 쓰레드";
+            break;
+        case "close_pts":
+            msg_type = "PTS needs to be closed.";
+            break;
     }
 
-    doc.option.option.selected_options.forEach(option => {
-        switch(option.value){
+    switch(time){
+        case "0":
+            msg_time = ""
+            break;
+        default:
+            msg_time = time + "분 전입니다.";
+            break;
+    }
+
+    const message = msg_header + msg_type + msg_time;
+    return message;
+}
+
+function schedule_reminder(data){
+    data.start_notifications.forEach(option => {
+        var msg_type = data.update_type + "_start";
+        var message = build_message(msg_type, option);
+        var msg_schedule = data.start_time - (parseInt(option)) - Date.now();
+        send_timed_message(channel, message, msg_schedule);
+    });
+
+    if(data.end_time != data.start_time){
+        data.end_notifications.forEach(option => {
+            var msg_type = "maintenance_end";
+            var message = build_message(msg_type, option);
+            var msg_schedule = data.end_time - (parseInt(option)) - Date.now();
+            send_timed_message(channel, message, msg_schedule);
+        });
+    }
+
+    data.notification_options.forEach(option => {
+        switch(option){
             case "option_start_thread":
-                send_timed_message(channel, start_thread_message, 5 * 60 * 1000);
+                var message = build_message("start_thread");
+                var msg_schedule = data.start_time - (5 * 60 * 1000) - Date.now();
+                send_timed_message(channel, message, msg_schedule);
                 break;
             case "option_close_pts":
-                send_timed_message(channel, close_pts_message, 0 * 60 * 1000);
+                var message = build_message("close_pts");
+                var msg_schedule = data.end_time - Date.now();
+                send_timed_message(channel, message, msg_schedule);
                 break;
         }
     });
