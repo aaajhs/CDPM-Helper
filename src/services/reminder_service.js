@@ -177,7 +177,7 @@ function build_message(type, time = 0){
     return message;
 }
 
-function schedule_reminder(data){
+async function schedule_reminder(data){
     const channel = await db.collection("config").doc("target-channel").get();
     console.log(channel);
     
