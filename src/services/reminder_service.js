@@ -193,7 +193,7 @@ function schedule_reminder(data){
     data.start_notifications.forEach(option => {
         var msg_type = data.update_type + "_start";
         var message = build_message(msg_type, option);
-        var msg_schedule = data.start_time.toDate() - (parseInt(option)) - Date.now();
+        var msg_schedule = data.start_time.toDate() - (parseInt(option) * 60 * 1000) - Date.now();
 
         console.log("Setting start noti: " + channel + message + msg_schedule);
         send_timed_message(channel, message, msg_schedule);
@@ -203,7 +203,7 @@ function schedule_reminder(data){
         data.end_notifications.forEach(option => {
             var msg_type = "maintenance_end";
             var message = build_message(msg_type, option);
-            var msg_schedule = data.end_time.toDate() - (parseInt(option)) - Date.now();
+            var msg_schedule = data.end_time.toDate() - (parseInt(option) * 60 * 1000) - Date.now();
 
             console.log("Setting start noti: " + channel + message + msg_schedule);
             send_timed_message(channel, message, msg_schedule);
