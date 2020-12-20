@@ -125,10 +125,6 @@ function check_db_update(){
                 var target = data.start_time.toDate();
                 var start_time = target.getTime();
 
-                console.log("Current time: " + current_time);
-                console.log("start time: " + start_time);
-                console.log("subtraction: " + start_time - 35 * 60 * 1000);
-
                 if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ // Reminder is on schedule, put on standby
                     schedule_reminder(data);
                 }
@@ -191,6 +187,12 @@ function schedule_reminder(data){
         var msg_type = data.update_type + "_start";
         var message = build_message(msg_type, option);
         var msg_schedule = Date.parse(data.start_time) - (parseInt(option)) - Date.now();
+
+        console.log("data.start_time: " + data.start_time);
+        console.log("Date.parse: " + Date.parse(data.start_time));
+        console.log("Alert option: " + parseInt(option));
+        console.log("Date.now(): " + Date.now());
+        console.log("msg_schedule: " + msg_schedule);
         send_timed_message(channel, message, msg_schedule);
     });
 
