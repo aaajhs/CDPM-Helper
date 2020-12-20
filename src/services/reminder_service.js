@@ -180,7 +180,7 @@ function build_message(type, time = 0){
 async function schedule_reminder(data){
     var channel = "";
     
-    const set_channel = db.collection("config").doc("target-channel");
+    const set_channel = db.collection("config").doc("target_channel");
     const doc = await set_channel.get();
     if(!doc.exists){
         console.log("No such document!");
