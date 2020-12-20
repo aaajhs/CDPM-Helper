@@ -125,10 +125,10 @@ function check_db_update(){
                 var target = data.start_time.toDate();
                 var start_time = target.getTime();
 
-                if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ // Reminder is on schedule, put on standby
+                if(current_time < (start_time - (30 * 60 * 1000) && current_time > (start_time - (35 * 60 * 1000)))){ // Reminder is on schedule, put on standby
                     schedule_reminder(data);
                 }
-                else if(current_time > (start_time - 30 * 60 * 1000)){ // Reminder expired, delete reminder
+                else if(current_time > (start_time - (30 * 60 * 1000))){ // Reminder expired, delete reminder
                     querySnapshot.docs[0].ref.delete();
                     console.log("[App] Deleted expired document.");
                 }
