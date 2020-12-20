@@ -8,9 +8,6 @@ const update_initial = fs.readFileSync(__dirname + "/../views/update_initial.jso
 const update_maintenance = fs.readFileSync(__dirname + "/../views/update_maintenance.json", "utf8");
 const update_no_maintenance = fs.readFileSync(__dirname + "/../views/update_no_maintenance.json", "utf8");
 
-const channel = await db.collection("config").doc("target-channel").get();
-console.log(channel);
-
 module.exports = {
     handle_modal,
     check_db_update,
@@ -181,7 +178,9 @@ function build_message(type, time = 0){
 }
 
 function schedule_reminder(data){
-    console.log(data);
+    const channel = await db.collection("config").doc("target-channel").get();
+    console.log(channel);
+    
     data.start_notifications.forEach(option => {
         var msg_type = data.update_type + "_start";
         var message = build_message(msg_type, option);
