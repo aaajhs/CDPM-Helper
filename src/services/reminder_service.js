@@ -126,6 +126,7 @@ function check_db_update(){
                 var start_time = target.getTime();
 
                 if(current_time < (start_time - (30 * 60 * 1000) && current_time > (start_time - (35 * 60 * 1000)))){ // Reminder is on schedule, put on standby
+                    console.log("Entered scheduling condition");
                     schedule_reminder(data);
                 }
                 else if(current_time > (start_time - (30 * 60 * 1000))){ // Reminder expired, delete reminder
