@@ -144,7 +144,7 @@ function check_db_update(){
         .catch(err => {
           console.log('[App] Error getting document: ' + err);
         });
-    }, 1 * 60 * 1000);
+    }, 5 * 60 * 1000);
 }
 
 function build_message(type, time = 0){
@@ -195,10 +195,7 @@ function schedule_reminder(data){
         var message = build_message(msg_type, option);
         var msg_schedule = data.start_time.toDate() - (parseInt(option)) - Date.now();
 
-        console.log("data.start_time: " + data.start_time.toDate());
-        console.log("Alert option: " + parseInt(option));
-        console.log("Date.now(): " + Date.now());
-        console.log("msg_schedule: " + msg_schedule);
+        console.log("Setting start noti: " + channel + message + msg_schedule);
         send_timed_message(channel, message, msg_schedule);
     });
 
@@ -207,6 +204,8 @@ function schedule_reminder(data){
             var msg_type = "maintenance_end";
             var message = build_message(msg_type, option);
             var msg_schedule = data.end_time.toDate() - (parseInt(option)) - Date.now();
+
+            console.log("Setting start noti: " + channel + message + msg_schedule);
             send_timed_message(channel, message, msg_schedule);
         });
     }
@@ -216,11 +215,15 @@ function schedule_reminder(data){
             case "option_start_thread":
                 var message = build_message("start_thread");
                 var msg_schedule = data.start_time.toDate() - (5 * 60 * 1000) - Date.now();
+
+                console.log("Setting start noti: " + channel + message + msg_schedule);
                 send_timed_message(channel, message, msg_schedule);
                 break;
             case "option_close_pts":
                 var message = build_message("close_pts");
                 var msg_schedule = data.end_time.toDate() - Date.now();
+
+                console.log("Setting start noti: " + channel + message + msg_schedule);
                 send_timed_message(channel, message, msg_schedule);
                 break;
         }
