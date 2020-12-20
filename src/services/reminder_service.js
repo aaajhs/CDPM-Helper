@@ -120,10 +120,11 @@ function check_db_update(){
             if(!querySnapshot.empty){
                 const data = querySnapshot.docs[0].data();
 
-                var today = new Date();
-                var current_time = today.getTime();
-                var target = data.start_time.toDate();
-                var start_time = target.getTime();
+                var current_time = new Date();
+                // var current_time = today.getTime();
+                var start_time = data.start_time.toDate();
+                // var start_time = target.getTime();
+                console.log(start_time - current_time);
 
                 if(current_time < (start_time - (30 * 60 * 1000) && current_time > (start_time - (35 * 60 * 1000)))){ // Reminder is on schedule, put on standby
                     console.log("Entered scheduling condition");
@@ -133,6 +134,8 @@ function check_db_update(){
                     querySnapshot.docs[0].ref.delete();
                     console.log("[App] Deleted expired document.");
                 }
+
+                console.log("Past the condition");
             }
         })
         .catch(err => {
