@@ -3,10 +3,9 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const admin = require("firebase-admin");
-// const cred = require("../credentials");
-const port = process.env.PORT || 5000;
 
 // Firebase DB
+// const cred = require("../credentials");
 admin.initializeApp({
     credential: admin.credential.cert({
         "type": process.env.type,
@@ -23,7 +22,7 @@ admin.initializeApp({
     databaseURL: "https://cdpu-helper.firebaseio.com"
 });
 export const db = admin.firestore();
-// console log successful db connection
+if(db) console.log("[App] Connected to Firestore DB");
 
 // Express
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,6 +36,7 @@ const reminder_service = require("./services/reminder_service");
 reminder_service.check_db_update();
 
 // Run
+const port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("[App] Server is running on port " + port);
 });
