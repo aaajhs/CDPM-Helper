@@ -135,7 +135,7 @@ function check_db_update(){
         .catch(err => {
           console.log('[App] Error getting document: ' + err);
         });
-    }, 0.25 * 60 * 1000);
+    }, 5 * 60 * 1000);
 }
 
 function build_message(type, time = 0){
@@ -166,12 +166,12 @@ function build_message(type, time = 0){
             break;
     }
 
-    switch(time){
-        case "0":
-            msg_time = ""
+    switch(true){
+        case (time != 0):
+            msg_time = time + "분 전입니다.";
             break;
         default:
-            msg_time = time + "분 전입니다.";
+            msg_time = ""
             break;
     }
 
