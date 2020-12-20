@@ -197,6 +197,7 @@ function schedule_reminder(data){
     }
 
     data.notification_options.forEach(option => {
+        console.log(option);
         switch(option){
             case "option_start_thread":
                 var message = build_message("start_thread");
