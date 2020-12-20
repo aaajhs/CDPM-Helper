@@ -125,6 +125,7 @@ function check_db_update(){
                 var start_time = data.start_time.toDate();
                 // var start_time = target.getTime();
                 console.log("current_time: " + current_time);
+                console.log("reminder_set_time: " + (start_time - (30 * 60 * 1000)));
                 console.log("start_time: " + start_time);
                 console.log(start_time - current_time);
 
@@ -143,7 +144,7 @@ function check_db_update(){
         .catch(err => {
           console.log('[App] Error getting document: ' + err);
         });
-    }, 5 * 60 * 1000);
+    }, 1 * 60 * 1000);
 }
 
 function build_message(type, time = 0){
