@@ -1,8 +1,8 @@
 const { db } = require("../app");
 // const cred = require("../../credentials");
 const time_service = require("../services/time_service");
-const { WebClient } = require('@slack/web-api'); //official slack web api
-const web = new WebClient(process.env.token); //initialize
+const { WebClient } = require('@slack/web-api'); // official slack web api
+const web = new WebClient(process.env.token);
 const fs = require('fs');
 const update_initial = fs.readFileSync(__dirname + "/../views/update_initial.json", "utf8");
 const update_maintenance = fs.readFileSync(__dirname + "/../views/update_maintenance.json", "utf8");
@@ -121,24 +121,15 @@ function check_db_update(){
                 const data = querySnapshot.docs[0].data();
 
                 var current_time = new Date();
-                // var current_time = today.getTime();
                 var start_time = data.start_time.toDate();
-                // var start_time = target.getTime();
-                console.log("current_time: " + current_time);
-                console.log("reminder_set_time: " + (start_time - (30 * 60 * 1000)));
-                console.log("start_time: " + start_time);
-                console.log(start_time - current_time);
 
                 if(current_time < (start_time - (30 * 60 * 1000)) && current_time > (start_time - (35 * 60 * 1000))){ // Reminder is on schedule, put on standby
-                    console.log("Entered scheduling condition");
                     schedule_reminder(data);
                 }
                 else if(current_time > (start_time - (30 * 60 * 1000))){ // Reminder expired, delete reminder
                     querySnapshot.docs[0].ref.delete();
                     console.log("[App] Deleted expired document.");
                 }
-
-                console.log("Past the condition");
             }
         })
         .catch(err => {
@@ -195,7 +186,6 @@ function schedule_reminder(data){
         var message = build_message(msg_type, option);
         var msg_schedule = data.start_time.toDate() - (parseInt(option) * 60 * 1000) - Date.now();
 
-        console.log("Setting start noti: " + channel + message + msg_schedule);
         send_timed_message(channel, message, msg_schedule);
     });
 
@@ -204,8 +194,7 @@ function schedule_reminder(data){
             var msg_type = "maintenance_end";
             var message = build_message(msg_type, option);
             var msg_schedule = data.end_time.toDate() - (parseInt(option) * 60 * 1000) - Date.now();
-
-            console.log("Setting start noti: " + channel + message + msg_schedule);
+            
             send_timed_message(channel, message, msg_schedule);
         });
     }
@@ -215,15 +204,13 @@ function schedule_reminder(data){
             case "option_start_thread":
                 var message = build_message("start_thread");
                 var msg_schedule = data.start_time.toDate() - (5 * 60 * 1000) - Date.now();
-
-                console.log("Setting start noti: " + channel + message + msg_schedule);
+                
                 send_timed_message(channel, message, msg_schedule);
                 break;
             case "option_close_pts":
                 var message = build_message("close_pts");
                 var msg_schedule = data.end_time.toDate() - Date.now();
-
-                console.log("Setting start noti: " + channel + message + msg_schedule);
+                
                 send_timed_message(channel, message, msg_schedule);
                 break;
         }
