@@ -8,7 +8,8 @@ const update_initial = fs.readFileSync(__dirname + "/../views/update_initial.jso
 const update_maintenance = fs.readFileSync(__dirname + "/../views/update_maintenance.json", "utf8");
 const update_no_maintenance = fs.readFileSync(__dirname + "/../views/update_no_maintenance.json", "utf8");
 
-const channel = "bot-testspace";
+const channel = db.collection("config").doc("target-channel").get();
+console.log(channel);
 
 module.exports = {
     handle_modal,
