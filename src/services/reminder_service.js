@@ -123,6 +123,10 @@ function check_db_update(){
                 var current_time = new Date();
                 var start_time = data.start_time.toDate();
 
+                console.log("Current time: " + current_time);
+                console.log("start time: " + start_time);
+                console.log("subtraction: " + start_time - 35 * 60 * 1000);
+
                 if(current_time > (start_time - 35 * 60 * 1000) && current_time < (start_time - 30 * 60 * 1000)){ // Reminder is on schedule, put on standby
                     schedule_reminder(data);
                 }
