@@ -178,7 +178,17 @@ function build_message(type, time = 0){
 }
 
 async function schedule_reminder(data){
-    const channel = await db.collection("config").doc("target-channel").get();
+    var channel = "";
+    
+    await db.collection("config").doc("target-channel").get()
+        .then(querySnapshot => {
+            const data = querySnapshot.docs[0].data();
+            channel = data.reminder;
+        })
+        .catch(err => {
+            console.log('[App] Cannot find target-channel: ' + err);
+          });
+          
     console.log(channel);
     
     data.start_notifications.forEach(option => {
