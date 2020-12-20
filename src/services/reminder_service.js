@@ -180,6 +180,7 @@ function build_message(type, time = 0){
 }
 
 function schedule_reminder(data){
+    console.log(data);
     data.start_notifications.forEach(option => {
         var msg_type = data.update_type + "_start";
         var message = build_message(msg_type, option);
@@ -197,7 +198,6 @@ function schedule_reminder(data){
     }
 
     data.notification_options.forEach(option => {
-        console.log(option);
         switch(option){
             case "option_start_thread":
                 var message = build_message("start_thread");
