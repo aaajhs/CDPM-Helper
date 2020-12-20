@@ -120,8 +120,9 @@ function check_db_update(){
             if(!querySnapshot.empty){
                 const data = querySnapshot.docs[0].data();
 
-                var current_time = new Date();
-                var start_time = data.start_time.toDate();
+                var today = new Date();
+                var current_time = today.getTime();
+                var start_time = data.start_time;
 
                 console.log("Current time: " + current_time);
                 console.log("start time: " + start_time);
