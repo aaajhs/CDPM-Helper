@@ -124,6 +124,8 @@ function check_db_update(){
                 // var current_time = today.getTime();
                 var start_time = data.start_time.toDate();
                 // var start_time = target.getTime();
+                console.log("current_time: " + current_time);
+                console.log("start_time: " + start_time);
                 console.log(start_time - current_time);
 
                 if(current_time < (start_time - (30 * 60 * 1000) && current_time > (start_time - (35 * 60 * 1000)))){ // Reminder is on schedule, put on standby
