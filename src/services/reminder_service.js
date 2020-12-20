@@ -182,13 +182,15 @@ async function schedule_reminder(data){
     
     await db.collection("config").doc("target-channel").get()
         .then(querySnapshot => {
-            const data = querySnapshot.docs[0].data();
+            console.log(querySnapshot);
+            const data = querySnapshot.data();
+            console.log(data);
             channel = data.reminder;
         })
         .catch(err => {
             console.log('[App] Cannot find target-channel: ' + err);
           });
-          
+
     console.log(channel);
     
     data.start_notifications.forEach(option => {
