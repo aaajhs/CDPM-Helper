@@ -186,7 +186,7 @@ async function schedule_reminder(data){
         console.log("No such document!");
     }
     else {
-        console.log("Document data: " + doc.data());
+        console.log("Document data: " + doc.data().reminder);
     }
 
     console.log(channel);
