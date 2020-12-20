@@ -139,9 +139,9 @@ function check_db_update(){
 }
 
 function build_message(type, time = 0){
-    const msg_header = "[Notice] ";
-    const msg_type = "";
-    const msg_time = "";
+    var msg_header = "[Notice] ";
+    var msg_type = "";
+    var msg_time = "";
 
     switch(type){
         case "maintenance_start":
