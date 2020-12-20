@@ -180,16 +180,14 @@ function build_message(type, time = 0){
 async function schedule_reminder(data){
     var channel = "";
     
-    await db.collection("config").doc("target-channel").get()
-        .then(querySnapshot => {
-            console.log(querySnapshot);
-            const data = querySnapshot.data();
-            console.log(data);
-            channel = data.reminder;
-        })
-        .catch(err => {
-            console.log('[App] Cannot find target-channel: ' + err);
-          });
+    const set_channel = db.collection("config").doc("target-channel");
+    const doc = await set_channel.get();
+    if(!doc.exists){
+        console.log("No such document!");
+    }
+    else {
+        console.log("Document data: " + doc.data());
+    }
 
     console.log(channel);
     
