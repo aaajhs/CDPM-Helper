@@ -9,13 +9,14 @@ module.exports = {
     post_to_channel
 }
 
-async function get_from_db(){
-    await roulette_doc.get()
+function get_from_db(){
+    roulette_doc.get()
         .then(doc => {
             if(!doc.exists){
                 console.log("[App] Cannot find roulette config!");
             }
             else {
+                console.log(doc.data());
                 return doc.data();
             }
         })
