@@ -5,8 +5,7 @@ const web = new WebClient(process.env.token);
 const roulette_doc = db.collection('config').doc('roulette');
 
 module.exports = {
-    get_from_db,
-    post_to_channel
+    post_to_channel,
 }
 
 async function get_from_db(){
@@ -17,7 +16,6 @@ async function get_from_db(){
                 console.log("[App] Cannot find roulette config!");
             }
             else {
-                console.log("getfromdb: " + doc.data());
                 data = doc.data();
             }
         })
