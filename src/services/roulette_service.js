@@ -25,6 +25,7 @@ function get_from_db(){
 }
 
 function post_to_channel(config){
+    console.log(config);
     const emoji_pool = config.emoji;
     var last_called = config.last_called;
     var order = config.order;
