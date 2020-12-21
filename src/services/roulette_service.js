@@ -24,26 +24,26 @@ async function get_from_db(){
 }
 
 function post_to_channel(req, config){
-    console.log("posttochannel: " + config);
-    var emoji_pool = config.emoji;
-    var last_called = config.last_called;
-    var order = config.order;
-    var today = new Date();
-
-    time_service.get_week_number
-    if(time_service.get_week_number(last_called) != time_service.get_week_number(today)){
-        order = (order + 1) % 4;
-    }
-    
     try{
+        console.log("posttochannel: " + config);
+        var emoji_pool = config.emoji;
+        var last_called = config.last_called;
+        var order = config.order;
+        var today = new Date();
+
+        time_service.get_week_number
+        if(time_service.get_week_number(last_called) != time_service.get_week_number(today)){
+            order = (order + 1) % 4;
+        }
+        
         web.chat.postMessage({
             token: process.env.token,
             channel: req.body.channel_id,
             text: (emoji_pool[order]),
             link_names: 1
-          }).catch(err => console.log(err));
+        }).catch(err => console.log(err));
 
-          update_db(order);
+        update_db(order);
     }
     catch(err){
         console.log("[App] Error posting/saving to db: " + err);
