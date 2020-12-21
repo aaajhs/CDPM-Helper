@@ -5,8 +5,11 @@ module.exports = {
 };
 
 function get_result(req, res) {
-  let config = roulette_service.get_from_db();
-  roulette_service.post_to_channel(config);
+  roulette_service.get_from_db()
+    .then(order => {
+      roulette_service.post_to_channel(req, config);
+    })
+    .catch(err => console.log("[App] Error retrieving roulette: ", err))
 
   res.status(200).send();
 }

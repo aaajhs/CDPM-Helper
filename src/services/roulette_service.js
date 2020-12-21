@@ -24,7 +24,7 @@ function get_from_db(){
     return;
 }
 
-function post_to_channel(config){
+function post_to_channel(req, config){
     console.log(config);
     const emoji_pool = config.emoji;
     var last_called = config.last_called;
