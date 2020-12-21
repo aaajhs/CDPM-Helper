@@ -31,8 +31,10 @@ async function post_to_channel(req){
         const config = await get_from_db();
         var emoji_pool = config.emoji;
         var last_called = config.last_called;
+        console.log(last_called);
         var order = config.order;
         var today = new Date();
+        console.log(today);
 
         if(time_service.get_week_number(last_called) != time_service.get_week_number(today)){
             order = (order + 1) % 4;
