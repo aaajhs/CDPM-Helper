@@ -35,14 +35,19 @@ function post_to_channel(req, config){
         order = (order + 1) % 4;
     }
     
-    update_db(order);
+    try{
+        web.chat.postMessage({
+            token: process.env.token,
+            channel: req.body.channel_id,
+            text: (emoji_pool[order]),
+            link_names: 1
+          }).catch(err => console.log(err));
 
-    web.chat.postMessage({
-        token: process.env.token,
-        channel: req.body.channel_id,
-        text: (emoji_pool[order]),
-        link_names: 1
-      }).catch(err => console.log(err));
+          update_db(order);
+    }
+    catch(err){
+        console.log("[App] Error posting/saving to db: " + err);
+    }
 
     return;
 }
