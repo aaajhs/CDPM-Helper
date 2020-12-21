@@ -6,6 +6,7 @@ module.exports = {
 
 function get_result(req, res) {
   let config = roulette_service.get_from_db();
+  console.log("in controller: " + config);
   roulette_service.post_to_channel(config);
 
   res.status(200).send();
