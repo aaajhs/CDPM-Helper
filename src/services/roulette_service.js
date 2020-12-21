@@ -30,7 +30,7 @@ async function post_to_channel(req){
     try{
         const config = await get_from_db();
         var emoji_pool = config.emoji;
-        var last_called = config.last_called;
+        var last_called = new Date(config.last_called);
         console.log(last_called);
         var order = config.order;
         var today = new Date();
