@@ -23,10 +23,10 @@ async function get_from_db(){
         .catch(err => console.log(err));
 }
 
-async function post_to_channel(req, config){
+function post_to_channel(req, config){
     try{
         console.log("posttochannel: " + config);
-        var emoji_pool = await config.emoji;
+        var emoji_pool = config.emoji;
         var last_called = config.last_called;
         var order = config.order;
         var today = new Date();
