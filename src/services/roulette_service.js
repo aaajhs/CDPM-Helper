@@ -9,8 +9,8 @@ module.exports = {
     post_to_channel
 }
 
-function get_from_db(){
-    roulette_doc.get()
+async function get_from_db(){
+    await roulette_doc.get()
         .then(doc => {
             if(!doc.exists){
                 console.log("[App] Cannot find roulette config!");
