@@ -23,8 +23,9 @@ async function get_from_db(){
         .catch(err => console.log(err));
 }
 
-function post_to_channel(req, config){
+function post_to_channel(req){
     try{
+        const config = get_from_db();
         console.log("posttochannel: " + config);
         var emoji_pool = config.emoji;
         var last_called = config.last_called;
