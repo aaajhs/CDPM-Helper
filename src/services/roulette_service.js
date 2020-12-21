@@ -17,10 +17,11 @@ async function get_from_db(){
             }
             else {
                 console.log("getfromdb: " + doc.data());
-                return doc.data();
+                const data = doc.data();
+                return data;
             }
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log("[App] Error getting roulette config from DB: " + err));
 }
 
 async function post_to_channel(req){
