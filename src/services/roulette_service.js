@@ -16,7 +16,7 @@ function get_from_db(){
                 console.log("[App] Cannot find roulette config!");
             }
             else {
-                console.log(doc.data());
+                console.log("getfromdb: " + doc.data());
                 return doc.data();
             }
         })
@@ -24,7 +24,7 @@ function get_from_db(){
 }
 
 function post_to_channel(req, config){
-    console.log(config);
+    console.log("posttochannel: " + config);
     const emoji_pool = config.emoji;
     var last_called = config.last_called;
     var order = config.order;
