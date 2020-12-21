@@ -25,7 +25,7 @@ async function get_from_db(){
 
 function post_to_channel(req, config){
     console.log("posttochannel: " + config);
-    const emoji_pool = config.emoji;
+    var emoji_pool = config.emoji;
     var last_called = config.last_called;
     var order = config.order;
     var today = new Date();
