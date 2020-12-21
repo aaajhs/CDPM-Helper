@@ -20,8 +20,6 @@ function get_from_db(){
             }
         })
         .catch(err => console.log(err));
-
-    return;
 }
 
 function post_to_channel(req, config){
