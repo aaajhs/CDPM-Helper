@@ -1,0 +1,8 @@
+# dependencies
+node_modules
+
+# credentials stored for local testing
+credentials.js
+
+# mac custom attributes
+.DS_Store
