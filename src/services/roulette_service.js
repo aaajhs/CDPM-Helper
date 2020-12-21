@@ -28,14 +28,12 @@ async function get_from_db(){
 
 async function post_to_channel(req){
     try{
-        console.log(await get_from_db());
         const config = await get_from_db();
         var emoji_pool = config.emoji;
         var last_called = config.last_called;
         var order = config.order;
         var today = new Date();
 
-        time_service.get_week_number
         if(time_service.get_week_number(last_called) != time_service.get_week_number(today)){
             order = (order + 1) % 4;
         }
