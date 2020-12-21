@@ -30,6 +30,7 @@ app.use(bodyParser.json());
 
 // Router
 require("./routes/reminder_route")(app);
+require("./routes/roulette_route")(app);
 
 // Service
 const reminder_service = require("./services/reminder_service");

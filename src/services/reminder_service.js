@@ -8,8 +8,6 @@ const update_initial = fs.readFileSync(__dirname + "/../views/update_initial.jso
 const update_maintenance = fs.readFileSync(__dirname + "/../views/update_maintenance.json", "utf8");
 const update_no_maintenance = fs.readFileSync(__dirname + "/../views/update_no_maintenance.json", "utf8");
 
-const channel = "bot-testspace";
-
 module.exports = {
     handle_modal,
     check_db_update,
@@ -179,8 +177,18 @@ function build_message(type, time = 0){
     return message;
 }
 
-function schedule_reminder(data){
-    console.log(data);
+async function schedule_reminder(data){
+    var channel = "";
+    
+    const set_channel = db.collection("config").doc("target_channel");
+    const doc = await set_channel.get();
+    if(!doc.exists){
+        console.log("[App] Cannot find target channel!");
+    }
+    else {
+        channel = doc.data().reminder;
+    }
+    
     data.start_notifications.forEach(option => {
         var msg_type = data.update_type + "_start";
         var message = build_message(msg_type, option);
